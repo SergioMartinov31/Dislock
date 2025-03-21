@@ -1,0 +1,44 @@
+.header__inner {
+    display: flex; /* Выстраиваем элементы внутри контейнера в строку */
+    justify-content: space-between; /* Распределяем элементы по ширине контейнера */
+    align-items: center; /* Выравниваем элементы по вертикали */
+   }
+
+.main_btn_start {
+    background-color:#39652de2;
+    width: 400px;
+    height:  100px;
+    margin: auto;
+    margin: 150px 0px 50px 500px;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+.main_btn_start:hover{
+    background-color:#39652db3;
+}
+
+
+.content{
+    /* background-color: #eb3e30; */
+    width: 1400px;
+    height:  650px;
+    margin: 10px auto 70px;
+    border: 4px solid #39652df8;
+    background-color: #bdbdbd2d ;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.main-text{
+    font-size: 32px;
+    font-weight: 600; 
+    color:rgb(102, 93, 93);
+    margin: 0px;
+    margin-left: 20px;
+    margin-top: 50px;
+}
+

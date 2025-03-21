@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Бинарные отношения</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
+    rel="stylesheet"
+  />
+  <link
+    rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
+  />
+  <link rel="stylesheet" href="base.css" />
+  <link rel="stylesheet" href="binary_relations_task1.css" />
+</head>
+
+<body>
+  <header class="header">
+    <ul class="menu__list">
+      <div class="header__inner">
+            <li>
+              <h1 class="logo">Бинарные отношения</h1>
+            </li>
+          </ul>
+        </div>
+  </header>
+  <main>
+    <div class="content">
+      <h1 class="main-text">6x - 10y > 0</h1>
+      <h1 class="main-text">Бинарное отношение на множестве Z = {0, +-1, +-2, ...}</h1>
+
+          <div class="radio-contaner">
+          <label class="radio-label">
+             Рефлексивность
+          </label>
+            <div>
+              <input type="radio" id="Yes_Reflectivnost" name="Reflectivnost" value="Yes" checked />
+              <label class="radio_answer" for="Yes_answer"> Да</label>
+            </div>
+
+            <div>
+              <input type="radio" id="No_Reflectivnost" name="Reflectivnost" value="No" />
+              <label class="radio_answer" for="No_answer"> Нет</label>
+            </div>
+          </div>
+
+          <div class="radio-contaner">
+            <label class="radio-label">
+               Симметричность
+            </label>
+              <div>
+                <input type="radio" id="Yes_Symmetry" name="Symmetry" value="Yes" checked />
+                <label class="radio_answer" for="Yes_answer"> Да</label>
+              </div>
+  
+              <div>
+                <input type="radio" id="No_Symmetry" name="Symmetry" value="No" />
+                <label class="radio_answer" for="No_answer"> Нет</label>
+              </div>
+            </div>
+
+
+            <div class="radio-contaner">
+              <label class="radio-label">
+                 Антисимметричность
+              </label>
+                <div>
+                  <input type="radio" id="Yes_Antisymmetry" name="Antisymmetry" value="Yes" checked />
+                  <label class="radio_answer" for="Yes_answer"> Да</label>
+                </div>
+    
+                <div>
+                  <input type="radio" id="No_Antisymmetry" name="Antisymmetry" value="No" />
+                  <label class="radio_answer" for="No_answer"> Нет</label>
+                </div>
+            </div>
+
+
+              <div class="radio-contaner">
+                <label class="radio-label">
+                   Транзитивность
+                </label>
+                  <div>
+                    <input type="radio" id="Yes_Transitivity" name="Transitivity" value="Yes" checked />
+                    <label class="radio_answer" for="Yes_answer"> Да</label>
+                  </div>
+      
+                  <div>
+                    <input type="radio" id="No_Transitivity" name="Transitivity" value="No" />
+                    <label class="radio_answer" for="No_answer"> Нет</label>
+                  </div>
+                </div>
+
+      <a href="binary_relations_task2.html">
+      <button class="main_btn_next">Дальше</button>
+      </a>
+
+    </div>
+  </main>
+
+  <!-- Подвал -->
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика </h4>
+  </footer>
+
+  <!-- Подключаем скрипты в самом конце -->
+  <script src="binary_relations.js"></script>
+</body>
+</html>

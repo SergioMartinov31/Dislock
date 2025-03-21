@@ -1,0 +1,89 @@
+.content{
+    /* background-color: #eb3e30; */
+    width: 1400px;
+    height:  650px;
+    margin: 10px auto 70px;
+    border: 4px solid #39652df8;
+    background-color: #bdbdbd2d ;
+    padding: 10px;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+
+
+.main-text{
+    font-size: 32px;
+    font-weight: 500; 
+    color:rgb(102, 93, 93);
+    margin: 0px;
+    margin-left: 60px;
+    margin-top: 30px;
+}
+
+
+
+.main_btn_next {
+    background-color:#39652de2;
+    width: 400px;
+    height:  100px;
+    margin: auto;
+    margin: 50px 0px 50px 500px;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+    border-radius: 15px;
+    font-weight: 600;
+}
+
+
+.radio-label{
+    font-size: 28px;
+    font-weight: 500; 
+    color:rgb(102, 93, 93);
+    margin: 0px;
+    margin-left: 20px;
+}
+
+
+.radio-label::before {
+    content: '';
+    display: inline-block;
+    width: 15px; /* Диаметр кружка */
+    height: 15px;
+    border-radius: 50%; /* Закругление для получения кружка */
+    background-color: #113d1cb0; /* Зелёный цвет */
+    margin-right: 10px; /* Отступ между кружком и текстом */
+    vertical-align: middle; /* Выравнивание по вертикали */
+  }
+
+
+
+.radio_answer{
+    font-size: 28px;
+    font-weight: 500; 
+    color:rgb(102, 93, 93);
+    margin: 0px;
+    margin-left: 5px;
+}
+
+.radio-contaner{
+    margin-top: 50px;
+    margin-left: 100px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.radio-contaner div {
+    display: flex;
+    align-items: center;
+}
+
+input[type="radio"] {
+    accent-color: #287b3d; /* меняет цвет выделения на красный */
+  } 
+
+.radio_answer {
+    display: inline-block;
+}

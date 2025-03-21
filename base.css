@@ -1,0 +1,99 @@
+* {
+    box-sizing: border-box;
+  }
+  
+  body,
+  h1,
+  h2,
+  h3,
+  h4,
+  p {
+    margin: 0;
+    font-weight: normal;
+    font-size: 100%;
+  }
+
+   
+   /* Убираем стандартное подчёркивание у ссылок */
+   a {
+    text-decoration: none;
+   }
+
+   ul { list-style: none; }
+   
+   /* Устанавливаем минимальный размер экрана и добавляем фоновое изображение */
+   body {
+    font-family: "Montserrat", sans-serif; /* Используем шрифт Montserrat */
+    display: flex;
+    flex-direction: column; /* вертикальная компоновка: header -> main -> footer */
+    height: 100%;
+   }
+
+
+   html{
+    height: 100%;
+   }
+
+   main {
+    flex: 1 0 auto;         /* занимает все доступное пространство */
+  }
+   
+   /* Стилизуем контейнер */
+   .container {
+    max-width: 1190px;
+    padding: 0 15px; /* Увеличиваем боковые отступы */
+    margin: 0 auto; /* Центрируем контейнер по горизонтали */
+   }
+   
+   /* Стилизуем шапку сайта */
+   .header {
+    padding-top: 20px; /* Увеличиваем верхний отступ шапки, чтобы логотип и меню не прилипали к экрану */
+   }
+   
+
+.header_btn_back {
+    background-color:#39652de2;
+    width: 200px;
+    height:  100px;
+    text-align: center;
+    color: white;
+    font-size: 22px;
+    font-weight: 600;
+    border-radius: 15px;
+
+}
+
+.header__inner {
+    display: flex; /* Выстраиваем элементы внутри контейнера в строку */
+    justify-content: space-between; /* Распределяем элементы по ширине контейнера */
+    align-items: center; /* Выравниваем элементы по вертикали */
+   }
+
+.logo {
+    text-transform: uppercase; /* Преобразуем текст в верхний регистр */
+    font-size: 42px; /* Устанавливаем размер шрифта */
+    font-weight: 900; /* Устанавливаем жирное начертание шрифта */
+    color:#39652dda; /* Устанавливаем цвет логотипа */
+    margin-right: 570px;
+   }
+
+
+
+
+
+
+
+   .footer {
+    flex-shrink: 0;    
+      height: 125px;
+      background-color: #39652de2;
+    }
+    
+    .footer-author {
+      margin: auto;
+      text-align: center;
+      margin-top: 50px;
+      color: white;
+      font-weight: 800;
+      font-size: 25px;
+    }
