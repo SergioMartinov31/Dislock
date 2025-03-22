@@ -5,9 +5,8 @@ import random
 import sys
 
 
-
-def generate_f_column():
-    """Генерирует случайный столбец F для таблицы истинности."""
+# Генерирует случайный столбец F для таблицы истинности 
+def generate_f_column(): 
     return [random.randint(0, 1) for _ in range(8)]
 
 
@@ -25,21 +24,21 @@ def zhegalkin_polynomial(values):
     # Сопоставляем коэффициенты с монономами
     # Порядок: ["XYZ", "XY", "XZ", "YZ", "X", "Y", "Z", "1"]
     # Двоичные коды в порядке: 111 (7), 110 (6), 101 (5), 011 (3), 100 (4), 010 (2), 001 (1), 000 (0)
+    
     order_indices = [7, 6, 5, 3, 4, 2, 1, 0]
     ordered_coeff = [coeff[i] for i in order_indices]
 
     return ordered_coeff
 
 
+# Сравнивает пользовательские коэффициенты с правильными.
 def check_user_solution(user_coeffs, correct_coeffs):
-    """Сравнивает пользовательские коэффициенты с правильными."""
-    return user_coeffs == correct_coeffs
+        return user_coeffs == correct_coeffs
 
 
 def show_error_message(message):
     MB_OK = 0x00000000
     ctypes.windll.user32.MessageBoxW(0, message, "", MB_OK)
-
 
 
 # Создаем главное окно
@@ -61,16 +60,21 @@ cell_font = font.Font(family="Arial", size=20)
 button_font = font.Font(family="Arial", size=20)
 footer_font = font.Font(family="Arial", size=14)
 
-truth_table = [
-        [0, 0, 0],
-        [0, 0, 1],
-        [0, 1, 0],
-        [0, 1, 1],
-        [1, 0, 0],
-        [1, 0, 1],
-        [1, 1, 0],
-        [1, 1, 1]
-    ]
+
+truth_table = [[a, b, c] for a in range(2) for b in range(2) for c in range(2)]
+
+"""
+ A  B  C
+ 0  0  0
+ 0  0  1
+ 0  1  0
+ 0  1  1
+ 1  0  0
+ 1  0  1
+ 1  1  0
+ 1  1  1
+"""
+
 
 f_column = generate_f_column()
 correct_coefficients = zhegalkin_polynomial(f_column)
