@@ -3,6 +3,7 @@ import ctypes
 from tkinter import font
 import random
 import sys
+from itertools import product
 
 
 # Генерирует случайный столбец F для таблицы истинности 
@@ -61,7 +62,7 @@ button_font = font.Font(family="Arial", size=20)
 footer_font = font.Font(family="Arial", size=14)
 
 
-truth_table = [[a, b, c] for a in range(2) for b in range(2) for c in range(2)]
+truth_table = [comb for comb in product(range(2), repeat=3)]
 
 """
  A  B  C
