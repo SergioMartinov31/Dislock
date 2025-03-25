@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Полином Жегалкина</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <!-- Начальный экран -->
+        <div class="initial-screen" id="initialScreen">
+            <div class="header-font">Московский Авиационный Институт</div>
+            <div class="header-font">Факультет прикладной математики и физики</div>
+            <div class="title-font">Тестирование по</div>
+            <div class="title-font">дисциплине:</div>
+            <div class="subject-font">"Математическая логика"</div>
+            <div class="subject-font">"и теория графов"</div>
+            <div class="subject-font">Тема:"</div>
+            <div class="subject-font">"Нахождение"</div>
+            <button class="start-button" id="startButton">ПРИСТУПИТЬ К ТЕСТИРОВАНИЮ</button>
+            <div class="footer-font">Проект подготовлен Валентиновой Ю.O.</div>
+        </div>
+
+        <!-- Второй экран -->
+        <div class="second-screen" id="secondScreen">
+            <!-- Таблица истинности -->
+            <table class="truth-table" id="truthTable">
+                <thead>
+                    <tr>
+                        <th>X</th>
+                        <th>Y</th>
+                        <th>Z</th>
+                        <th>F</th>
+                    </tr>
+                </thead>
+                <tbody id="tableBody">
+                    <!-- Строки будут добавлены через JavaScript -->
+                </tbody>
+            </table>
+
+            <!-- Инструкции -->
+            <div class="instructions">
+                Найдите многочлен Жегалкина для булевой функции, заданной таблицей. 
+                Для проверки правильности выполнения введите соответствующие коэффициенты 
+                (0 или 1) в ячейки ниже и
+            </div>
+
+            <!-- Поля для ввода коэффициентов -->
+            <div class="coefficients-input" id="coefficientsInput">
+                <!-- Коэффициенты будут добавлены через JavaScript -->
+            </div>
+
+            <!-- Кнопка проверки -->
+            <button class="check-button" id="checkButton">Проверить</button>
+            <div class="result-message" id="resultMessage"></div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
