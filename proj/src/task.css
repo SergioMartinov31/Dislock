@@ -1,123 +1,174 @@
+/* === Стили для кнопки "Начать заново" в шапке === */
 .header-restart-btn {
     background-color: #39652de2;
     color: white;
     padding: 10px 20px;
     border: none;
     border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
     font-family: "Montserrat", sans-serif;
 }
 
 .header-restart-btn:hover {
-    background-color: #39652db3;
+    background-color: #39652dd1;
 }
 
+/* === Основная область контента === */
 .main {
     text-align: center;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding-top: 20px;
 }
 
-.check-button {
-    font-weight: 700; /* Жирный текст для кнопки "Проверить" */
+/* === Контейнер для центрирования содержимого === */
+.container {
+    width: 100%;
+    padding: 0 10px;
 }
 
+/* === Главный контент с рамкой === */
+.content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 10px 50px;
+}
+
+/* === Обертка для всего задания === */
 .task-content {
     width: 100%;
-    padding: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
-.truth-table-container, .coefficients-container {
-    margin-bottom: 30px;
-}
-
-.truth-table {
-    border-collapse: collapse;
-    margin: 20px auto;
+/* === Расположение таблицы и коэффициентов в ряд === */
+.task-wrapper {
+    display: flex;
+    justify-content: space-between;
     width: 100%;
-    max-width: 600px;
+    gap: 50px;
+    margin-bottom: 10px;
 }
 
+/* === Стили для контейнера таблицы истинности === */
+.truth-table-container {
+    flex: 0 0 45%;
+    margin-right: 0;
+}
+
+/* === Стили для контейнера коэффициентов === */
+.coefficients-container {
+    flex: 0 0 50%;
+    display: flex;
+    flex-direction: column;
+}
+
+/* === Стили самой таблицы истинности === */
+.truth-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 30px 0 10px -10px;
+}
+
+/* === Стили ячеек таблицы === */
 th, td {
-    border: 1px solid #ddd;
+    border: 2px solid #ddd;
     padding: 10px;
     text-align: center;
+    font-size: 16px;
 }
 
+/* === Стили заголовков таблицы === */
 th {
     background-color: #f2f2f2;
-    font-weight: 600;
+    font-weight: 800;
     color: rgb(102, 93, 93);
 }
 
+/* === Сетка для коэффициентов (4 колонки) === */
 .coefficients-grid {
     display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 15px;
-    max-width: 500px;
-    margin: 0 auto;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    margin-top: 40px;
 }
 
+/* === Группа (коэффициент + label) === */
 .coefficient-group {
     display: flex;
     align-items: center;
-    justify-content: center;
+    white-space: nowrap;
 }
 
+/* === Поле ввода коэффициента === */
 .coefficient-input {
-    width: 50px;
+    width: 40px;
+    height: 30px;
     text-align: center;
-    padding: 5px;
+    padding: 3px;
     border: 2px solid #39652df8;
     border-radius: 5px;
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
-    margin-right: 10px;
+    margin-right: 7px;
 }
 
+/* === Подпись к коэффициенту === */
 .coefficient-label {
     font-weight: 600;
     color: rgb(102, 93, 93);
+    font-size: 16px;
 }
 
+/* === Кнопка проверки решения === */
 .check-button {
     background-color: #39652de2;
     color: white;
-    padding: 12px 30px;
+    padding: 10px 30px;
     border: none;
     border-radius: 5px;
-    font-size: 18px;
-    font-weight: 600;
+    font-size: 20px;
+    font-weight: 700;
     cursor: pointer;
     margin: 20px auto;
     display: block;
 }
 
 .check-button:hover {
-    background-color: #39652db3;
+    background-color: #39652dd1;
 }
 
+/* === Сообщение о результате проверки === */
 .result-message {
     padding: 15px;
-    margin: 20px auto;
+    margin: 0 auto 20px;
     border-radius: 5px;
     font-weight: 600;
-    max-width: 500px;
+    width: 100%;
+    max-width: 100%;
+    font-size: 16px;
+    text-align: center;
 }
 
+/* === Стили для успешного результата === */
 .success {
     background-color: #d4edda;
     color: #155724;
     border: 1px solid #c3e6cb;
 }
 
+/* === Стили для ошибочного результата === */
 .error {
     background-color: #f8d7da;
     color: #721c24;
     border: 1px solid #f5c6cb;
 }
 
-/* Модальное окно */
+/* === Модальное окно (появляется при успехе) === */
 .modal {
     display: none;
     position: fixed;
@@ -131,60 +182,166 @@ th {
     align-items: center;
 }
 
+/* === Контент модального окна === */
 .modal-content {
     background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
+    padding: 40px;
+    border-radius: 15px;
     text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    max-width: 500px;
     width: 90%;
+    border: 2px solid #39652d;
 }
 
+/* === Заголовок модального окна === */
 .modal-content h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #33a348;
-    margin-bottom: 20px;
+    font-size: 28px;
+    font-weight: 700;
+    color: #39652d;
+    margin-bottom: 30px;
+    position: relative;
+    padding-bottom: 30px;
+}
+
+.modal-content h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 100px;
+    height: 3px;
+    background-color: #39652d;
+    border-radius: 3px;
+}
+
+/* === Кнопки в модальном окне === */
+.modal-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    margin-top: 25px;
 }
 
 .modal-finish-btn {
-    background-color: #39652de2;
+    background-color: #39652d;
     color: white;
-    padding: 10px 20px;
+    padding: 12px 25px;
     border: none;
-    border-radius: 5px;
-    font-size: 16px;
+    border-radius: 8px;
+    font-size: 18px;
     font-weight: 600;
     cursor: pointer;
-    margin: 5px;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
 }
 
 .modal-finish-btn:hover {
-    background-color: #39652db3;
+    background-color: #2a4e22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-@media (max-width: 768px) {
-    .truth-table {
+.buttons-container {
+    margin: 25px 0 15px;
+    align-self: center;
+}
+
+/* === Стили для заголовков таблицы и коэффициентов === */
+.truth-table-container h2,
+.coefficients-container h2 {
+    font-family: "Montserrat", sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: #2c3e2b;
+    text-align: center;
+    margin: 25px 0;
+    padding-bottom: 8px;
+    position: relative;
+}
+
+.truth-table-container h2::after,
+.coefficients-container h2::after {
+    content: "";
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 2px;
+    background-color: #39652d;
+}
+
+/* === Адаптация для экранов до 992px === */
+@media (max-width: 992px) {
+    .task-wrapper {
+        flex-direction: column;
+        align-items: center;
+        gap: 30px;
+    }
+    
+    .truth-table-container,
+    .coefficients-container {
+        width: 100%;
         max-width: 500px;
     }
     
     .coefficients-grid {
         grid-template-columns: 1fr;
     }
+
+    .coefficients-container {
+        order: 2; /* Перемещаем вниз на мобильных */
+    }
     
-    .modal-content {
-        padding: 20px;
+    .truth-table-container {
+        order: 1;
+    }
+    
+    .buttons-container {
+        margin: 20px 0;
+    }
+}
+
+/* Для мобильных устройств */
+@media (max-width: 768px) {
+    .content {
+        margin: 10px auto;
+        padding: 15px;
+    }
+    
+    .footer {
+        padding: 15px 0;
     }
 }
 
 @media (max-width: 480px) {
-    .truth-table {
-        font-size: 14px;
+    .content {
+        margin: 5px auto;
+        padding: 10px;
+    }
+    
+    .footer {
+        padding: 10px 0;
+    }
+}
+
+/* === Адаптация для мобильных устройств (до 576px) === */
+@media (max-width: 576px) {
+    .content {
+        padding: 20px 10px;
     }
     
     th, td {
         padding: 8px;
+        font-size: 14px;
+    }
+
+    .truth-table-container h2,
+    .coefficients-container h2 {
+        font-size: 20px;
+        margin: 20px 0;
     }
     
     .coefficient-input {
@@ -192,11 +349,80 @@ th {
         font-size: 14px;
     }
     
+    .coefficient-label {
+        font-size: 14px;
+    }
+
+    .coefficients-grid {
+        margin-top: 15px;
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .coefficient-group {
+        margin: 2px 0;
+    }
+    
+    .check-button {
+        padding: 12px 30px;
+        font-size: 18px;
+    }
+    
     .modal-content {
-        padding: 15px;
+        padding: 30px 20px;
     }
     
     .modal-content h2 {
-        font-size: 20px;
+        font-size: 24px;
+        padding-bottom: 10px;
     }
+    
+    .modal-finish-btn,
+    .modal-result-btn {
+        padding: 10px 20px;
+        font-size: 16px;
+    }
+
+    .result-message {
+        margin: 0 auto 15px;
+        font-size: 14px;
+    }
+}
+
+/* Кнопка экспорта */
+.export-button {
+    background-color: #0a7b4e;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+.export-button:hover {
+    background-color: #086141;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Стили для кнопки "Смотреть результат" */
+.modal-result-btn {
+    background-color: #3c7c2a;
+    color: white;
+    padding: 15px 25px;
+    border: none;
+    border-radius: 5px;
+    font-size: 18px;
+    font-weight: 600;
+    cursor: pointer;
+    margin: 10px;
+    transition: background-color 0.3s;
+}
+
+.modal-result-btn:hover {
+    background-color: #336924;
 }

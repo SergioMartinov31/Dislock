@@ -16,7 +16,7 @@
     <div class="container">
       <div class="header__inner">
         <h1 class="logo">Полином Жегалкина</h1>
-        <button class="header-restart-btn" id="restartButton">Начать заново</button>
+        <button class="header-restart-btn" onclick="restartTask()">Начать заново</button>
       </div>
     </div>
   </header>
@@ -25,33 +25,42 @@
     <div class="container">
       <div class="content">
         <div class="task-content">
-          <h1 class="main-text">ПОЛИНОМ ЖЕГАЛКИНА</h1>
           
-          <div class="truth-table-container">
-            <h2>Таблица истинности</h2>
-            <table class="truth-table" id="truthTable">
-              <thead>
-                <tr>
-                  <th>X</th>
-                  <th>Y</th>
-                  <th>Z</th>
-                  <th>F</th>
-                </tr>
-              </thead>
-              <tbody id="tableBody"></tbody>
-            </table>
-          </div>
+          <div class="task-wrapper">
+
+            <div class="truth-table-container">
+                <h2>Таблица истинности</h2>
+                <table class="truth-table" id="truthTable">
+                  <thead>
+                    <tr>
+                      <th>X</th>
+                      <th>Y</th>
+                      <th>Z</th>
+                      <th>F</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+
+            <div class="coefficients-container">
+
+                <h2>Коэффициенты полинома</h2>
+                <div class="coefficients-grid" id="coefficientsInput"></div>
+
+                <div class="buttons-container">
+                  <button class="check-button" id="checkButton">Проверить</button>
+                  <button class="export-button" id="exportButton" style="display: none;">Экспорт ответа</button>
+                </div>
+                
+                <div class="result-message" id="resultMessage"></div>
+            
+              </div>
+        </div>
+            
+      </div>
           
-          <div class="coefficients-container">
-            <h2>Введите коэффициенты полинома:</h2>
-            <div class="coefficients-grid" id="coefficientsInput"></div>
-          </div>
           
-          <div class="buttons-container">
-            <button class="check-button" id="checkButton">Проверить</button>
-          </div>
-          
-          <div class="result-message" id="resultMessage"></div>
         </div>
       </div>
     </div>
@@ -61,15 +70,24 @@
     <h4 class="footer-author">Дискретная математика</h4>
   </footer>
 
-  <!-- Модальное окно успеха -->
-  <div class="modal" id="successModal">
-    <div class="modal-content">
-      <h2>Задание выполнено успешно!</h2>
-      <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
-      <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
-    </div>
+<!-- Модальное окно успеха -->
+<div class="modal" id="successModal">
+  <div class="modal-content">
+      <h2>Задание успешно выполнено!</h2>
+      <div class="modal-buttons">
+          <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
+          <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
+          <button class="modal-result-btn" onclick="showResult()">Смотреть результат</button>
+      </div>
   </div>
+</div>
 
-  <script src="../src/script.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+<script>
+    // Делаем jsPDF доступным глобально
+    window.jsPDF = window.jspdf.jsPDF;
+</script>
+<script src="../src/script.js"></script>
 </body>
 </html>
