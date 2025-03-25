@@ -1,110 +1,119 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@600;700;800&display=swap');
 
 body {
     font-family: 'Montserrat', sans-serif;
+    font-weight: 600; /* Жирный текст по умолчанию */
     margin: 0;
     padding: 0;
     background-color: #f5f5f5;
     color: #333;
+    line-height: 1.6;
 }
 
 .container {
     max-width: 800px;
     margin: 0 auto;
-    padding: 20px;
+    padding: 30px;
 }
 
 h1 {
     text-align: center;
     color: #39652d;
-    margin-bottom: 30px;
-    font-size: 32px;
-    font-weight: 700;
+    margin-bottom: 35px;
+    font-size: 36px;
+    font-weight: 800; /* Очень жирный */
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
 }
 
 h2 {
     color: #39652d;
-    font-size: 22px;
-    margin-bottom: 20px;
-    font-weight: 500;
+    font-size: 26px;
+    margin-bottom: 25px;
+    font-weight: 700; /* Жирный */
+    border-bottom: 2px solid #39652d;
+    padding-bottom: 8px;
 }
 
 /* Начальный экран */
 .initial-screen {
     background-color: white;
-    padding: 40px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 2px solid #39652d;
+    padding: 45px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    border: 3px solid #39652d;
 }
 
 .description {
-    margin-bottom: 40px;
-    line-height: 1.6;
-    font-size: 18px;
-    color: #39652dda;
-    padding: 25px;
-    background-color: rgba(57, 101, 45, 0.05);
-    border-radius: 8px;
-    border-left: 4px solid #39652d;
+    margin-bottom: 45px;
+    line-height: 1.7;
+    font-size: 20px;
+    font-weight: 600;
+    color: #39652d;
+    padding: 30px;
+    background-color: rgba(57, 101, 45, 0.08);
+    border-radius: 10px;
+    border-left: 5px solid #39652d;
 }
 
 .start-button {
     display: block;
     width: 100%;
-    padding: 15px;
+    padding: 18px;
     background-color: #39652d;
     color: white;
     border: none;
-    border-radius: 6px;
-    font-size: 20px;
-    font-weight: 500;
+    border-radius: 8px;
+    font-size: 22px;
+    font-weight: 700;
     cursor: pointer;
-    margin-bottom: 20px;
+    margin-bottom: 25px;
     transition: all 0.3s ease;
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 1.2px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .start-button:hover {
     background-color: #2a4d22;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 /* Второй экран */
 .second-screen {
     display: none;
     background-color: white;
-    padding: 35px;
-    border-radius: 12px;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
-    border: 2px solid #39652d;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.12);
+    border: 3px solid #39652d;
 }
 
 .truth-table-container {
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .truth-table {
     width: 100%;
     border-collapse: collapse;
-    margin-bottom: 25px;
-    font-size: 18px;
+    margin-bottom: 30px;
+    font-size: 20px;
+    font-weight: 600;
 }
 
 .truth-table th, .truth-table td {
-    border: 2px solid #39652d;
-    padding: 12px;
+    border: 3px solid #39652d;
+    padding: 15px;
     text-align: center;
 }
 
 .truth-table th {
-    background-color: rgba(57, 101, 45, 0.1);
+    background-color: rgba(57, 101, 45, 0.15);
     font-weight: 700;
     color: #39652d;
+    letter-spacing: 1px;
 }
 
 .truth-table td {
@@ -113,14 +122,14 @@ h2 {
 }
 
 .coefficients-container {
-    margin-bottom: 35px;
+    margin-bottom: 40px;
 }
 
 .coefficients-input {
     display: flex;
     flex-wrap: wrap;
-    gap: 18px;
-    margin-bottom: 25px;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
 .coefficient-group {
@@ -129,40 +138,42 @@ h2 {
 }
 
 .coefficient-input {
-    width: 45px;
-    height: 45px;
+    width: 50px;
+    height: 50px;
     text-align: center;
-    font-size: 20px;
-    border: 2px solid #39652d;
-    border-radius: 6px;
-    background-color: rgba(57, 101, 45, 0.05);
+    font-size: 22px;
+    font-weight: 700;
+    border: 3px solid #39652d;
+    border-radius: 8px;
+    background-color: rgba(57, 101, 45, 0.1);
     color: #39652d;
-    font-weight: 500;
 }
 
 .coefficient-label {
-    margin-left: 8px;
-    font-size: 20px;
+    margin-left: 10px;
+    font-size: 22px;
     color: #39652d;
-    font-weight: 500;
+    font-weight: 700;
 }
 
 .buttons-container {
     display: flex;
-    gap: 18px;
-    margin-bottom: 25px;
+    gap: 20px;
+    margin-bottom: 30px;
 }
 
 .check-button, .restart-button {
     flex: 1;
-    padding: 15px;
-    font-size: 18px;
-    font-weight: 500;
+    padding: 18px;
+    font-size: 20px;
+    font-weight: 700;
     border: none;
-    border-radius: 6px;
+    border-radius: 8px;
     cursor: pointer;
     transition: all 0.3s ease;
     text-transform: uppercase;
+    letter-spacing: 1px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
 .check-button {
@@ -172,46 +183,54 @@ h2 {
 
 .check-button:hover {
     background-color: #2a4d22;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
 }
 
 .restart-button {
     background-color: #a8c6a5;
     color: #39652d;
+    border: 2px solid #39652d;
 }
 
 .restart-button:hover {
     background-color: #8fb38b;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    transform: translateY(-3px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+.coefficient-input.error {
+    background-color: #ffdddd;
+    border-color: #ff0000;
 }
 
 .result-message {
-    padding: 18px;
-    border-radius: 8px;
-    margin-bottom: 25px;
+    padding: 20px;
+    border-radius: 10px;
+    margin-bottom: 30px;
     text-align: center;
-    font-size: 18px;
-    font-weight: 500;
+    font-size: 20px;
+    font-weight: 700;
+    border: 3px solid;
 }
 
 .success {
-    background-color: rgba(57, 101, 45, 0.1);
+    background-color: rgba(57, 101, 45, 0.15);
     color: #39652d;
-    border: 2px solid #39652d;
+    border-color: #39652d;
 }
 
 .error {
-    background-color: rgba(255, 0, 0, 0.1);
+    background-color: rgba(255, 0, 0, 0.15);
     color: #d32f2f;
-    border: 2px solid #d32f2f;
+    border-color: #d32f2f;
 }
 
 .footer {
     text-align: center;
-    font-size: 16px;
+    font-size: 18px;
     color: #39652d;
-    margin-top: 30px;
-    font-weight: 500;
+    margin-top: 35px;
+    font-weight: 700;
+    letter-spacing: 1px;
 }

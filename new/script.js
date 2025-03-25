@@ -75,7 +75,7 @@ function displaySecondScreen() {
     coefficientsInput.innerHTML = '';
     userInputs = [];
     
-    const coefficients = ["XYZ+", "XY+", "XZ+", "YZ+", "X+", "Y+", "Z+", '1'];
+    const coefficients = ["XYZ +", "XY +", "XZ +", "YZ +", "X +", "Y +", "Z +", '1'];
     
     coefficients.forEach((coeff, i) => {
         const group = document.createElement('div');
@@ -97,6 +97,8 @@ function displaySecondScreen() {
         coefficientsInput.appendChild(group);
     });
     
+    // Убедимся, что кнопка проверки активна
+    document.getElementById('checkButton').disabled = false;
     document.getElementById('checkButton').addEventListener('click', checkSolution);
 }
 
@@ -106,20 +108,21 @@ function checkSolution() {
     let userCoefficients = [];
     let hasEmptyFields = false;
     
-    // Собираем введенные пользователем коэффициенты
+    // Проверяем заполнение всех полей
     userInputs.forEach(input => {
-        const value = input.value.trim();
-        if (value === '') {
+        if (input.value.trim() === '') {
             hasEmptyFields = true;
-            input.value = correctCoefficients[input.dataset.index];
-            userCoefficients.push(correctCoefficients[input.dataset.index]);
-        } else {
-            userCoefficients.push(parseInt(value));
         }
-        
-        // Блокируем редактирование после проверки
-        input.disabled = true;
     });
+    
+    if (hasEmptyFields) {
+        resultMessage.textContent = "Заполните все поля перед проверкой!";
+        resultMessage.className = "result-message error";
+        return;
+    }
+    
+    // Собираем введенные пользователем коэффициенты
+    userCoefficients = userInputs.map(input => parseInt(input.value.trim()));
     
     // Проверяем правильность решения
     const isCorrect = JSON.stringify(userCoefficients) === JSON.stringify(correctCoefficients);
@@ -128,9 +131,22 @@ function checkSolution() {
         resultMessage.textContent = "Полином Жегалкина найден верно!";
         resultMessage.className = "result-message success";
     } else {
-        resultMessage.textContent = "Полином Жегалкина найден неверно. Правильные коэффициенты были подставлены.";
+        // Подсвечиваем неверные ответы
+        userInputs.forEach((input, i) => {
+            if (parseInt(input.value) !== correctCoefficients[i]) {
+                input.style.backgroundColor = "#ffdddd";
+                input.style.borderColor = "#ff0000";
+            }
+        });
+        
+        resultMessage.textContent = "Есть ошибки. Неверные коэффициенты подсвечены красным.";
         resultMessage.className = "result-message error";
     }
+    
+    // Блокируем редактирование после проверки
+    userInputs.forEach(input => {
+        input.disabled = true;
+    });
     
     // Блокируем кнопку проверки
     document.getElementById('checkButton').disabled = true;
@@ -138,8 +154,22 @@ function checkSolution() {
 
 // Функция для перезапуска теста
 function restartTest() {
+    // Сбрасываем все состояния
     document.getElementById('secondScreen').style.display = 'none';
     document.getElementById('initialScreen').style.display = 'block';
-    document.getElementById('resultMessage').textContent = '';
-    document.getElementById('resultMessage').className = "result-message";
+    
+    // Очищаем сообщение
+    const resultMessage = document.getElementById('resultMessage');
+    resultMessage.textContent = '';
+    resultMessage.className = "result-message";
+    
+    // Разблокируем кнопку проверки на случай, если она была заблокирована
+    document.getElementById('checkButton').disabled = false;
+    
+    // Генерируем новые случайные значения для следующего теста
+    fColumn = generateFColumn();
+    correctCoefficients = zhegalkinPolynomial(fColumn);
+    
+    // Очищаем предыдущие поля ввода (они будут созданы заново при следующем displaySecondScreen)
+    userInputs = [];
 }
