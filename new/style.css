@@ -1,162 +1,217 @@
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap');
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #bdd3de;
-    color: #324148;
+    font-family: 'Montserrat', sans-serif;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    min-height: 100vh;
+    background-color: #f5f5f5;
+    color: #333;
 }
 
 .container {
-    width: 783px;
-    height: 510px;
-    position: relative;
-    background-color: #bdd3de;
-    overflow: hidden;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
 }
 
-/* Стили для начального экрана */
+h1 {
+    text-align: center;
+    color: #39652d;
+    margin-bottom: 30px;
+    font-size: 32px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+h2 {
+    color: #39652d;
+    font-size: 22px;
+    margin-bottom: 20px;
+    font-weight: 500;
+}
+
+/* Начальный экран */
 .initial-screen {
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding-top: 20px;
+    background-color: white;
+    padding: 40px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #39652d;
 }
 
-.header-font {
-    font-size: 13px;
-    margin: 2px 0;
-}
-
-.title-font {
-    font-size: 28px;
-    margin: 10px 0;
-}
-
-.subject-font {
-    font-size: 25px;
-    margin: 10px 0;
-}
-
-.footer-font {
-    font-size: 14px;
-    position: absolute;
-    bottom: 10px;
-    right: 20px;
+.description {
+    margin-bottom: 40px;
+    line-height: 1.6;
+    font-size: 18px;
+    color: #39652dda;
+    padding: 25px;
+    background-color: rgba(57, 101, 45, 0.05);
+    border-radius: 8px;
+    border-left: 4px solid #39652d;
 }
 
 .start-button {
-    background-color: #3f5664;
+    display: block;
+    width: 100%;
+    padding: 15px;
+    background-color: #39652d;
     color: white;
-    font-size: 20px;
-    padding: 10px 20px;
     border: none;
+    border-radius: 6px;
+    font-size: 20px;
+    font-weight: 500;
     cursor: pointer;
-    margin-top: 30px;
-    border: 3px solid white;
+    margin-bottom: 20px;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 1px;
 }
 
 .start-button:hover {
-    background-color: #bee6fd;
+    background-color: #2a4d22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Стили для второго экрана */
+/* Второй экран */
 .second-screen {
-    width: 100%;
-    height: 100%;
     display: none;
-    position: relative;
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+    border: 2px solid #39652d;
+}
+
+.truth-table-container {
+    margin-bottom: 35px;
 }
 
 .truth-table {
-    position: absolute;
-    left: 30px;
-    top: 6px;
-    background-color: #3f5664;
+    width: 100%;
     border-collapse: collapse;
+    margin-bottom: 25px;
+    font-size: 18px;
+}
+
+.truth-table th, .truth-table td {
+    border: 2px solid #39652d;
+    padding: 12px;
+    text-align: center;
 }
 
 .truth-table th {
-    color: white;
-    padding: 5px;
-    text-align: center;
-    font-size: 24px;
-    width: 60px;
+    background-color: rgba(57, 101, 45, 0.1);
+    font-weight: 700;
+    color: #39652d;
 }
 
 .truth-table td {
-    background-color: #dee6e9;
-    padding: 5px;
-    text-align: center;
-    font-size: 24px;
-    border: 1px solid #3f5664;
+    background-color: white;
+    color: #333;
 }
 
-.instructions {
-    position: absolute;
-    right: 30px;
-    top: 35px;
-    width: 340px;
-    font-size: 22px;
-    text-align: left;
+.coefficients-container {
+    margin-bottom: 35px;
 }
 
 .coefficients-input {
-    position: absolute;
-    left: 22px;
-    bottom: 30px;
     display: flex;
-    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+    margin-bottom: 25px;
 }
 
 .coefficient-group {
     display: flex;
     align-items: center;
-    margin-right: 10px;
 }
 
 .coefficient-input {
-    width: 30px;
-    height: 30px;
-    font-size: 20px;
+    width: 45px;
+    height: 45px;
     text-align: center;
+    font-size: 20px;
+    border: 2px solid #39652d;
+    border-radius: 6px;
+    background-color: rgba(57, 101, 45, 0.05);
+    color: #39652d;
+    font-weight: 500;
 }
 
 .coefficient-label {
+    margin-left: 8px;
     font-size: 20px;
-    margin-left: 2px;
+    color: #39652d;
+    font-weight: 500;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 18px;
+    margin-bottom: 25px;
+}
+
+.check-button, .restart-button {
+    flex: 1;
+    padding: 15px;
+    font-size: 18px;
+    font-weight: 500;
+    border: none;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
 }
 
 .check-button {
-    position: absolute;
-    right: 30px;
-    bottom: 100px;
-    background-color: #3f5664;
+    background-color: #39652d;
     color: white;
-    font-size: 20px;
-    padding: 10px 20px;
-    border: none;
-    cursor: pointer;
-    width: 400px;
-    border: 3px solid white;
 }
 
 .check-button:hover {
-    background-color: #bee6fd;
+    background-color: #2a4d22;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.restart-button {
+    background-color: #a8c6a5;
+    color: #39652d;
+}
+
+.restart-button:hover {
+    background-color: #8fb38b;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
 .result-message {
-    position: absolute;
-    right: 30px;
-    bottom: 60px;
-    font-size: 20px;
-    color: #f8500f;
-    width: 400px;
+    padding: 18px;
+    border-radius: 8px;
+    margin-bottom: 25px;
     text-align: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.success {
+    background-color: rgba(57, 101, 45, 0.1);
+    color: #39652d;
+    border: 2px solid #39652d;
+}
+
+.error {
+    background-color: rgba(255, 0, 0, 0.1);
+    color: #d32f2f;
+    border: 2px solid #d32f2f;
+}
+
+.footer {
+    text-align: center;
+    font-size: 16px;
+    color: #39652d;
+    margin-top: 30px;
+    font-weight: 500;
 }

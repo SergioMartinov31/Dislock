@@ -5,11 +5,10 @@ function generateFColumn() {
 
 // Вычисляет полином Жегалкина
 function zhegalkinPolynomial(values) {
-    // Копируем массив значений
     let coeff = [...values];
     
     // Применяем преобразование Моебиуса
-    for (let i = 0; i < 3; i++) {  // три переменные
+    for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 8; j++) {
             if (j & (1 << i)) {
                 coeff[j] ^= coeff[j ^ (1 << i)];
@@ -17,8 +16,6 @@ function zhegalkinPolynomial(values) {
         }
     }
     
-    // Порядок: ["XYZ", "XY", "XZ", "YZ", "X", "Y", "Z", '1']
-    // Двоичные коды в порядке: 111 (7), 110 (6), 101 (5), 011 (3), 100 (4), 010 (2), 001 (1), 000 (0)
     const orderIndices = [7, 6, 5, 3, 4, 2, 1, 0];
     return orderIndices.map(i => coeff[i]);
 }
@@ -40,13 +37,13 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Назначаем обработчик кнопки старта
+    // Назначаем обработчики кнопок
     document.getElementById('startButton').addEventListener('click', displaySecondScreen);
+    document.getElementById('restartButton').addEventListener('click', restartTest);
 });
 
 // Функция для отображения второго экрана
 function displaySecondScreen() {
-    // Скрываем начальный экран и показываем второй
     document.getElementById('initialScreen').style.display = 'none';
     document.getElementById('secondScreen').style.display = 'block';
     
@@ -66,7 +63,6 @@ function displaySecondScreen() {
             tr.appendChild(td);
         });
         
-        // Добавляем столбец F
         const tdF = document.createElement('td');
         tdF.textContent = fColumn[i];
         tr.appendChild(tdF);
@@ -94,46 +90,56 @@ function displaySecondScreen() {
         
         const label = document.createElement('span');
         label.className = 'coefficient-label';
-        label.textContent = ` ${coeff}`;
+        label.textContent = coeff;
         
         group.appendChild(input);
         group.appendChild(label);
         coefficientsInput.appendChild(group);
     });
     
-    // Назначаем обработчик кнопки проверки
     document.getElementById('checkButton').addEventListener('click', checkSolution);
 }
 
 // Функция проверки решения
 function checkSolution() {
     const resultMessage = document.getElementById('resultMessage');
-    let allFilled = true;
+    let userCoefficients = [];
+    let hasEmptyFields = false;
     
-    // Проверяем, все ли поля заполнены
+    // Собираем введенные пользователем коэффициенты
     userInputs.forEach(input => {
-        if (input.value.trim() === '') {
-            allFilled = false;
+        const value = input.value.trim();
+        if (value === '') {
+            hasEmptyFields = true;
+            input.value = correctCoefficients[input.dataset.index];
+            userCoefficients.push(correctCoefficients[input.dataset.index]);
+        } else {
+            userCoefficients.push(parseInt(value));
         }
+        
+        // Блокируем редактирование после проверки
+        input.disabled = true;
     });
     
-    if (!allFilled) {
-        // Заполняем пустые поля правильными значениями
-        userInputs.forEach((input, i) => {
-            if (input.value.trim() === '') {
-                input.value = correctCoefficients[i];
-            }
-        });
-        
-        resultMessage.textContent = "Задание решено верно";
-        document.getElementById('checkButton').style.display = 'none';
+    // Проверяем правильность решения
+    const isCorrect = JSON.stringify(userCoefficients) === JSON.stringify(correctCoefficients);
+    
+    if (isCorrect) {
+        resultMessage.textContent = "Полином Жегалкина найден верно!";
+        resultMessage.className = "result-message success";
     } else {
-        // Заполняем все поля правильными значениями
-        userInputs.forEach((input, i) => {
-            input.value = correctCoefficients[i];
-        });
-        
-        resultMessage.textContent = "Задание решено верно";
-        document.getElementById('checkButton').style.display = 'none';
+        resultMessage.textContent = "Полином Жегалкина найден неверно. Правильные коэффициенты были подставлены.";
+        resultMessage.className = "result-message error";
     }
+    
+    // Блокируем кнопку проверки
+    document.getElementById('checkButton').disabled = true;
+}
+
+// Функция для перезапуска теста
+function restartTest() {
+    document.getElementById('secondScreen').style.display = 'none';
+    document.getElementById('initialScreen').style.display = 'block';
+    document.getElementById('resultMessage').textContent = '';
+    document.getElementById('resultMessage').className = "result-message";
 }
