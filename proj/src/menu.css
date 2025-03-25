@@ -10,25 +10,26 @@
 }
 
 .content {
-    min-height: 450px;
+    min-height: 350px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: flex-start; /* Изменено с center на flex-start */
+    align-items: flex-start;
     text-align: left;
-    padding: 40px 50px; /* Увеличены отступы */
+    padding: 30px 40px;
+    margin: 20px 0;
 }
 
 .main-text {
-    margin: 15px 0; /* Улучшенные вертикальные отступы */
+    margin: 15px 0;
     width: 100%;
     max-width: 800px;
     padding: 0;
-    text-align: left; /* Явное выравнивание по левому краю */
+    text-align: left;
 }
 
 .main-text strong {
-    font-weight: 700; /* Жирное начертание для выделенных фраз */
+    font-weight: 700;
 }
 
 .main-text:first-child {
@@ -41,15 +42,17 @@
 
 .main_btn_start {
     width: 100%;
-    max-width: 400px; /* Ограничение ширины кнопки */
-    margin: 40px auto 0; /* Центрирование кнопки */
-    align-self: center; /* Центрирование в flex-контейнере */
+    max-width: 400px;
+    margin: 40px auto 0;
+    align-self: center;
+    font-weight: 700;
+    font-size: 25px;
 }
 
 @media (max-width: 768px) {
     .content {
-        min-height: 500px;
-        padding: 30px;
+        min-height: 250px;
+        padding: 20px;
     }
 
     .main-text {
@@ -59,8 +62,8 @@
 
 @media (max-width: 480px) {
     .content {
-        min-height: 400px;
-        padding: 20px;
+        min-height: 200px;
+        padding: 15px;
     }
 
     .main-text {
