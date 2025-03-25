@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Полином Жегалкина</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/task.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <h1 class="logo">Полином Жегалкина</h1>
+        <button class="header-restart-btn" id="restartButton">Начать заново</button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <div class="task-content">
+          <h1 class="main-text">ПОЛИНОМ ЖЕГАЛКИНА</h1>
+          
+          <div class="truth-table-container">
+            <h2>Таблица истинности</h2>
+            <table class="truth-table" id="truthTable">
+              <thead>
+                <tr>
+                  <th>X</th>
+                  <th>Y</th>
+                  <th>Z</th>
+                  <th>F</th>
+                </tr>
+              </thead>
+              <tbody id="tableBody"></tbody>
+            </table>
+          </div>
+          
+          <div class="coefficients-container">
+            <h2>Введите коэффициенты полинома:</h2>
+            <div class="coefficients-grid" id="coefficientsInput"></div>
+          </div>
+          
+          <div class="buttons-container">
+            <button class="check-button" id="checkButton">Проверить</button>
+          </div>
+          
+          <div class="result-message" id="resultMessage"></div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
+
+  <!-- Модальное окно успеха -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+      <h2>Задание выполнено успешно!</h2>
+      <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
+      <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
+    </div>
+  </div>
+
+  <script src="../src/script.js"></script>
+</body>
+</html>
