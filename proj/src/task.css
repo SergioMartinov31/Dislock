@@ -18,6 +18,10 @@
     text-align: center;
 }
 
+.check-button {
+    font-weight: 700; /* Жирный текст для кнопки "Проверить" */
+}
+
 .task-content {
     width: 100%;
     padding: 20px;
