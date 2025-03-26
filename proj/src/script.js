@@ -89,6 +89,9 @@ document.addEventListener('DOMContentLoaded', function() {
 function initTask() {
     fColumn = generateFColumn();
     correctCoefficients = zhegalkinPolynomial(fColumn);
+
+    // Обработчики событий клавиатуры
+    document.addEventListener('keydown', handleKeyNavigation);
     
     // Заполнение таблицы истинности в DOM
     const tableBody = document.getElementById('tableBody');
@@ -151,6 +154,68 @@ function initTask() {
     document.getElementById('checkButton').addEventListener('click', checkSolution);
     exportButton = document.getElementById('exportButton');
     exportButton.addEventListener('click', exportToPDF);
+
+    // Автоматически выделяем текст при фокусе на поле ввода
+    userInputs.forEach(input => {
+        input.addEventListener('focus', function() {
+            this.select();
+        });
+        
+        // Ограничиваем ввод только 0 и 1
+        input.addEventListener('input', function() {
+            if (this.value !== '0' && this.value !== '1') {
+                this.value = '';
+            }
+        });
+    });
+}
+
+/*
+ * Обрабатывает навигацию между полями ввода с помощью клавиатуры
+ * @param {KeyboardEvent} event - Событие клавиатуры
+ */
+function handleKeyNavigation(event) {
+    // Проверяем, что событие произошло на поле ввода коэффициента
+    if (!event.target.classList.contains('coefficient-input')) {
+        return;
+    }
+    
+    const currentInput = event.target;
+    const currentIndex = parseInt(currentInput.dataset.index);
+    let nextIndex;
+    
+    // Обработка стрелок влево/вправо
+    if (event.key === 'ArrowRight') {
+        nextIndex = currentIndex + 1;
+        if (nextIndex >= userInputs.length) nextIndex = 0;
+    } else if (event.key === 'ArrowLeft') {
+        nextIndex = currentIndex - 1;
+        if (nextIndex < 0) nextIndex = userInputs.length - 1;
+    } 
+    // Обработка стрелок вверх/вниз
+    else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+        // Проверяем, используется ли горизонтальный макет (flex-wrap)
+        const coefficientsGrid = document.querySelector('.coefficients-grid');
+        const isHorizontalLayout = window.getComputedStyle(coefficientsGrid).flexWrap === 'wrap';
+        
+        if (isHorizontalLayout) {
+            // Для горизонтального макета - вверх переходит к первому, вниз к последнему
+            nextIndex = event.key === 'ArrowUp' ? 0 : userInputs.length - 1;
+        } else {
+            // Для вертикального макета - обычное поведение (4 колонки)
+            if (event.key === 'ArrowDown') {
+                nextIndex = currentIndex + 4;
+            } else {
+                nextIndex = currentIndex - 4;
+            }
+        }
+    } else {
+        return; // Если нажата не стрелка, выходим
+    }
+    
+    // Переключаем фокус на следующий input
+    userInputs[nextIndex].focus();
+    event.preventDefault(); // Предотвращаем прокрутку страницы
 }
 
 // Флаг для режима автоматического заполнения правильных ответов (для тестирования)
