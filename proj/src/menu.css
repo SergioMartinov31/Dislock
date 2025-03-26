@@ -26,6 +26,9 @@
     max-width: 800px;
     padding: 0;
     text-align: left;
+    transition: 
+        font-size var(--transition-duration) var(--transition-easing),
+        margin var(--transition-duration) var(--transition-easing);
 }
 
 .main-text strong {
@@ -47,9 +50,18 @@
     align-self: center;
     font-weight: 700;
     font-size: 25px;
+    transform-origin: center;
+    transition: 
+        transform var(--transition-duration) var(--transition-easing),
+        background-color var(--transition-duration) var(--transition-easing),
+        box-shadow var(--transition-duration) var(--transition-easing),
+        font-size var(--transition-duration) var(--transition-easing),
+        height var(--transition-duration) var(--transition-easing);
 }
 
-/* ... (остальные стили без изменений до медиазапросов) ... */
+.main_btn_start:hover {
+    transform: scale(1.02);
+}
 
 @media (max-width: 992px) {
     .content {

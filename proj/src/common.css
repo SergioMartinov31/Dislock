@@ -1,3 +1,8 @@
+:root {
+    --transition-duration: 0.3s;
+    --transition-easing: ease-in-out;
+}
+
 * {
     box-sizing: border-box;
 }
@@ -38,6 +43,24 @@ html {
 main {
     flex: 1;
     padding-bottom: 20px;
+}
+
+.modal-content {
+    animation: modalFadeIn 0.4s var(--transition-easing);
+}
+
+.main_btn_start,
+.header-restart-btn,
+.export-button,
+.modal-finish-btn,
+.modal-result-btn,
+.check-button {
+    transition: all var(--transition-duration) var(--transition-easing);
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
 }
 
 .container {
@@ -115,6 +138,12 @@ main {
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     transition: all 0.3s ease;
+    animation: fadeIn 0.5s var(--transition-easing);
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
 }
 
 .main-text {

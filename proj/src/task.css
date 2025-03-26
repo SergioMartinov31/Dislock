@@ -72,6 +72,7 @@
     width: 100%;
     border-collapse: collapse;
     margin: 30px 0 10px -10px;
+    transition: all var(--transition-duration) var(--transition-easing);
 }
 
 /* === Стили ячеек таблицы === */
@@ -95,6 +96,8 @@ th {
     grid-template-columns: repeat(4, 1fr);
     gap: 10px;
     margin-top: 40px;
+    transition: grid-template-columns var(--transition-duration) var(--transition-easing),
+                display var(--transition-duration) var(--transition-easing);
 }
 
 /* === Группа (коэффициент + label) === */
@@ -102,6 +105,11 @@ th {
     display: flex;
     align-items: center;
     white-space: nowrap;
+    transition: transform var(--transition-duration) var(--transition-easing);
+}
+
+.coefficient-group:hover {
+    transform: translateY(-2px);
 }
 
 /* === Поле ввода коэффициента === */
@@ -142,6 +150,16 @@ th {
     background-color: #39652dd1;
 }
 
+.result-message.error,
+.result-message.success {
+    animation: messageAppear 0.4s var(--transition-easing);
+}
+
+@keyframes messageAppear {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
 /* === Сообщение о результате проверки === */
 .result-message {
     padding: 15px;
@@ -152,6 +170,10 @@ th {
     max-width: 100%;
     font-size: 16px;
     text-align: center;
+    transition: 
+    opacity var(--transition-duration) var(--transition-easing),
+    transform var(--transition-duration) var(--transition-easing),
+    background-color var(--transition-duration) var(--transition-easing);
 }
 
 /* === Стили для успешного результата === */
@@ -365,12 +387,14 @@ th {
     .task-wrapper {
         flex-direction: column;
         gap: 30px;
+        transition: flex-direction var(--transition-duration) var(--transition-easing);
     }
     
     .truth-table-container, 
     .coefficients-container {
         flex: 1 1 100%;
         max-width: 100%;
+        transition: flex var(--transition-duration) var(--transition-easing);
     }
     
     /* Таблица истинности */
