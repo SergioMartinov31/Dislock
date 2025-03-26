@@ -90,6 +90,16 @@ function initTask() {
     fColumn = generateFColumn();
     correctCoefficients = zhegalkinPolynomial(fColumn);
 
+    // Автоматическое заполнение правильных ответов, если включен режим тестирования
+    if (AUTO_FILL_MODE) {
+        setTimeout(() => {
+            userInputs.forEach((input, index) => {
+                input.value = correctCoefficients[index];
+            });
+            console.log('Автоматически заполнены правильные коэффициенты');
+        }, 500); // Небольшая задержка для инициализации DOM
+    }
+
     // Обработчики событий клавиатуры
     document.addEventListener('keydown', handleKeyNavigation);
     
@@ -218,7 +228,7 @@ function handleKeyNavigation(event) {
 }
 
 // Флаг для режима автоматического заполнения правильных ответов (для тестирования)
-const AUTO_FILL_MODE = false;
+const AUTO_FILL_MODE = true;
 
 /**
  * Проверяет решение пользователя
@@ -242,16 +252,6 @@ function checkSolution() {
     if (hasEmptyFields) {
         resultMessage.textContent = "Пожалуйста, заполните все поля!";
         resultMessage.className = "result-message error";
-        
-        // Автозаполнение в тестовом режиме
-        if (AUTO_FILL_MODE) {
-            userInputs.forEach((input, i) => {
-                input.value = correctCoefficients[i];
-                input.style.borderColor = "#39652df8";
-            });
-            
-            showSuccessResult();
-        }
         return;
     }
     
@@ -264,28 +264,41 @@ function checkSolution() {
     // Проверка правильности решения
     const isCorrect = JSON.stringify(userCoefficients) === JSON.stringify(correctCoefficients);
     
-    if (isCorrect || AUTO_FILL_MODE) {
-        if (AUTO_FILL_MODE && !isCorrect) {
-            userInputs.forEach((input, i) => {
-                input.value = correctCoefficients[i];
-            });
-        }
+    if (isCorrect) {
         showSuccessResult();
     } else {
         // Подсветка неверных коэффициентов
         userInputs.forEach((input, i) => {
+            input.disabled = true;
             if (parseInt(input.value) !== correctCoefficients[i]) {
                 input.style.borderColor = "#ff0000";
             }
         });
         
-        // Вывод сообщения об ошибке с правильным ответом
+        // Вывод сообщения об ошибке
         resultMessage.innerHTML = `
             Есть ошибки. Неверные коэффициенты подсвечены красным.<br><br>
             Правильный ответ:<br>
             <strong>${formatPolynomial(correctCoefficients)}</strong>
         `;
         resultMessage.className = "result-message error";
+        
+        // Заменяем кнопку "Проверить" на "Начать заново"
+        const checkButton = document.getElementById('checkButton');
+        checkButton.textContent = "Начать заново";
+        checkButton.onclick = restartTask;
+        checkButton.id = "restartButtonBottom";
+        
+        // Плавно скрываем кнопку в шапке
+        const headerRestartBtn = document.querySelector('.header-restart-btn');
+        headerRestartBtn.style.opacity = '0';
+        headerRestartBtn.style.pointerEvents = 'none'; // Отключаем взаимодействие
+        
+        // Через 500мс (после анимации) центрируем заголовок
+        setTimeout(() => {
+            headerRestartBtn.style.display = 'none';
+            document.querySelector('.header__inner').classList.add('centered-header');
+        }, 500);
     }
 }
 

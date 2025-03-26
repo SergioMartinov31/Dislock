@@ -92,6 +92,11 @@ main {
     justify-content: space-between;
     align-items: center;
     margin: 0 auto;
+    transition: all 0.5s ease;
+}
+
+.header__inner.centered-header {
+    justify-content: center;
 }
 
 /* Стили логотипа */
@@ -100,7 +105,13 @@ main {
     font-size: 42px;
     font-weight: 900;
     color: #39652dda;
-    transition: all 0.3s ease;
+    transition: all 0.5s ease;
+    margin-right: auto; /* Логотип прижат к левому краю */
+}
+
+.header-restart-btn {
+    transition: opacity 0.5s ease;
+    margin-left: auto; /* Кнопка остается справа */
 }
 
 /* Стили основной кнопки "Начать тестирование" */

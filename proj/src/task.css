@@ -21,7 +21,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
-    padding-top: 20px;
+    padding-top: 5px;
 }
 
 /* === Контейнер для центрирования содержимого === */
@@ -332,6 +332,41 @@ th {
 
 .modal-result-btn:hover {
     background-color: #336924;
+}
+
+/* Добавьте в конец файла */
+.header__inner.centered-header {
+    justify-content: center !important;
+    transition: all 0.5s ease;
+}
+
+.header__inner.centered-header .logo {
+    margin-right: 0;
+    transition: all 0.5s ease;
+}
+
+#restartButtonBottom {
+    background-color: #39652de2;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 5px;
+    font-size: 20px;
+    font-weight: 700;
+    cursor: pointer;
+    margin: 20px auto;
+    display: block;
+    transition: all 0.3s ease;
+}
+
+#restartButtonBottom:hover {
+    background-color: #39652dd1;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.coefficient-input:disabled {
+    cursor: not-allowed;
 }
 
 /* Медиа-запросы */
