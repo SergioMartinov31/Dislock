@@ -364,7 +364,7 @@ th {
 }
 
 @media (max-width: 800px) {
-    /* Шапка */
+
     .header__inner {
         flex-direction: column;
         gap: 15px;
@@ -421,7 +421,18 @@ th {
         margin: 0;
         flex: 0 0 auto;
         white-space: nowrap;
+        animation: 
+            fadeIn 0.4s ease forwards,
+            slideUp 0.4s ease forwards;
+        opacity: 0;
     }
+    
+    @keyframes fadeIn { to { opacity: 1; } }
+    @keyframes slideUp { from { transform: translateY(10px); } }
+    
+    /* Последовательное появление */
+    .coefficient-group:nth-child(1) { animation-delay: 0.1s; }
+    .coefficient-group:nth-child(2) { animation-delay: 0.2s; }
     
     .coefficient-input {
         width: 38px;
