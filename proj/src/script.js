@@ -176,9 +176,8 @@ function initTask() {
  */
 function handleKeyNavigation(event) {
     // Проверяем, что событие произошло на поле ввода коэффициента
-    if (!event.target.classList.contains('coefficient-input')) {
+    if (!event.target.classList.contains('coefficient-input')) 
         return;
-    }
     
     const currentInput = event.target;
     const currentIndex = parseInt(currentInput.dataset.index);
@@ -219,7 +218,7 @@ function handleKeyNavigation(event) {
 }
 
 // Флаг для режима автоматического заполнения правильных ответов (для тестирования)
-const AUTO_FILL_MODE = true;
+const AUTO_FILL_MODE = false;
 
 /**
  * Проверяет решение пользователя
