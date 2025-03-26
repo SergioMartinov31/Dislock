@@ -1,7 +1,15 @@
+/* Глобальные CSS-переменные для анимаций */
+:root {
+    --transition-duration: 0.3s;
+    --transition-easing: ease-in-out;
+}
+
+/* Сброс стандартных стилей браузера */
 * {
     box-sizing: border-box;
 }
 
+/* Базовые стили для текстовых элементов */
 body,
 h1,
 h2,
@@ -13,56 +21,89 @@ p {
     font-size: 100%;
 }
 
+/* Стили для ссылок */
 a {
     text-decoration: none;
 }
 
+/* Удаление маркеров у списков */
 ul { 
     list-style: none; 
 }
 
+/* Основные стили страницы */
 body {
     font-family: "Montserrat", sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Изменяем height на min-height */
+    min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
+    line-height: 1.5;
 }
 
+/* Фикс высоты html */
 html {
     height: 100%;
 }
 
+/* Основное содержимое страницы */
 main {
     flex: 1;
-    padding-bottom: 20px; /* Добавляем отступ снизу */
+    padding-bottom: 20px;
 }
 
+/* Анимация появления модального окна */
+.modal-content {
+    animation: modalFadeIn 0.4s var(--transition-easing);
+}
+
+/* Общие стили для кнопок */
+.main_btn_start,
+.header-restart-btn,
+.export-button,
+.modal-finish-btn,
+.modal-result-btn,
+.check-button {
+    transition: all var(--transition-duration) var(--transition-easing);
+}
+
+/* Анимация появления модального окна */
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Основной контейнер для центрирования содержимого */
 .container {
     max-width: 1190px;
     padding: 0 15px;
     margin: 0 auto;
 }
 
+/* Стили шапки сайта */
 .header {
-    padding-top: 20px;
+    padding: 20px 0;
 }
 
+/* Внутреннее содержимое шапки */
 .header__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: auto;
+    margin: 0 auto;
 }
 
+/* Стили логотипа */
 .logo {
     text-transform: uppercase;
     font-size: 42px;
     font-weight: 900;
     color: #39652dda;
+    transition: all 0.3s ease;
 }
 
+/* Стили основной кнопки "Начать тестирование" */
 .main_btn_start {
     background-color: #39652de2;
     max-width: 400px;
@@ -76,23 +117,29 @@ main {
     font-weight: 600;
     border: none;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
+/* Эффекты при наведении на кнопку */
 .main_btn_start:hover {
     background-color: #39652db3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+/* Стили подвала сайта */
 .footer {
     flex-shrink: 0;
-    height: auto; /* Меняем фиксированную высоту на auto */
-    padding: 20px 0; /* Добавляем отступы */
+    height: auto;
+    padding: 20px 0;
     background-color: #39652de2;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: auto; /* Это прижмет футер к низу */
+    margin-top: auto;
 }
 
+/* Текст в подвале */
 .footer-author {
     color: white;
     font-weight: 800;
@@ -100,6 +147,7 @@ main {
     text-align: center;
 }
 
+/* Основной контейнер контента */
 .content {
     max-width: 100%;
     width: 100%;
@@ -109,73 +157,142 @@ main {
     background-color: #bdbdbd2d;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s var(--transition-easing);
 }
 
+/* Анимация плавного появления контента */
+@keyframes fadeIn {
+    from { opacity: 0; transform: translateY(10px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+/* Стили основного текста */
 .main-text {
     font-size: 26px;
     font-weight: 600;
     color: rgb(102, 93, 93);
-    margin: 0;
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+    line-height: 1.4;
 }
 
+/* Стили для списков в основном тексте */
 .main-text ul {
     padding-left: 30px;
 }
 
-@media (max-width: 768px) {
+/* ===== Адаптация для планшетов ===== */
+@media (max-width: 992px) {
     .content {
-        padding: 15px;
-        margin: 10px auto 50px;
+        padding: 30px 20px;
+        margin: 15px auto;
     }
+    
+    .logo {
+        font-size: 38px;
+    }
+    
+    .main-text {
+        font-size: 24px;
+        margin-left: 15px;
+    }
+    
+    .main_btn_start {
+        height: 90px;
+        font-size: 20px;
+        max-width: 350px;
+    }
+    
+    .footer-author {
+        font-size: 22px;
+    }
+}
 
+/* ===== Адаптация для мобильных ===== */
+@media (max-width: 800px) {
+    .header__inner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .content {
+        padding: 20px 15px;
+        border-width: 3px;
+    }
+    
+    .logo {
+        font-size: 34px;
+    }
+    
     .main-text {
         font-size: 22px;
         margin-left: 10px;
     }
-
+    
     .main_btn_start {
-        max-width: 300px;
         height: 80px;
-        font-size: 20px;
+        font-size: 18px;
+        max-width: 300px;
     }
-
-    .logo {
-        font-size: 36px;
+    
+    .footer-author {
+        font-size: 20px;
     }
 }
 
-@media (max-width: 480px) {
+/* Адаптация для маленьких экранов */
+@media (max-width: 576px) {
     .content {
-        padding: 10px;
-        margin: 5px auto 30px;
+        padding: 15px 10px;
+        margin: 10px auto;
+        border-width: 2px;
     }
-
+    
+    .logo {
+        font-size: 30px;
+    }
+    
     .main-text {
         font-size: 18px;
         margin-left: 5px;
     }
-
-    .main-text ul {
-        padding-left: 20px;
-    }
-
+    
     .main_btn_start {
-        max-width: 250px;
-        height: 60px;
+        height: 70px;
+        font-size: 16px;
+        max-width: 280px;
+    }
+    
+    .footer {
+        padding: 15px 0;
+    }
+    
+    .footer-author {
         font-size: 18px;
     }
+}
 
+/* Адаптация для очень маленьких экранов */
+@media (max-width: 400px) {
+    .content {
+        padding: 12px;
+    }
+    
     .logo {
-        font-size: 28px;
+        font-size: 26px;
     }
-
+    
+    .main-text {
+        font-size: 16px;
+    }
+    
+    .main_btn_start {
+        height: 60px;
+        max-width: 250px;
+    }
+    
     .footer-author {
-        font-size: 20px;
-    }
-
-    .footer {
-        height: 80px;
+        font-size: 16px;
     }
 }

@@ -1,7 +1,9 @@
+/* Стили логотипа в меню */
 .logo {
     margin: auto;
 }
 
+/* Основное содержимое главной страницы */
 .main {
     display: flex;
     justify-content: center;
@@ -9,29 +11,40 @@
     flex-flow: column;
 }
 
+/* Контейнер контента */
 .content {
-    min-height: 350px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: flex-start;
-    text-align: left;
-    padding: 30px 40px;
-    margin: 20px 0;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 50px 25px;
+    border: 4px solid #39652df8;
+    background-color: #bdbdbd2d;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s var(--transition-easing);
+    min-height: 10vh;
 }
 
+/* Стили основного текста */
 .main-text {
     margin: 15px 0;
     width: 100%;
     max-width: 800px;
     padding: 0;
     text-align: left;
+    transition: 
+        font-size var(--transition-duration) var(--transition-easing),
+        margin var(--transition-duration) var(--transition-easing);
 }
 
+/* Выделение жирным текста */
 .main-text strong {
     font-weight: 700;
 }
 
+/* Коррекция отступов для первого и последнего элементов */
 .main-text:first-child {
     margin-top: 0;
 }
@@ -40,6 +53,7 @@
     margin-bottom: 0;
 }
 
+/* Стили кнопки "Начать тестирование" */
 .main_btn_start {
     width: 100%;
     max-width: 400px;
@@ -47,31 +61,83 @@
     align-self: center;
     font-weight: 700;
     font-size: 25px;
+    transform-origin: center;
+    transition: 
+        transform var(--transition-duration) var(--transition-easing),
+        background-color var(--transition-duration) var(--transition-easing),
+        box-shadow var(--transition-duration) var(--transition-easing),
+        font-size var(--transition-duration) var(--transition-easing),
+        height var(--transition-duration) var(--transition-easing);
 }
 
-@media (max-width: 768px) {
-    .content {
-        min-height: 250px;
-        padding: 20px;
-    }
+/* Эффект при наведении на кнопку */
+.main_btn_start:hover {
+    transform: scale(1.02);
+}
 
+/* Адаптация для планшетов */
+@media (max-width: 992px) {
+    .content {
+        min-height: 40vh;
+        padding: 50px 25px;
+    }
+    
     .main-text {
         font-size: 22px;
     }
+    
+    .main_btn_start {
+        font-size: 22px;
+        height: 80px;
+    }
 }
 
-@media (max-width: 480px) {
+/* Адаптация для небольших планшетов */
+@media (max-width: 768px) {
     .content {
-        min-height: 200px;
+        min-height: 35vh;
+        padding: 20px;
+    }
+    
+    .main-text {
+        font-size: 20px;
+    }
+    
+    .main_btn_start {
+        font-size: 20px;
+        height: 70px;
+        max-width: 320px;
+    }
+}
+
+/* Адаптация для мобильных устройств */
+@media (max-width: 576px) {
+    .content {
+        min-height: 30vh;
         padding: 15px;
     }
-
+    
     .main-text {
         font-size: 18px;
     }
     
     .main_btn_start {
-        margin-top: 30px;
-        max-width: 300px;
+        font-size: 18px;
+        height: 60px;
+        max-width: 280px;
+        margin-top: 25px;
+    }
+}
+
+/* Адаптация для очень маленьких экранов */
+@media (max-width: 400px) {
+    .main-text {
+        font-size: 16px;
+    }
+    
+    .main_btn_start {
+        font-size: 16px;
+        height: 55px;
+        max-width: 250px;
     }
 }

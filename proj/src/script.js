@@ -1,23 +1,27 @@
-// Глобальные переменные
-let truthTable = [];
-let fColumn = [];
-let correctCoefficients = [];
-let userInputs = [];
-let exportButton;
+// Глобальные переменные для хранения данных приложения
+let truthTable = []; // Массив для хранения таблицы истинности
+let fColumn = []; // Массив значений функции F
+let correctCoefficients = []; // Правильные коэффициенты полинома Жегалкина
+let userInputs = []; // Ссылки на DOM-элементы полей ввода пользователя
+let exportButton; // Ссылка на кнопку экспорта
 
-// Режим автозаполнения (true - включен, false - выключен)
-const AUTO_FILL_MODE = false;
-
-// Генерирует случайный столбец F для таблицы истинности
+/**
+ * Генерирует случайные значения для столбца F таблицы истинности
+ * @returns {Array} Массив из 8 случайных бинарных значений (0 или 1)
+ */
 function generateFColumn() {
     return Array.from({length: 8}, () => Math.floor(Math.random() * 2));
 }
 
-// Вычисляет полином Жегалкина
+/**
+ * Вычисляет коэффициенты полинома Жегалкина с использованием преобразования Мёбиуса
+ * @param {Array} values - Значения функции F из таблицы истинности
+ * @returns {Array} Массив коэффициентов полинома Жегалкина
+ */
 function zhegalkinPolynomial(values) {
     let coeff = [...values];
     
-    // Применяем преобразование Моебиуса
+    // Применение преобразования Мёбиуса
     for (let i = 0; i < 3; i++) {
         for (let j = 0; j < 8; j++) {
             if (j & (1 << i)) {
@@ -26,11 +30,16 @@ function zhegalkinPolynomial(values) {
         }
     }
     
+    // Порядок коэффициентов в полиноме Жегалкина
     const orderIndices = [7, 6, 5, 3, 4, 2, 1, 0];
     return orderIndices.map(i => coeff[i]);
 }
 
-// Форматирует полином для отображения
+/**
+ * Форматирует полином Жегалкина в строку для отображения
+ * @param {Array} coefficients - Массив коэффициентов полинома
+ * @returns {String} Строковое представление полинома
+ */
 function formatPolynomial(coefficients) {
     const terms = [
         coefficients[0] ? 'XYZ' : '',
@@ -46,7 +55,9 @@ function formatPolynomial(coefficients) {
     return terms.join(' + ') || '0';
 }
 
-// Показывает результат (прокручивает к нему страницу)
+/**
+ * Прокручивает страницу к блоку с результатами проверки
+ */
 function showResult() {
     document.getElementById('successModal').style.display = 'none';
     document.getElementById('resultMessage').scrollIntoView({ 
@@ -57,7 +68,7 @@ function showResult() {
 
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
-    // Генерируем таблицу истинности
+    // Генерация всех возможных комбинаций переменных X, Y, Z
     for (let x = 0; x < 2; x++) {
         for (let y = 0; y < 2; y++) {
             for (let z = 0; z < 2; z++) {
@@ -66,25 +77,20 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
     
-    // Если мы на странице задания, инициализируем интерфейс
+    // Инициализация страницы задания, если она существует
     if (document.getElementById('truthTable')) {
         initTask();
     }
-    
-    // Назначаем обработчик кнопки "Начать заново"
-    const restartButton = document.getElementById('restartButton');
-    if (restartButton) {
-        restartButton.addEventListener('click', restartTask);
-    }
 });
 
-// Инициализация задания
+/**
+ * Инициализирует задание: генерирует данные и создает интерфейс
+ */
 function initTask() {
-    // Генерируем случайные значения F
     fColumn = generateFColumn();
     correctCoefficients = zhegalkinPolynomial(fColumn);
     
-    // Заполняем таблицу истинности
+    // Заполнение таблицы истинности в DOM
     const tableBody = document.getElementById('tableBody');
     tableBody.innerHTML = '';
     
@@ -103,11 +109,12 @@ function initTask() {
         tableBody.appendChild(tr);
     });
     
-    // Создаем поля для ввода коэффициентов
+    // Создание полей для ввода коэффициентов
     const coefficientsInput = document.getElementById('coefficientsInput');
     coefficientsInput.innerHTML = '';
     userInputs = [];
     
+    // Конфигурация полей ввода коэффициентов
     const coefficients = [
         {label: "XYZ +", col: 1},
         {label: "XY +", col: 1},
@@ -119,6 +126,7 @@ function initTask() {
         {label: "1", col: 3}
     ];
     
+    // Создание DOM-элементов для каждого коэффициента
     coefficients.forEach((coeff, i) => {
         const group = document.createElement('div');
         group.className = 'coefficient-group';
@@ -139,31 +147,24 @@ function initTask() {
         coefficientsInput.appendChild(group);
     });
     
-    // Назначаем обработчик кнопки проверки
+    // Назначение обработчиков событий для кнопок
     document.getElementById('checkButton').addEventListener('click', checkSolution);
-    
-    // Создаем кнопку экспорта
     exportButton = document.getElementById('exportButton');
     exportButton.addEventListener('click', exportToPDF);
-
-    // Проверяем доступность jsPDF
-    if (typeof jsPDF === 'undefined') {
-        console.error('jsPDF не загружен!');
-        // Можно показать сообщение пользователю
-        const exportBtn = document.getElementById('exportButton');
-        exportBtn.disabled = true;
-        exportBtn.title = "Функция экспорта недоступна (не загружена библиотека)";
-    }
 }
 
+// Флаг для режима автоматического заполнения правильных ответов (для тестирования)
+const AUTO_FILL_MODE = true;
 
-// Проверка решения с автофиллом
+/**
+ * Проверяет решение пользователя
+ */
 function checkSolution() {
     const resultMessage = document.getElementById('resultMessage');
     let userCoefficients = [];
     let hasEmptyFields = false;
     
-    // Проверяем заполнение всех полей
+    // Проверка заполнения всех полей
     userInputs.forEach(input => {
         if (input.value.trim() === '') {
             hasEmptyFields = true;
@@ -173,11 +174,12 @@ function checkSolution() {
         }
     });
     
+    // Обработка незаполненных полей
     if (hasEmptyFields) {
         resultMessage.textContent = "Пожалуйста, заполните все поля!";
         resultMessage.className = "result-message error";
         
-        // Автозаполнение если включен режим
+        // Автозаполнение в тестовом режиме
         if (AUTO_FILL_MODE) {
             userInputs.forEach((input, i) => {
                 input.value = correctCoefficients[i];
@@ -189,17 +191,16 @@ function checkSolution() {
         return;
     }
     
-    // Собираем введенные коэффициенты
+    // Получение введенных пользователем коэффициентов
     userCoefficients = userInputs.map(input => {
         const value = input.value.trim();
         return value === '0' ? 0 : 1;
     });
     
-    // Проверяем правильность решения
+    // Проверка правильности решения
     const isCorrect = JSON.stringify(userCoefficients) === JSON.stringify(correctCoefficients);
     
     if (isCorrect || AUTO_FILL_MODE) {
-        // Если режим автозаполнения включен, заполняем правильные ответы
         if (AUTO_FILL_MODE && !isCorrect) {
             userInputs.forEach((input, i) => {
                 input.value = correctCoefficients[i];
@@ -207,13 +208,14 @@ function checkSolution() {
         }
         showSuccessResult();
     } else {
-        // Показываем ошибки
+        // Подсветка неверных коэффициентов
         userInputs.forEach((input, i) => {
             if (parseInt(input.value) !== correctCoefficients[i]) {
                 input.style.borderColor = "#ff0000";
             }
         });
         
+        // Вывод сообщения об ошибке с правильным ответом
         resultMessage.innerHTML = `
             Есть ошибки. Неверные коэффициенты подсвечены красным.<br><br>
             Правильный ответ:<br>
@@ -223,7 +225,9 @@ function checkSolution() {
     }
 }
 
-// Показывает успешный результат
+/**
+ * Отображает сообщение об успешном выполнении задания
+ */
 function showSuccessResult() {
     const resultMessage = document.getElementById('resultMessage');
     resultMessage.innerHTML = `
@@ -233,96 +237,64 @@ function showSuccessResult() {
     `;
     resultMessage.className = "result-message success";
     
-    // Показываем модальное окно
+    // Показ модального окна успеха
     document.getElementById('successModal').style.display = 'flex';
     
-    // Блокируем поля ввода
+    // Блокировка полей ввода после проверки
     userInputs.forEach(input => {
         input.disabled = true;
     });
     
-    // Заменяем кнопку проверки на кнопку экспорта
+    // Переключение видимости кнопок
     document.getElementById('checkButton').style.display = 'none';
     document.getElementById('exportButton').style.display = 'block';
-    
-    // Блокируем кнопку проверки
-    document.getElementById('checkButton').disabled = true;
-    
-    // Загружаем jsPDF и autoTable только когда нужно
-    if (typeof jsPDF === 'undefined') {
-        loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js', () => {
-            loadScript('https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js', () => {
-                // После загрузки скриптов можно использовать
-                window.jsPDF = window.jspdf.jsPDF;
-                exportButton.disabled = false;
-            });
-        });
-    }
 }
 
-// Функция для динамической загрузки скриптов
-function loadScript(url, callback) {
-    const script = document.createElement('script');
-    script.src = url;
-    script.onload = callback;
-    document.head.appendChild(script);
-}
-
-// Перезапуск задания
+/**
+ * Перезапускает задание (обновляет страницу)
+ */
 function restartTask() {
-    // Если есть модальное окно, скрываем его
-    const modal = document.getElementById('successModal');
-    if (modal) {
-        modal.style.display = 'none';
-    }
-    
-    // Перезагружаем страницу
     window.location.reload();
 }
 
-// Завершение задания
+/**
+ * Завершает задание и возвращает на главную страницу
+ */
 function finishTask() {
-    // Перенаправляем на главную страницу
     window.location.href = "index.html";
 }
 
+/**
+ * Экспортирует результаты в PDF-файл
+ */
 function exportToPDF() {
-    // Проверяем доступность jsPDF
+    // Проверка загрузки библиотеки jsPDF
     if (typeof jsPDF === 'undefined') {
-        console.error('jsPDF не загружен!');
         alert('PDF export is not available (jsPDF library not loaded)');
         return;
     }
 
-    // Создаем новый PDF документ
     const doc = new jsPDF();
     
-    // Добавляем заголовок
+    // Заголовок документа и дата генерации
     doc.setFontSize(18);
     doc.text('Zhegalkin Polynomial Solution', 105, 20, { align: 'center' });
     
-    // Добавляем дату и время в 24-часовом формате
     const now = new Date();
     const dateStr = now.toLocaleDateString('en-US');
-    const timeStr = now.toLocaleTimeString('en-US', { hour12: false, hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
     doc.setFontSize(12);
     doc.text(`Generated on: ${dateStr} at ${timeStr}`, 105, 30, { align: 'center' });
     
-    // Добавляем таблицу истинности
+    // Добавление таблицы истинности в PDF
     doc.setFontSize(14);
     doc.text('Truth Table', 105, 45, { align: 'center' });
     
-    // Подготавливаем данные таблицы
-    const tableData = [
-        ['X', 'Y', 'Z', 'F'] // Заголовки
-    ];
-    
-    // Заполняем данные таблицы
+    const tableData = [['X', 'Y', 'Z', 'F']];
     truthTable.forEach((row, i) => {
         tableData.push([...row, fColumn[i]]);
     });
     
-    // Генерируем таблицу
     doc.autoTable({
         startY: 50,
         head: [tableData[0]],
@@ -332,11 +304,10 @@ function exportToPDF() {
         headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }
     });
     
-    // Добавляем полином Жегалкина
+    // Добавление полинома Жегалкина в PDF
     doc.setFontSize(14);
     doc.text('Zhegalkin Polynomial', 105, doc.autoTable.previous.finalY + 15, { align: 'center' });
     
-    // Форматируем полином без кириллицы
     const terms = [
         correctCoefficients[0] ? 'XYZ' : '',
         correctCoefficients[1] ? 'XY' : '',
@@ -352,7 +323,7 @@ function exportToPDF() {
     doc.setFontSize(12);
     doc.text(polynomialStr, 105, doc.autoTable.previous.finalY + 25, { align: 'center' });
     
-    // Добавляем коэффициенты
+    // Добавление таблицы коэффициентов в PDF
     doc.setFontSize(14);
     doc.text('Coefficients', 105, doc.autoTable.previous.finalY + 40, { align: 'center' });
     
@@ -378,6 +349,6 @@ function exportToPDF() {
         headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }
     });
     
-    // Сохраняем PDF
-    doc.save('Zhegalkin_Polynomial.pdf');
+    // Сохранение PDF-файла
+    doc.save('Полином_Жегалкина_Результат.pdf');
 }
