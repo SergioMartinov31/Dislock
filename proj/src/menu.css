@@ -1,7 +1,9 @@
+/* Стили логотипа в меню */
 .logo {
     margin: auto;
 }
 
+/* Основное содержимое главной страницы */
 .main {
     display: flex;
     justify-content: center;
@@ -9,6 +11,7 @@
     flex-flow: column;
 }
 
+/* Контейнер контента */
 .content {
     min-height: 350px;
     display: flex;
@@ -20,6 +23,7 @@
     margin: 20px 0;
 }
 
+/* Стили основного текста */
 .main-text {
     margin: 15px 0;
     width: 100%;
@@ -31,10 +35,12 @@
         margin var(--transition-duration) var(--transition-easing);
 }
 
+/* Выделение жирным текста */
 .main-text strong {
     font-weight: 700;
 }
 
+/* Коррекция отступов для первого и последнего элементов */
 .main-text:first-child {
     margin-top: 0;
 }
@@ -43,6 +49,7 @@
     margin-bottom: 0;
 }
 
+/* Стили кнопки "Начать тестирование" */
 .main_btn_start {
     width: 100%;
     max-width: 400px;
@@ -59,10 +66,12 @@
         height var(--transition-duration) var(--transition-easing);
 }
 
+/* Эффект при наведении на кнопку */
 .main_btn_start:hover {
     transform: scale(1.02);
 }
 
+/* Адаптация для планшетов */
 @media (max-width: 992px) {
     .content {
         min-height: 300px;
@@ -79,6 +88,7 @@
     }
 }
 
+/* Адаптация для небольших планшетов */
 @media (max-width: 768px) {
     .content {
         min-height: 250px;
@@ -96,6 +106,7 @@
     }
 }
 
+/* Адаптация для мобильных устройств */
 @media (max-width: 576px) {
     .content {
         min-height: 200px;
@@ -114,6 +125,7 @@
     }
 }
 
+/* Адаптация для очень маленьких экранов */
 @media (max-width: 400px) {
     .main-text {
         font-size: 16px;
