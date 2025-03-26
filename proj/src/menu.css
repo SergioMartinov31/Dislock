@@ -49,29 +49,67 @@
     font-size: 25px;
 }
 
+/* ... (остальные стили без изменений до медиазапросов) ... */
+
+@media (max-width: 992px) {
+    .content {
+        min-height: 300px;
+        padding: 25px 30px;
+    }
+    
+    .main-text {
+        font-size: 22px;
+    }
+    
+    .main_btn_start {
+        font-size: 22px;
+        height: 80px;
+    }
+}
+
 @media (max-width: 768px) {
     .content {
         min-height: 250px;
         padding: 20px;
     }
-
+    
     .main-text {
-        font-size: 22px;
+        font-size: 20px;
+    }
+    
+    .main_btn_start {
+        font-size: 20px;
+        height: 70px;
+        max-width: 320px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .content {
         min-height: 200px;
         padding: 15px;
     }
-
+    
     .main-text {
         font-size: 18px;
     }
     
     .main_btn_start {
-        margin-top: 30px;
-        max-width: 300px;
+        font-size: 18px;
+        height: 60px;
+        max-width: 280px;
+        margin-top: 25px;
+    }
+}
+
+@media (max-width: 400px) {
+    .main-text {
+        font-size: 16px;
+    }
+    
+    .main_btn_start {
+        font-size: 16px;
+        height: 55px;
+        max-width: 250px;
     }
 }

@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Полином Жегалкина</title>
+  <!-- Подключение шрифтов и стилей -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
@@ -12,6 +13,7 @@
   <link rel="stylesheet" href="../src/task.css">
 </head>
 <body>
+  <!-- Шапка с кнопкой перезапуска -->
   <header class="header">
     <div class="container">
       <div class="header__inner">
@@ -21,13 +23,14 @@
     </div>
   </header>
 
+  <!-- Основное содержимое страницы -->
   <main class="main">
     <div class="container">
       <div class="content">
         <div class="task-content">
           
           <div class="task-wrapper">
-
+            <!-- Контейнер таблицы истинности -->
             <div class="truth-table-container">
                 <h2>Таблица истинности</h2>
                 <table class="truth-table" id="truthTable">
@@ -43,8 +46,8 @@
                 </table>
             </div>
 
+            <!-- Контейнер для ввода коэффициентов -->
             <div class="coefficients-container">
-
                 <h2>Коэффициенты полинома</h2>
                 <div class="coefficients-grid" id="coefficientsInput"></div>
 
@@ -54,40 +57,37 @@
                 </div>
                 
                 <div class="result-message" id="resultMessage"></div>
-            
-              </div>
-        </div>
-            
-      </div>
-          
-          
+            </div>
+          </div>
         </div>
       </div>
     </div>
   </main>
 
+  <!-- Подвал страницы -->
   <footer class="footer">
     <h4 class="footer-author">Дискретная математика</h4>
   </footer>
 
-<!-- Модальное окно успеха -->
-<div class="modal" id="successModal">
-  <div class="modal-content">
-      <h2>Задание успешно выполнено!</h2>
-      <div class="modal-buttons">
-          <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
-          <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
-          <button class="modal-result-btn" onclick="showResult()">Смотреть результат</button>
-      </div>
+  <!-- Модальное окно при успешном выполнении -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+        <h2>Задание успешно выполнено!</h2>
+        <div class="modal-buttons">
+            <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
+            <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
+            <button class="modal-result-btn" onclick="showResult()">Смотреть результат</button>
+        </div>
+    </div>
   </div>
-</div>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
-<script>
-    // Делаем jsPDF доступным глобально
-    window.jsPDF = window.jspdf.jsPDF;
-</script>
-<script src="../src/script.js"></script>
+  <!-- Подключение библиотек для генерации PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script>
+      window.jsPDF = window.jspdf.jsPDF;
+  </script>
+  <!-- Основной скрипт приложения -->
+  <script src="../src/script.js"></script>
 </body>
 </html>

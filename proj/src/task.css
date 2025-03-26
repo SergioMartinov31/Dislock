@@ -273,124 +273,9 @@ th {
     background-color: #39652d;
 }
 
-/* === Адаптация для экранов до 992px === */
-@media (max-width: 992px) {
-    .task-wrapper {
-        flex-direction: column;
-        align-items: center;
-        gap: 30px;
-    }
-    
-    .truth-table-container,
-    .coefficients-container {
-        width: 100%;
-        max-width: 500px;
-    }
-    
-    .coefficients-grid {
-        grid-template-columns: 1fr;
-    }
-
-    .coefficients-container {
-        order: 2; /* Перемещаем вниз на мобильных */
-    }
-    
-    .truth-table-container {
-        order: 1;
-    }
-    
-    .buttons-container {
-        margin: 20px 0;
-    }
-}
-
-/* Для мобильных устройств */
-@media (max-width: 768px) {
-    .content {
-        margin: 10px auto;
-        padding: 15px;
-    }
-    
-    .footer {
-        padding: 15px 0;
-    }
-}
-
-@media (max-width: 480px) {
-    .content {
-        margin: 5px auto;
-        padding: 10px;
-    }
-    
-    .footer {
-        padding: 10px 0;
-    }
-}
-
-/* === Адаптация для мобильных устройств (до 576px) === */
-@media (max-width: 576px) {
-    .content {
-        padding: 20px 10px;
-    }
-    
-    th, td {
-        padding: 8px;
-        font-size: 14px;
-    }
-
-    .truth-table-container h2,
-    .coefficients-container h2 {
-        font-size: 20px;
-        margin: 20px 0;
-    }
-    
-    .coefficient-input {
-        width: 40px;
-        font-size: 14px;
-    }
-    
-    .coefficient-label {
-        font-size: 14px;
-    }
-
-    .coefficients-grid {
-        margin-top: 15px;
-        grid-template-columns: repeat(2, 1fr);
-    }
-    
-    .coefficient-group {
-        margin: 2px 0;
-    }
-    
-    .check-button {
-        padding: 12px 30px;
-        font-size: 18px;
-    }
-    
-    .modal-content {
-        padding: 30px 20px;
-    }
-    
-    .modal-content h2 {
-        font-size: 24px;
-        padding-bottom: 10px;
-    }
-    
-    .modal-finish-btn,
-    .modal-result-btn {
-        padding: 10px 20px;
-        font-size: 16px;
-    }
-
-    .result-message {
-        margin: 0 auto 15px;
-        font-size: 14px;
-    }
-}
-
 /* Кнопка экспорта */
 .export-button {
-    background-color: #0a7b4e;
+    background-color: #3c7c2a;
     color: white;
     padding: 10px 30px;
     border: none;
@@ -404,7 +289,7 @@ th {
 }
 
 .export-button:hover {
-    background-color: #086141;
+    background-color: #2b5e1c;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -425,4 +310,224 @@ th {
 
 .modal-result-btn:hover {
     background-color: #336924;
+}
+
+/* Медиа-запросы */
+
+@media (max-width: 1000px) {
+
+    .coefficients-grid {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px 15px;
+        justify-content: center;
+    }
+
+    .coefficient-group {
+        margin: 0;
+        flex: 0 0 auto;
+    }
+
+    .coefficient-input {
+        width: 35px;
+        height: 30px;
+        font-size: 15px;
+        margin-right: 5px;
+    }
+
+    .coefficient-label {
+        font-size: 15px;
+    }
+
+}
+
+@media (max-width: 800px) {
+    /* Шапка */
+    .header__inner {
+        flex-direction: column;
+        gap: 15px;
+        align-items: stretch;
+    }
+    
+    .header-restart-btn {
+        width: 100%;
+        margin-bottom: 0;
+        order: 1;
+    }
+    
+    /* Основной контент */
+    .content {
+        padding: 20px;
+        margin: 10px auto;
+    }
+    
+    /* Расположение таблицы и коэффициентов */
+    .task-wrapper {
+        flex-direction: column;
+        gap: 30px;
+    }
+    
+    .truth-table-container, 
+    .coefficients-container {
+        flex: 1 1 100%;
+        max-width: 100%;
+    }
+    
+    /* Таблица истинности */
+    .truth-table {
+        margin: 15px auto;
+        width: 95%;
+    }
+    
+    th, td {
+        padding: 8px;
+        font-size: 14px;
+    }
+    
+    /* Коэффициенты */
+    .coefficients-grid {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 10px 15px;
+        justify-content: center;
+        margin-top: 20px;
+    }
+
+    .coefficient-group {
+        margin: 0;
+        flex: 0 0 auto;
+        white-space: nowrap;
+    }
+    
+    .coefficient-input {
+        width: 38px;
+        height: 30px;
+        font-size: 15px;
+    }
+    
+    .coefficient-label {
+        font-size: 15px;
+    }
+    
+    /* Кнопки */
+    .buttons-container {
+        margin: 20px 0;
+    }
+    
+    .check-button,
+    .export-button {
+        padding: 12px 25px;
+        font-size: 18px;
+        width: 100%;
+        max-width: 250px;
+    }
+    
+    /* Заголовки */
+    .truth-table-container h2,
+    .coefficients-container h2 {
+        font-size: 20px;
+        margin: 15px 0;
+        padding-bottom: 5px;
+    }
+    
+    .truth-table-container h2::after,
+    .coefficients-container h2::after {
+        width: 60px;
+    }
+    
+    /* Модальное окно */
+    .modal-content {
+        padding: 30px;
+    }
+    
+    .modal-content h2 {
+        font-size: 24px;
+        margin-bottom: 20px;
+        padding-bottom: 15px;
+    }
+}
+
+@media (max-width: 400px) {
+
+    .content {
+        padding: 12px;
+    }
+    
+    th, td {
+        padding: 6px;
+        font-size: 13px;
+    }
+    
+    .truth-table-container h2,
+    .coefficients-container h2 {
+        font-size: 18px;
+    }
+    
+    .coefficient-input {
+        width: 30px;
+        height: 25px;
+    }
+    
+    .check-button,
+    .export-button {
+        padding: 8px 15px;
+        font-size: 16px;
+    }
+    
+    .modal-content {
+        width: 95%;
+        padding: 20px 10px;
+    }
+
+    .result-message.success strong {
+        display: inline;
+        white-space: normal;
+        word-break: break-word;
+        text-align: left;
+    }
+    
+    .result-message {
+        padding: 5px;
+        text-align: left;
+    }
+    
+    .polynomial-wrap {
+        display: inline;
+        white-space: normal;
+    }
+    
+    .result-message, 
+    .result-message strong {
+        font-size: 14px;
+        line-height: 1.4;
+    }
+
+    .coefficients-grid {
+        display: flex !important;
+        flex-wrap: wrap;
+        gap: 8px;
+        margin-top: 15px;
+    }
+    
+    .coefficient-group {
+        margin: 0;
+        flex: 0 0 auto;
+    }
+    
+    .coefficient-input {
+        width: 30px;
+        height: 25px;
+        font-size: 14px;
+        margin-right: 3px;
+    }
+    
+    .coefficient-label {
+        font-size: 13px;
+    }
+    
+    .coefficients-container h2 {
+        font-size: 18px;
+        margin: 10px 0 5px;
+    }
+
 }

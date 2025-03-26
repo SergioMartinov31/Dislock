@@ -25,9 +25,10 @@ body {
     font-family: "Montserrat", sans-serif;
     display: flex;
     flex-direction: column;
-    min-height: 100vh; /* Изменяем height на min-height */
+    min-height: 100vh;
     margin: 0;
     overflow-x: hidden;
+    line-height: 1.5;
 }
 
 html {
@@ -36,7 +37,7 @@ html {
 
 main {
     flex: 1;
-    padding-bottom: 20px; /* Добавляем отступ снизу */
+    padding-bottom: 20px;
 }
 
 .container {
@@ -46,14 +47,14 @@ main {
 }
 
 .header {
-    padding-top: 20px;
+    padding: 20px 0;
 }
 
 .header__inner {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin: auto;
+    margin: 0 auto;
 }
 
 .logo {
@@ -61,6 +62,7 @@ main {
     font-size: 42px;
     font-weight: 900;
     color: #39652dda;
+    transition: all 0.3s ease;
 }
 
 .main_btn_start {
@@ -76,21 +78,24 @@ main {
     font-weight: 600;
     border: none;
     cursor: pointer;
+    transition: all 0.3s ease;
 }
 
 .main_btn_start:hover {
     background-color: #39652db3;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
 .footer {
     flex-shrink: 0;
-    height: auto; /* Меняем фиксированную высоту на auto */
-    padding: 20px 0; /* Добавляем отступы */
+    height: auto;
+    padding: 20px 0;
     background-color: #39652de2;
     display: flex;
     justify-content: center;
     align-items: center;
-    margin-top: auto; /* Это прижмет футер к низу */
+    margin-top: auto;
 }
 
 .footer-author {
@@ -109,73 +114,131 @@ main {
     background-color: #bdbdbd2d;
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    box-sizing: border-box;
+    transition: all 0.3s ease;
 }
 
 .main-text {
     font-size: 26px;
     font-weight: 600;
     color: rgb(102, 93, 93);
-    margin: 0;
-    margin-left: 20px;
+    margin: 0 0 0 20px;
+    line-height: 1.4;
 }
 
 .main-text ul {
     padding-left: 30px;
 }
 
-@media (max-width: 768px) {
+/* ===== Адаптация для планшетов ===== */
+@media (max-width: 992px) {
     .content {
-        padding: 15px;
-        margin: 10px auto 50px;
+        padding: 30px 20px;
+        margin: 15px auto;
     }
+    
+    .logo {
+        font-size: 38px;
+    }
+    
+    .main-text {
+        font-size: 24px;
+        margin-left: 15px;
+    }
+    
+    .main_btn_start {
+        height: 90px;
+        font-size: 20px;
+        max-width: 350px;
+    }
+    
+    .footer-author {
+        font-size: 22px;
+    }
+}
 
+/* ===== Адаптация для мобильных ===== */
+@media (max-width: 768px) {
+    .header__inner {
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .content {
+        padding: 20px 15px;
+        border-width: 3px;
+    }
+    
+    .logo {
+        font-size: 34px;
+    }
+    
     .main-text {
         font-size: 22px;
         margin-left: 10px;
     }
-
+    
     .main_btn_start {
-        max-width: 300px;
         height: 80px;
-        font-size: 20px;
+        font-size: 18px;
+        max-width: 300px;
     }
-
-    .logo {
-        font-size: 36px;
+    
+    .footer-author {
+        font-size: 20px;
     }
 }
 
-@media (max-width: 480px) {
+@media (max-width: 576px) {
     .content {
-        padding: 10px;
-        margin: 5px auto 30px;
+        padding: 15px 10px;
+        margin: 10px auto;
+        border-width: 2px;
     }
-
+    
+    .logo {
+        font-size: 30px;
+    }
+    
     .main-text {
         font-size: 18px;
         margin-left: 5px;
     }
-
-    .main-text ul {
-        padding-left: 20px;
-    }
-
+    
     .main_btn_start {
-        max-width: 250px;
-        height: 60px;
+        height: 70px;
+        font-size: 16px;
+        max-width: 280px;
+    }
+    
+    .footer {
+        padding: 15px 0;
+    }
+    
+    .footer-author {
         font-size: 18px;
     }
+}
 
+@media (max-width: 400px) {
+    .content {
+        padding: 12px;
+    }
+    
     .logo {
-        font-size: 28px;
+        font-size: 26px;
     }
-
+    
+    .main-text {
+        font-size: 16px;
+    }
+    
+    .main_btn_start {
+        height: 60px;
+        max-width: 250px;
+    }
+    
     .footer-author {
-        font-size: 20px;
-    }
-
-    .footer {
-        height: 80px;
+        font-size: 16px;
     }
 }
