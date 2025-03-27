@@ -220,7 +220,7 @@ main {
 }
 
 /* ===== Адаптация для мобильных ===== */
-@media (max-width: 800px) {
+@media (max-width: 600px) {
     .header__inner {
         flex-direction: column;
         gap: 15px;
