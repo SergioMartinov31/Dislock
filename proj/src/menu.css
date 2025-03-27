@@ -6,9 +6,10 @@
 /* Основное содержимое главной страницы */
 .main {
     display: flex;
-    justify-content: center;
+    justify-content: flex-start; /* Изменено для вытянутых экранов */
     align-items: center;
     flex-flow: column;
+    padding-top: 20px; /* Добавлено для вытянутых экранов */
 }
 
 /* Контейнер контента */
@@ -75,69 +76,125 @@
     transform: scale(1.02);
 }
 
-/* Адаптация для планшетов */
-@media (max-width: 992px) {
+/* ===== Адаптация для больших телефонов (1080px и меньше) ===== */
+@media (max-width: 1080px) {
     .content {
-        min-height: 40vh;
-        padding: 50px 25px;
+        min-height: 20vh;
+        padding: 40px 20px;
     }
     
     .main-text {
         font-size: 22px;
+        margin: 12px 0;
     }
     
     .main_btn_start {
         font-size: 22px;
         height: 80px;
+        max-width: 350px;
+        margin-top: 30px;
     }
 }
 
-/* Адаптация для небольших планшетов */
-@media (max-width: 768px) {
+/* ===== Адаптация для средних телефонов (720px и меньше) ===== */
+@media (max-width: 720px) {
     .content {
-        min-height: 35vh;
-        padding: 20px;
+        min-height: 20vh;
+        padding: 30px 15px;
+        border-width: 3px;
     }
     
     .main-text {
         font-size: 20px;
+        margin: 10px 0;
     }
     
     .main_btn_start {
         font-size: 20px;
         height: 70px;
-        max-width: 320px;
-    }
-}
-
-/* Адаптация для мобильных устройств */
-@media (max-width: 576px) {
-    .content {
-        min-height: 30vh;
-        padding: 15px;
-    }
-    
-    .main-text {
-        font-size: 18px;
-    }
-    
-    .main_btn_start {
-        font-size: 18px;
-        height: 60px;
-        max-width: 280px;
+        max-width: 300px;
         margin-top: 25px;
     }
 }
 
-/* Адаптация для очень маленьких экранов */
-@media (max-width: 400px) {
-    .main-text {
-        font-size: 16px;
+/* ===== Адаптация main-контейнера для вытянутых экранов ===== */
+@media (max-aspect-ratio: 9/16) {
+    .main {
+        flex: 1;
+        padding-top: 5vh;
+        justify-content: flex-start;
+        min-height: auto;
+    }
+    
+    .content {
+        max-height: 70vh;
+        overflow-y: auto;
+        margin: 2vh auto;
     }
     
     .main_btn_start {
-        font-size: 16px;
-        height: 55px;
-        max-width: 250px;
+        margin-top: 3vh;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 600px) {
+    .main {
+        padding-top: 2vh;
+    }
+    
+    .content {
+        max-height: 65vh;
+        margin: 1vh auto;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 400px) {
+    .content {
+        max-height: 60vh;
+    }
+}
+
+/* Адаптация футера для маленьких экранов */
+@media (max-width: 480px) {
+    .footer {
+        padding: 15px 0;
+    }
+    
+    .footer-author {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .footer {
+        padding: 12px 0;
+    }
+    
+    .footer-author {
+        font-size: 18px;
+    }
+}
+
+/* ===== Адаптация для ландшафтной ориентации ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .main {
+        padding-top: 5px;
+    }
+    
+    .content {
+        padding: 10px;
+        margin-top: 0;
+        max-height: 90vh;
+    }
+    
+    .main-text {
+        font-size: 14px;
+        margin: 3px 0;
+    }
+    
+    .main_btn_start {
+        height: 40px;
+        font-size: 14px;
+        margin-top: 10px;
     }
 }

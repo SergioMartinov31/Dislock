@@ -106,12 +106,12 @@ main {
     font-weight: 900;
     color: #39652dda;
     transition: all 0.5s ease;
-    margin-right: auto; /* Логотип прижат к левому краю */
+    margin-right: auto;
 }
 
 .header-restart-btn {
     transition: opacity 0.5s ease;
-    margin-left: auto; /* Кнопка остается справа */
+    margin-left: auto;
 }
 
 /* Стили основной кнопки "Начать тестирование" */
@@ -305,5 +305,38 @@ main {
     
     .footer-author {
         font-size: 16px;
+    }
+}
+
+/* ===== Адаптация футера для вытянутых экранов ===== */
+@media (max-aspect-ratio: 9/16) {
+    .footer {
+        position: relative;
+        margin-top: 2vh;
+        padding: 12px 0;
+    }
+    
+    .footer-author {
+        font-size: 18px;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 600px) {
+    .footer {
+        padding: 10px 0;
+    }
+    
+    .footer-author {
+        font-size: 16px;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 400px) {
+    .footer {
+        padding: 8px 0;
+    }
+    
+    .footer-author {
+        font-size: 14px;
     }
 }

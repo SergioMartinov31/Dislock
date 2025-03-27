@@ -94,7 +94,7 @@ th {
 .coefficients-grid {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 10px;
+    gap: 10px;  
     margin-top: 40px;
     transition: grid-template-columns var(--transition-duration) var(--transition-easing),
                 display var(--transition-duration) var(--transition-easing);
