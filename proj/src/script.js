@@ -228,7 +228,7 @@ function handleKeyNavigation(event) {
 }
 
 // Флаг для режима автоматического заполнения правильных ответов (для тестирования)
-const AUTO_FILL_MODE = false;
+const AUTO_FILL_MODE = true;
 
 /**
  * Проверяет решение пользователя
