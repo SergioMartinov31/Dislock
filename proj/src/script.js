@@ -382,24 +382,31 @@ function exportToPDF() {
 
     // --- Основное содержимое ---
     doc.setTextColor(0, 0, 0);
-    doc.setFontSize(24);
+    doc.setFontSize(25);
     doc.text("Полином Жегалкина", pageWidth / 2, 30, { align: "center" });
     doc.setLineWidth(0.5);
     doc.line(20, 35, pageWidth - 20, 35);
 
     // Добавляем дату и время
     const now = new Date();
-    doc.setFontSize(12);
+    doc.setFontSize(16);
     doc.text(`Дата и время: ${now.toLocaleDateString()} в ${now.toLocaleTimeString()}`, pageWidth / 2, 45, { align: "center" });
 
+    // Добавляем данные пользователя (сдвинуты ниже)
+    const studentFIO = sessionStorage.getItem('studentFIO');
+    const studentGroup = sessionStorage.getItem('studentGroup');
+    
+    doc.setFontSize(16);
+    doc.text(`ФИО: ${studentFIO}`, 20, 60);
+    doc.text(`Группа: ${studentGroup}`, 20, 70);
+
     // --- Информация о времени выполнения ---
-    // Используем сохранённое время проверки (window.checkTime)
-    const timeSpent = Math.floor((window.checkTime - startTime) / 1000); // в секундах
+    const timeSpent = Math.floor((window.checkTime - startTime) / 1000);
     const minutes = Math.floor(timeSpent / 60);
     const seconds = timeSpent % 60;
     
-    doc.setFontSize(14);
-    doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 60);
+    doc.setFontSize(18);
+    doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 85);
 
     // --- Таблица истинности и полином в одну строку ---
     const tableData = [['X', 'Y', 'Z', 'F']];
@@ -409,13 +416,13 @@ function exportToPDF() {
 
     // Таблица истинности (шире и компактнее)
     doc.autoTable({
-        startY: 70,
+        startY: 95, // Сдвигаем таблицу ниже
         head: [tableData[0]],
         body: tableData.slice(1),
-        margin: { left: 20, right: 110 }, // Правое поле уменьшено для полинома
-        tableWidth: 100, // Ширина таблицы увеличена
+        margin: { left: 20, right: 110 },
+        tableWidth: 100,
         styles: { 
-            fontSize: 9,
+            fontSize: 14,
             cellPadding: 3,
             font: "DejaVuSans",
             cellWidth: 'wrap'
@@ -426,20 +433,20 @@ function exportToPDF() {
             fontStyle: 'bold'
         },
         columnStyles: {
-            0: { cellWidth: 15 }, // Ширина колонки X
-            1: { cellWidth: 15 }, // Ширина колонки Y
-            2: { cellWidth: 15 }, // Ширина колонки Z
-            3: { cellWidth: 15 }  // Ширина колонки F
+            0: { cellWidth: 15 },
+            1: { cellWidth: 15 },
+            2: { cellWidth: 15 },
+            3: { cellWidth: 15 }
         }
     });
 
     // Полином Жегалкина справа от таблицы
     const polynomialStr = formatPolynomial(correctCoefficients);
+    doc.setFontSize(18);
+    doc.text("Полином:", 120, 100); // Сдвигаем вместе с таблицей
     doc.setFontSize(16);
-    doc.text("Полином:", 120, 75);
-    doc.setFontSize(14);
-    doc.text(polynomialStr, 120, 85, { maxWidth: 75 });
+    doc.text(polynomialStr, 120, 110, { maxWidth: 75 });
 
     // --- Сохраняем PDF ---
-    doc.save(`Полином_Жегалкина_${now.toISOString().slice(0,10)}.pdf`);
+    doc.save(`${studentGroup}_${studentFIO}_Полином_Жегалкина.pdf`);
 }

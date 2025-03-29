@@ -192,6 +192,15 @@ main {
     padding-left: 30px;
 }
 
+.login-form {
+    animation: fadeIn 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
 /* ===== Адаптация для планшетов ===== */
 @media (max-width: 992px) {
     .content {

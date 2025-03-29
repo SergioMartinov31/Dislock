@@ -19,6 +19,14 @@
   <link rel="stylesheet" href="../src/menu.css">
 </head>
 <body>
+
+  <script>
+    // Проверяем, заполнены ли данные пользователя
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+      window.location.href = "login.html";
+    }
+  </script>
+  
   <!-- Шапка сайта с логотипом -->
   <header class="header">
     <div class="container">
