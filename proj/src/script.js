@@ -4,6 +4,7 @@ let fColumn = []; // Массив значений функции F
 let correctCoefficients = []; // Правильные коэффициенты полинома Жегалкина
 let userInputs = []; // Ссылки на DOM-элементы полей ввода пользователя
 let exportButton; // Ссылка на кнопку экспорта
+let startTime; // Время начала тестирования
 
 /**
  * Генерирует случайные значения для столбца F таблицы истинности
@@ -87,6 +88,10 @@ document.addEventListener('DOMContentLoaded', function() {
  * Инициализирует задание: генерирует данные и создает интерфейс
  */
 function initTask() {
+    fColumn = generateFColumn();
+    correctCoefficients = zhegalkinPolynomial(fColumn);
+
+    startTime = new Date(); // Записываем время начала
     fColumn = generateFColumn();
     correctCoefficients = zhegalkinPolynomial(fColumn);
 
@@ -237,6 +242,8 @@ function checkSolution() {
     const resultMessage = document.getElementById('resultMessage');
     let userCoefficients = [];
     let hasEmptyFields = false;
+
+    window.checkTime = new Date(); // Сохраняем время проверки
     
     // Проверка заполнения всех полей
     userInputs.forEach(input => {
@@ -345,87 +352,94 @@ function finishTask() {
  * Экспортирует результаты в PDF-файл
  */
 function exportToPDF() {
-    // Проверка загрузки библиотеки jsPDF
-    if (typeof jsPDF === 'undefined') {
-        alert('PDF export is not available (jsPDF library not loaded)');
-        return;
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+
+    // Добавляем шрифт DejaVuSans для поддержки кириллицы
+    doc.addFileToVFS("DejaVuSans.ttf", dejavuSans);
+    doc.addFont("DejaVuSans.ttf", "DejaVuSans", "normal");
+    doc.setFont("DejaVuSans");
+
+    const pageWidth = doc.internal.pageSize.getWidth();
+    const pageHeight = doc.internal.pageSize.getHeight();
+
+    // --- Стилизованный фон с рамкой ---
+    doc.setFillColor(255, 255, 255);
+    doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'F');
+    doc.setDrawColor(57, 101, 45);
+    doc.setLineWidth(2);
+    doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'S');
+
+    // --- Водяные знаки ---
+    doc.setTextColor(220, 220, 220);
+    doc.setFontSize(16);
+    const xInc = 30, yInc = 30;
+    for (let x = -pageWidth; x < pageWidth * 2; x += xInc) {
+        for (let y = -pageHeight; y < pageHeight * 2; y += yInc) {
+            doc.text("VERIFIED", x, y, { angle: 45, align: "center" });
+        }
     }
 
-    const doc = new jsPDF();
-    
-    // Заголовок документа и дата генерации
-    doc.setFontSize(18);
-    doc.text('Zhegalkin Polynomial Solution', 105, 20, { align: 'center' });
-    
+    // --- Основное содержимое ---
+    doc.setTextColor(0, 0, 0);
+    doc.setFontSize(24);
+    doc.text("Полином Жегалкина", pageWidth / 2, 30, { align: "center" });
+    doc.setLineWidth(0.5);
+    doc.line(20, 35, pageWidth - 20, 35);
+
+    // Добавляем дату и время
     const now = new Date();
-    const dateStr = now.toLocaleDateString('en-US');
-    const timeStr = now.toLocaleTimeString('en-US', { hour12: false });
     doc.setFontSize(12);
-    doc.text(`Generated on: ${dateStr} at ${timeStr}`, 105, 30, { align: 'center' });
+    doc.text(`Дата и время: ${now.toLocaleDateString()} в ${now.toLocaleTimeString()}`, pageWidth / 2, 45, { align: "center" });
+
+    // --- Информация о времени выполнения ---
+    // Используем сохранённое время проверки (window.checkTime)
+    const timeSpent = Math.floor((window.checkTime - startTime) / 1000); // в секундах
+    const minutes = Math.floor(timeSpent / 60);
+    const seconds = timeSpent % 60;
     
-    // Добавление таблицы истинности в PDF
     doc.setFontSize(14);
-    doc.text('Truth Table', 105, 45, { align: 'center' });
-    
+    doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 60);
+
+    // --- Таблица истинности и полином в одну строку ---
     const tableData = [['X', 'Y', 'Z', 'F']];
     truthTable.forEach((row, i) => {
         tableData.push([...row, fColumn[i]]);
     });
-    
+
+    // Таблица истинности (шире и компактнее)
     doc.autoTable({
-        startY: 50,
+        startY: 70,
         head: [tableData[0]],
         body: tableData.slice(1),
-        margin: { horizontal: 15 },
-        styles: { fontSize: 10, cellPadding: 3 },
-        headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }
+        margin: { left: 20, right: 110 }, // Правое поле уменьшено для полинома
+        tableWidth: 100, // Ширина таблицы увеличена
+        styles: { 
+            fontSize: 9,
+            cellPadding: 3,
+            font: "DejaVuSans",
+            cellWidth: 'wrap'
+        },
+        headStyles: { 
+            fillColor: [57, 101, 45],
+            textColor: [255, 255, 255],
+            fontStyle: 'bold'
+        },
+        columnStyles: {
+            0: { cellWidth: 15 }, // Ширина колонки X
+            1: { cellWidth: 15 }, // Ширина колонки Y
+            2: { cellWidth: 15 }, // Ширина колонки Z
+            3: { cellWidth: 15 }  // Ширина колонки F
+        }
     });
-    
-    // Добавление полинома Жегалкина в PDF
+
+    // Полином Жегалкина справа от таблицы
+    const polynomialStr = formatPolynomial(correctCoefficients);
+    doc.setFontSize(16);
+    doc.text("Полином:", 120, 75);
     doc.setFontSize(14);
-    doc.text('Zhegalkin Polynomial', 105, doc.autoTable.previous.finalY + 15, { align: 'center' });
-    
-    const terms = [
-        correctCoefficients[0] ? 'XYZ' : '',
-        correctCoefficients[1] ? 'XY' : '',
-        correctCoefficients[2] ? 'XZ' : '',
-        correctCoefficients[3] ? 'YZ' : '',
-        correctCoefficients[4] ? 'X' : '',
-        correctCoefficients[5] ? 'Y' : '',
-        correctCoefficients[6] ? 'Z' : '',
-        correctCoefficients[7] ? '1' : ''
-    ].filter(term => term !== '');
-    
-    const polynomialStr = terms.join(' + ') || '0';
-    doc.setFontSize(12);
-    doc.text(polynomialStr, 105, doc.autoTable.previous.finalY + 25, { align: 'center' });
-    
-    // Добавление таблицы коэффициентов в PDF
-    doc.setFontSize(14);
-    doc.text('Coefficients', 105, doc.autoTable.previous.finalY + 40, { align: 'center' });
-    
-    const coeffData = [
-        ['Term', 'Value'],
-        ['XYZ', correctCoefficients[0]],
-        ['XY', correctCoefficients[1]],
-        ['XZ', correctCoefficients[2]],
-        ['YZ', correctCoefficients[3]],
-        ['X', correctCoefficients[4]],
-        ['Y', correctCoefficients[5]],
-        ['Z', correctCoefficients[6]],
-        ['1', correctCoefficients[7]]
-    ];
-    
-    doc.autoTable({
-        startY: doc.autoTable.previous.finalY + 45,
-        head: [coeffData[0]],
-        body: coeffData.slice(1),
-        margin: { horizontal: 60 },
-        styles: { fontSize: 10, cellPadding: 3 },
-        columnStyles: { 1: { cellWidth: 30 } },
-        headStyles: { fillColor: [200, 200, 200], textColor: [0, 0, 0] }
-    });
-    
-    // Сохранение PDF-файла
-    doc.save('Полином_Жегалкина_Результат.pdf');
+    doc.text(polynomialStr, 120, 85, { maxWidth: 75 });
+
+    // --- Сохраняем PDF ---
+    doc.save(`Полином_Жегалкина_${now.toISOString().slice(0,10)}.pdf`);
 }
