@@ -40,11 +40,6 @@
         margin var(--transition-duration) var(--transition-easing);
 }
 
-/* Выделение жирным текста */
-.main-text strong {
-    font-weight: 700;
-}
-
 /* Коррекция отступов для первого и последнего элементов */
 .main-text:first-child {
     margin-top: 0;
