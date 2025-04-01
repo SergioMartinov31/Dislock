@@ -1,46 +1,179 @@
+/* menu.css */
 .logo {
-    margin: auto;
+  margin: auto;
 }
 
 .main {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-flow: column;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-flow: column;
+  padding-top: 20px;
 }
 
 .content {
-    min-height: 600px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+  padding: 50px 25px;
+  border: 4px solid #39652df8;
+  background-color: #bdbdbd2d;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  transition: all 0.3s ease;
+  animation: fadeIn 0.5s var(--transition-easing);
 }
 
 .main-text {
-    margin-top: 50px;
+  margin: 15px 0;
+  width: 100%;
+  max-width: 800px;
+  padding: 0;
+  text-align: left;
+  font-size: 26px;
+  font-weight: 600;
+  color: rgb(102, 93, 93);
+}
+
+.main-text:first-child {
+  margin-top: 0;
+}
+
+.main-text:last-child {
+  margin-bottom: 0;
 }
 
 .main-text ul {
-    margin: 30px 0;
+  margin: 30px 0;
+  padding-left: 30px;
 }
 
 .main_btn_start {
-    width: 100%;
+  width: 100%;
+  max-width: 400px;
+  margin: 40px auto 0;
+  align-self: center;
+  font-weight: 700;
+  font-size: 25px;
+  height: 100px;
+  background-color: #39652de2;
+  color: white;
+  border-radius: 15px;
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 768px) {
-    .content {
-        min-height: 500px;
-    }
-
-    .main-text {
-        margin-top: 30px;
-    }
+.main_btn_start:hover {
+  background-color: #39652db3;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-@media (max-width: 480px) {
-    .content {
-        min-height: 400px;
-    }
+/* Адаптация для больших телефонов (1080px и меньше) */
+@media (max-width: 1080px) {
+  .content {
+      min-height: 20vh;
+      padding: 40px 20px;
+  }
+  
+  .main-text {
+      font-size: 25px;
+      margin: 12px 0;
+  }
+  
+  .main_btn_start {
+      font-size: 22px;
+      height: 80px;
+      max-width: 350px;
+      margin-top: 30px;
+  }
+}
 
-    .main-text {
-        margin-top: 20px;
-    }
+/* Адаптация для средних телефонов (720px и меньше) */
+@media (max-width: 720px) {
+  .content {
+      min-height: 20vh;
+      padding: 30px 15px;
+      border-width: 3px;
+  }
+  
+  .main-text {
+      font-size: 18px;
+      margin: 10px 0;
+  }
+  
+  .main_btn_start {
+      font-size: 20px;
+      height: 70px;
+      max-width: 300px;
+      margin-top: 25px;
+  }
+}
+
+/* Адаптация для вытянутых экранов */
+@media (max-aspect-ratio: 9/16) {
+  .main {
+      flex: 1;
+      padding-top: 5vh;
+      justify-content: flex-start;
+      min-height: auto;
+  }
+  
+  .content {
+      max-height: 70vh;
+      overflow-y: auto;
+      margin: 2vh auto;
+  }
+
+  .main-text {
+      font-size: 18px;
+      margin: 10px 0;
+  }
+  
+  .main_btn_start {
+      margin-top: 3vh;
+  }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 720px) {
+  .main {
+      padding-top: 2vh;
+  }
+  
+  .content {
+      max-height: 65vh;
+      margin: 1vh auto;
+  }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 400px) {
+  .content {
+      max-height: 60vh;
+  }
+}
+
+/* Адаптация для ландшафтной ориентации */
+@media (orientation: landscape) and (max-height: 500px) {
+  .main {
+      padding-top: 5px;
+  }
+  
+  .content {
+      padding: 10px;
+      margin-top: 0;
+      max-height: 100vh;
+  }
+  
+  .main-text {
+      font-size: 20px;
+      margin: 3px 0;
+  }
+  
+  .main_btn_start {
+      height: 50px;
+      font-size: 20px;
+      margin-top: 5vh;
+  }
 }

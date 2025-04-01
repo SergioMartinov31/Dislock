@@ -1,70 +1,102 @@
+<!-- task.html -->
 <!DOCTYPE html>
 <html lang="ru">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Критерий Поста</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap"
-        rel="stylesheet"
-    />
-    <link
-        rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css"
-    />
-    <link rel="stylesheet" href="../src/common.css" />
-    <link rel="stylesheet" href="../src/task.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Критерий Поста</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.8.2/jspdf.plugin.autotable.min.js"></script>
+  <script>window.jsPDF = window.jspdf.jsPDF;</script>
+  <script src="../src/DejaVuSans-normal.js"></script>
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/task.css">
 </head>
 <body>
-    <header class="header">
-        <div class="container">
-            <div class="header__inner">
-                <h1 class="logo">Критерий Поста</h1>
-                <button onclick="restartTask()" class="header-restart-btn">Начать заново</button>
-            </div>
+  <script>
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+      window.location.href = "login.html";
+    }
+  </script>
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <h1 class="logo">Критерий Поста</h1>
+        <div>
+          <button class="header-restart-btn" onclick="restartTask()">Начать заново</button>
+          <button class="header-restart-btn" onclick="showDevModePrompt()">Режим разработчика</button>
         </div>
-    </header>
-    <main class="main">
-        <div class="container">
-            <div class="content">
-                <p class="main-text">Функция: <span id="funcDisplay"></span></p>
-                <h2 class="main-text">Таблица истинности</h2>
-                <table id="truthTable"></table>
-                <div class="button-container">
-                    <button class="main_btn_start" onclick="checkTruthTable()">Проверить</button>
-                </div>
-            </div>
-            <div id="postSection" style="display: none;">
-                <div class="content">
-                    <h2 class="main-text">Таблица Поста</h2>
-                    <table id="postTable"></table>
-                    <div class="button-container">
-                        <button class="main_btn_start" onclick="checkPostTable()">Проверить</button>
-                    </div>
-                </div>
-            </div>
-            <div id="questionsSection" style="display: none;">
-                <div class="content">
-                    <h2 class="main-text">Вопросы</h2>
-                    <div id="questions"></div>
-                </div>
-            </div>
-        </div>
-    </main>
-    <footer class="footer">
-        <h4 class="footer-author">Дискретная математика</h4>
-    </footer>
-
-    <!-- Модальное окно -->
-    <div id="successModal" class="modal">
-        <div class="modal-content">
-            <h2>Ты справился!</h2>
-            <button onclick="finishTask()" class="modal-finish-btn">Завершить выполнение</button>
-        </div>
+      </div>
     </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <p class="main-text">Функции: <span id="funcDisplay"></span></p>
+        <div class="truth-table-container">
+          <h2>Таблица истинности</h2>
+          <table class="truth-table" id="truthTable"></table>
+          <div class="buttons-container">
+            <button class="check-button" id="checkTruthButton" onclick="checkTruthTable()">Проверить</button>
+          </div>
+          <div class="result-message" id="truthResult"></div>
+        </div>
+      </div>
+      <div id="postSection" style="display: none;">
+        <div class="content">
+          <div class="coefficients-container">
+            <h2>Таблица Поста</h2>
+            <table class="truth-table" id="postTable"></table>
+            <div class="buttons-container">
+              <button class="check-button" id="checkPostButton" onclick="checkPostTable()">Проверить</button>
+            </div>
+            <div class="result-message" id="postResult"></div>
+          </div>
+        </div>
+      </div>
+      <div id="questionsSection" style="display: none;">
+        <div class="content">
+          <div class="questions-container">
+            <h2>Вопросы</h2>
+            <div id="questions" class="coefficients-grid"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
 
-    <script src="../src/script.js"></script>
+  <div id="successModal" class="modal">
+    <div class="modal-content">
+      <h2>Задание успешно выполнено!</h2>
+      <div class="modal-buttons">
+        <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
+        <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
+        <button class="modal-export-btn" onclick="exportToPDF()">Экспорт в PDF</button>
+      </div>
+    </div>
+  </div>
+
+  <div id="devModeModal" class="modal" style="display: none;">
+    <div class="modal-content">
+      <h2>Вход в режим разработчика</h2>
+      <div class="form-group">
+        <label for="devPassword">Введите пароль:</label>
+        <input type="password" id="devPassword" placeholder="Пароль">
+      </div>
+      <div class="modal-buttons">
+        <button class="modal-finish-btn" onclick="enterDevMode()">Войти</button>
+        <button class="modal-finish-btn" onclick="closeDevModePrompt()">Отмена</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="../src/script.js"></script>
 </body>
 </html>

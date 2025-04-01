@@ -4,6 +4,9 @@ let truthTableData = [];
 let postTableData = [];
 let questions = [];
 let isTaskFailed = false;
+let startTime;
+let isDevMode = false;
+const DEV_PASSWORD = "dev123"; // Пароль для входа в режим разработчика
 
 function randomFunc() {
     console.log('randomFunc called');
@@ -40,6 +43,78 @@ function truthTable() {
     renderTruthTable();
 }
 
+function setupTruthTableNavigation() {
+    const inputs = document.querySelectorAll('#truthTable input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', (e) => {
+            const row = Math.floor(index / 3); // 3 столбца в таблице истинности
+            const col = index % 3;
+            let newIndex = index;
+
+            if (e.key === 'ArrowUp' && row > 0) {
+                newIndex = index - 3; // Переход на строку выше
+            } else if (e.key === 'ArrowDown' && row < 3) {
+                newIndex = index + 3; // Переход на строку ниже
+            } else if (e.key === 'ArrowLeft' && col > 0) {
+                newIndex = index - 1; // Переход на столбец левее
+            } else if (e.key === 'ArrowRight' && col < 2) {
+                newIndex = index + 1; // Переход на столбец правее
+            }
+
+            if (newIndex !== index) {
+                inputs[newIndex].focus();
+                e.preventDefault();
+            }
+        });
+    });
+}
+
+function setupPostTableNavigation() {
+    const inputs = document.querySelectorAll('#postTable input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', (e) => {
+            const row = Math.floor(index / 5); // 5 столбцов в таблице Поста
+            const col = index % 5;
+            let newIndex = index;
+
+            if (e.key === 'ArrowUp' && row > 0) {
+                newIndex = index - 5; // Переход на строку выше
+            } else if (e.key === 'ArrowDown' && row < 2) {
+                newIndex = index + 5; // Переход на строку ниже
+            } else if (e.key === 'ArrowLeft' && col > 0) {
+                newIndex = index - 1; // Переход на столбец левее
+            } else if (e.key === 'ArrowRight' && col < 4) {
+                newIndex = index + 1; // Переход на столбец правее
+            }
+
+            if (newIndex !== index) {
+                inputs[newIndex].focus();
+                e.preventDefault();
+            }
+        });
+    });
+}
+
+function setupQuestionsNavigation() {
+    const inputs = document.querySelectorAll('#questions input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', (e) => {
+            let newIndex = index;
+
+            if (e.key === 'ArrowUp' && index > 0) {
+                newIndex = index - 1; // Переход к предыдущему вопросу
+            } else if (e.key === 'ArrowDown' && index < inputs.length - 1) {
+                newIndex = index + 1; // Переход к следующему вопросу
+            }
+
+            if (newIndex !== index) {
+                inputs[newIndex].focus();
+                e.preventDefault();
+            }
+        });
+    });
+}
+
 function renderTruthTable() {
     console.log('renderTruthTable called');
     const table = document.getElementById('truthTable');
@@ -61,7 +136,58 @@ function renderTruthTable() {
         tbody += '</tr>';
     });
     table.innerHTML = thead + tbody;
+    setupTruthTableNavigation();
+    if (isDevMode) autoFillTruthTable(); // Автозаполнение в режиме разработчика
     console.log('Table rendered:', table.innerHTML);
+}
+
+function renderPostTable() {
+    const table = document.getElementById('postTable');
+    table.innerHTML = '';
+    let thead = '<tr><th></th><th>T0</th><th>T1</th><th>L</th><th>M</th><th>S</th></tr>';
+    let tbody = '';
+    func.forEach((op, rowIdx) => {
+        tbody += `<tr><td>${op}</td>`;
+        for (let colIdx = 0; colIdx < 5; colIdx++) {
+            tbody += `<td><input type="text" id="post_${rowIdx}_${colIdx}" placeholder="+/-"></td>`;
+        }
+        tbody += '</tr>';
+    });
+    table.innerHTML = thead + tbody;
+    setupPostTableNavigation();
+    if (isDevMode) autoFillPostTable(); // Автозаполнение в режиме разработчика
+}
+
+function renderQuestions() {
+    const div = document.getElementById('questions');
+    if (!div) {
+        console.error('Questions div not found');
+        return;
+    }
+    div.innerHTML = '';
+    if (questions.length === 0) {
+        div.innerHTML = '<p>Все функции удовлетворяют условиям монотонности и самодвойственности!</p>';
+        console.log('No questions to display');
+        return;
+    }
+    questions.forEach((q, idx) => {
+        let label;
+        if (q.type === 'M') {
+            label = `Какие пары нарушают монотонность для ${q.op}?`;
+        } else if (q.type === 'S') {
+            label = `Какие пары показывают, что ${q.op} не самодвойственна?`;
+        }
+        div.innerHTML += `
+            <div class="coefficient-group">
+                <p>${label}</p>
+                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? 'например, 1 2' : ''}" oninput="resetButton(${idx})">
+                <button class="check-button" onclick="checkAnswer(${idx})">Проверить</button>
+            </div>
+        `;
+    });
+    setupQuestionsNavigation();
+    if (isDevMode) autoFillQuestions(); // Автозаполнение в режиме разработчика
+    console.log('Rendered questions:', questions);
 }
 
 function checkTruthTable() {
@@ -82,11 +208,11 @@ function checkTruthTable() {
         if (!correct) break;
     }
     const btn = document.querySelector('#truthTable + div button');
-    if (btn.classList.contains('checked')) return; // Предотвращаем повторные нажатия
+    if (btn.classList.contains('checked')) return;
     btn.classList.add('checked');
+    btn.disabled = true;
     if (correct) {
         btn.textContent = 'Верно';
-        btn.disabled = true;
         btn.classList.add('correct');
         postTable();
         console.log('Post Table Data:', postTableData);
@@ -113,41 +239,26 @@ function zhegalkin(op) {
 }
 function L(op) { return zhegalkin(op)[3] === 0; }
 function M(op) {
-    const table = truthTableData[func.indexOf(op)]; // [f(1,1), f(1,0), f(0,1), f(0,0)]
+    const table = truthTableData[func.indexOf(op)];
     const pairs = [];
-    if (table[0] < table[1]) pairs.push([1, 2]); // (1,1) < (1,0)
-    if (table[0] < table[2]) pairs.push([1, 3]); // (1,1) < (0,1)
-    if (table[0] < table[3]) pairs.push([1, 4]); // (1,1) < (0,0)
-    if (table[1] < table[2]) pairs.push([2, 3]); // (1,0) < (0,1)
-    if (table[1] < table[3]) pairs.push([2, 4]); // (1,0) < (0,0)
-    if (table[2] < table[3]) pairs.push([3, 4]); // (0,1) < (0,0)
+    if (table[0] < table[1]) pairs.push([1, 2]);
+    if (table[0] < table[2]) pairs.push([1, 3]);
+    if (table[0] < table[3]) pairs.push([1, 4]);
+    if (table[1] < table[2]) pairs.push([2, 3]);
+    if (table[1] < table[3]) pairs.push([2, 4]);
+    if (table[2] < table[3]) pairs.push([3, 4]);
     return [pairs.length === 0, pairs];
 }
 function S(op) {
-    const table = truthTableData[func.indexOf(op)]; // [f(1,1), f(1,0), f(0,1), f(0,0)]
+    const table = truthTableData[func.indexOf(op)];
     const pairs = [];
-    if (table[0] !== 1 - table[3]) pairs.push([1, 4]); // f(1,1) ≠ ¬f(0,0)
-    if (table[1] !== 1 - table[2]) pairs.push([2, 3]); // f(1,0) ≠ ¬f(0,1)
+    if (table[0] !== 1 - table[3]) pairs.push([1, 4]);
+    if (table[1] !== 1 - table[2]) pairs.push([2, 3]);
     return [pairs.length === 0, pairs];
 }
 
 function postTable() {
     postTableData = func.map(op => [T0(op), T1(op), L(op), M(op), S(op)]);
-}
-
-function renderPostTable() {
-    const table = document.getElementById('postTable');
-    table.innerHTML = '';
-    let thead = '<tr><th></th><th>T0</th><th>T1</th><th>L</th><th>M</th><th>S</th></tr>';
-    let tbody = '';
-    func.forEach((op, rowIdx) => {
-        tbody += `<tr><td>${op}</td>`;
-        for (let colIdx = 0; colIdx < 5; colIdx++) {
-            tbody += `<td><input type="text" id="post_${rowIdx}_${colIdx}" placeholder="+/-"></td>`;
-        };
-        tbody += '</tr>';
-    });
-    table.innerHTML = thead + tbody;
 }
 
 function checkPostTable() {
@@ -164,11 +275,12 @@ function checkPostTable() {
             }
         }
     }
-    const btn = document.querySelector('#postTable + div button');if (btn.classList.contains('checked')) return; // Предотвращаем повторные нажатия
+    const btn = document.querySelector('#postTable + div button');
+    if (btn.classList.contains('checked')) return;
     btn.classList.add('checked');
+    btn.disabled = true;
     if (correct) {
         btn.textContent = 'Верно';
-        btn.disabled = true;
         btn.classList.add('correct');
         document.getElementById('questionsSection').style.display = 'block';
         console.log('Showing questions section');
@@ -186,45 +298,15 @@ function generateQuestions() {
     questions = [];
     postTableData.forEach((row, idx) => {
         const op = func[idx];
-        if (!row[3][0]) { // Не монотонна
+        if (!row[3][0]) {
             questions.push({ op, type: 'M', pairs: row[3][1] });
         }
-        if (!row[4][0]) { // Не самодвойственна
+        if (!row[4][0]) {
             questions.push({ op, type: 'S', pairs: row[4][1] });
         }
     });
     console.log('Generated Questions:', questions);
     renderQuestions();
-}
-
-function renderQuestions() {
-    const div = document.getElementById('questions');
-    if (!div) {
-        console.error('Questions div not found');
-        return;
-    }
-    div.innerHTML = '';
-    if (questions.length === 0) {
-        div.innerHTML = '<p>Все функции удовлетворяют условиям монотонности и самодвойственности!</p>';
-        console.log('No questions to display');
-        return;
-    }
-    questions.forEach((q, idx) => {
-        let label;
-        if (q.type === 'M') {
-            label = `Какие пары нарушают монотонность для ${q.op}? (введите номера строк через пробел)`;
-        } else if (q.type === 'S') {
-            label = `Какие пары показывают, что ${q.op} не самодвойственна? (введите номера строк через пробел)`;
-        }
-        div.innerHTML += `
-            <div>
-                <p>${label}</p>
-                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? 'например, 1 2' : ''}" oninput="resetButton(${idx})">
-                <button onclick="checkAnswer(${idx})">Проверить</button>
-            </div>
-        `;
-    });
-    console.log('Rendered questions:', questions);
 }
 
 function resetButton(idx) {
@@ -268,11 +350,11 @@ function checkAnswer(idx) {
     }
 
     console.log(`Question: ${q.type} for ${q.op}, Input: ${input}, Expected: ${q.pairs}, isCorrect: ${isCorrect}`);
-    if (btn.classList.contains('checked')) return; // Предотвращаем повторные нажатия
+    if (btn.classList.contains('checked')) return;
     btn.classList.add('checked');
+    btn.disabled = true;
     if (isCorrect) {
         btn.textContent = 'Верно';
-        btn.disabled = true;
         btn.classList.remove('error');
         btn.classList.add('correct');
         console.log(`Added 'correct' class to button for idx=${idx}, classList: ${btn.classList}`);
@@ -285,14 +367,13 @@ function checkAnswer(idx) {
         isTaskFailed = true;
         disableAllInputsAndButtons();
     }
-    btn.disabled = true;
 }
 
 function checkAllAnswered() {
     const allCorrect = Array.from(document.querySelectorAll('#questions button')).every(btn => btn.textContent === 'Верно');
     if (allCorrect) {
         const modal = document.getElementById('successModal');
-        modal.style.display = 'flex'; // Показываем модальное окно
+        modal.style.display = 'flex';
         disableAllInputsAndButtons();
     }
 }
@@ -310,21 +391,230 @@ function disableAllInputsAndButtons() {
 
 function restartTask() {
     const modal = document.getElementById('successModal');
-    modal.style.display = 'none'; // Скрываем модальное окно, если оно открыто
-    // Перезагружаем страницу, чтобы начать задание заново
+    modal.style.display = 'none';
     window.location.reload();
 }
 
 function finishTask() {
     const modal = document.getElementById('successModal');
-    modal.style.display = 'none'; // Скрываем модальное окно
-    // Перенаправляем на ../public/menu.html
+    modal.style.display = 'none';
     window.location.href = '../public/menu.html';
 }
 
-// Инициализация
+// Функции для режима разработчика
+function showDevModePrompt() {
+    if (isDevMode) {
+        alert('Вы уже в режиме разработчика!');
+        return;
+    }
+    const modal = document.getElementById('devModeModal');
+    modal.style.display = 'flex';
+}
+
+function closeDevModePrompt() {
+    const modal = document.getElementById('devModeModal');
+    modal.style.display = 'none';
+    document.getElementById('devPassword').value = '';
+}
+
+function enterDevMode() {
+    const passwordInput = document.getElementById('devPassword').value;
+    if (passwordInput === DEV_PASSWORD) {
+        isDevMode = true;
+        closeDevModePrompt();
+        alert('Режим разработчика активирован! Поля будут автоматически заполнены правильными ответами.');
+        autoFillTruthTable();
+        autoFillPostTable();
+        autoFillQuestions();
+    } else {
+        alert('Неверный пароль!');
+        document.getElementById('devPassword').value = '';
+    }
+}
+
+function autoFillTruthTable() {
+    for (let row = 0; row < 4; row++) {
+        for (let col = 0; col < 3; col++) {
+            const input = document.getElementById(`truth_${row}_${col}`);
+            if (input) {
+                input.value = truthTableData[col][row];
+            }
+        }
+    }
+}
+
+function autoFillPostTable() {
+    for (let row = 0; row < 3; row++) {
+        for (let col = 0; col < 5; col++) {
+            const input = document.getElementById(`post_${row}_${col}`);
+            if (input) {
+                const expected = col >= 3 ? postTableData[row][col][0] : postTableData[row][col];
+                input.value = expected ? '+' : '-';
+            }
+        }
+    }
+}
+
+function autoFillQuestions() {
+    questions.forEach((q, idx) => {
+        const input = document.getElementById(`q_${idx}`);
+        if (input) {
+            const pair = q.pairs[0]; // Берём первую пару (можно расширить для всех пар)
+            input.value = pair.join(' ');
+        }
+    });
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
+    startTime = new Date();
     randomFunc();
     truthTable();
 });
+
+function exportToPDF() {
+    const modal = document.getElementById('successModal');
+    modal.style.display = 'none';
+    console.log('Exporting to PDF...');
+    try {
+        const { jsPDF } = window.jspdf;
+        const doc = new jsPDF();
+    
+        // Добавляем шрифт DejaVuSans для поддержки кириллицы
+        doc.addFileToVFS("DejaVuSans.ttf", dejavuSans);
+        doc.addFont("DejaVuSans.ttf", "DejaVuSans", "normal");
+        doc.setFont("DejaVuSans");
+
+        const pageWidth = doc.internal.pageSize.getWidth();
+        const pageHeight = doc.internal.pageSize.getHeight();
+
+        // Стилизованный фон с рамкой
+        doc.setFillColor(255, 255, 255);
+        doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'F');
+        doc.setDrawColor(57, 101, 45);
+        doc.setLineWidth(2);
+        doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'S');
+
+        // Водяные знаки
+        doc.setTextColor(220, 220, 220);
+        doc.setFontSize(16);
+        const xInc = 30, yInc = 30;
+        for (let x = -pageWidth; x < pageWidth * 2; x += xInc) {
+            for (let y = -pageHeight; y < pageHeight * 2; y += yInc) {
+                doc.text("VERIFIED", x, y, { angle: 45, align: "center" });
+            }
+        }
+
+        // Основное содержимое
+        doc.setTextColor(0, 0, 0);
+        doc.setFontSize(25);
+        doc.text("Критерий Поста", pageWidth / 2, 30, { align: "center" });
+        doc.setLineWidth(0.5);
+        doc.line(20, 35, pageWidth - 20, 35);
+
+        // Дата и время
+        const now = new Date();
+        doc.setFontSize(16);
+        doc.text(`Дата и время: ${now.toLocaleDateString()} в ${now.toLocaleTimeString()}`, pageWidth / 2, 45, { align: "center" });
+
+        // Данные пользователя
+        const studentFIO = sessionStorage.getItem('studentFIO') || 'Не указано';
+        const studentGroup = sessionStorage.getItem('studentGroup') || 'Не указано';
+        doc.setFontSize(16);
+        doc.text(`ФИО: ${studentFIO}`, 20, 60);
+        doc.text(`Группа: ${studentGroup}`, 20, 70);
+
+        // Время выполнения
+        const timeSpent = Math.floor((new Date() - startTime) / 1000);
+        const minutes = Math.floor(timeSpent / 60);
+        const seconds = timeSpent % 60;
+        doc.setFontSize(18);
+        doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 85);
+
+        // Таблица истинности
+        if (!func.length || !truthTableData.length) throw new Error('Truth table data is missing');
+        const truthHeaders = [['X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)]];
+        const truthBody = [[1, 1], [1, 0], [0, 1], [0, 0]].map((row, i) => 
+            [row[0], row[1], ...truthTableData.map(col => col[i] ?? 'N/A')]
+        );
+        doc.autoTable({
+            startY: 95,
+            head: truthHeaders,
+            body: truthBody,
+            margin: { left: 20, right: 20 },
+            tableWidth: 100,
+            styles: { 
+                fontSize: 14,
+                cellPadding: 3,
+                font: "DejaVuSans",
+                cellWidth: 'wrap'
+            },
+            headStyles: { 
+                fillColor: [57, 101, 45],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold'
+            },
+            columnStyles: {
+                0: { cellWidth: 15 },
+                1: { cellWidth: 15 },
+                2: { cellWidth: 15 },
+                3: { cellWidth: 15 }
+            }
+        });
+
+        // Таблица Поста
+        if (!postTableData.length) throw new Error('Post table data is missing');
+        const postHeaders = [['', 'T0', 'T1', 'L', 'M', 'S']];
+        const postBody = func.map((op, i) => [
+            op,
+            postTableData[i]?.[0] ? '+' : '-',
+            postTableData[i]?.[1] ? '+' : '-',
+            postTableData[i]?.[2] ? '+' : '-',
+            postTableData[i]?.[3]?.[0] ? '+' : '-',
+            postTableData[i]?.[4]?.[0] ? '+' : '-'
+        ]);
+        doc.autoTable({
+            startY: doc.lastAutoTable.finalY + 10,
+            head: postHeaders,
+            body: postBody,
+            margin: { left: 20, right: 20 },
+            tableWidth: 100,
+            styles: { 
+                fontSize: 14,
+                cellPadding: 3,
+                font: "DejaVuSans",
+                cellWidth: 'wrap'
+            },
+            headStyles: { 
+                fillColor: [57, 101, 45],
+                textColor: [255, 255, 255],
+                fontStyle: 'bold'
+            },
+            columnStyles: {
+                0: { cellWidth: 15 },
+                1: { cellWidth: 15 },
+                2: { cellWidth: 15 },
+                3: { cellWidth: 15 },
+                4: { cellWidth: 15 },
+                5: { cellWidth: 15 }
+            }
+        });
+
+        // Контрпримеры
+        if (questions.length > 0) {
+            doc.setFontSize(18);
+            doc.text("Контрпримеры:", 20, doc.lastAutoTable.finalY + 20);
+            doc.setFontSize(16);
+            questions.forEach((q, i) => {
+                const text = `${i + 1}. ${q.op} (${q.type === 'M' ? 'Монотонность' : 'Самодвойственность'}): ${q.pairs.map(p => p.join('-')).join(', ')}`;
+                doc.text(text, 20, doc.lastAutoTable.finalY + 30 + i * 10, { maxWidth: 170 });
+            });
+        }
+
+        doc.save(`${studentGroup}_${studentFIO}_Критерий_Поста.pdf`);
+        console.log('PDF exported successfully');
+    } catch (error) {
+        console.error('Error exporting PDF:', error.message);
+        alert('Ошибка при экспорте в PDF: ' + error.message);
+    }
+}

@@ -1,259 +1,490 @@
+/* task.css */
 .header-restart-btn {
-    background-color: #39652de2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
+  background-color: #39652de2;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.3s ease;
 }
 
 .header-restart-btn:hover {
-    background-color: #39652db3;
+  background-color: #39652dd1;
 }
 
 .main {
-    text-align: center;
+  text-align: center;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding-top: 5px;
+}
+
+.container {
+  width: 100%;
+  padding: 0 10px;
 }
 
 .content {
-    min-height: 300px;
+  width: 100%;
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px 50px;
+  border: 4px solid #39652df8;
+  background-color: #bdbdbd2d;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  animation: fadeIn 0.5s ease-out;
 }
 
-.main-text {
-    margin-top: 20px;
+.truth-table-container,
+.coefficients-container,
+.questions-container {
+  flex: 0 0 100%;
 }
 
-.main-text ul {
-    margin: 10px 0;
-}
-
-.button-container {
-    text-align: center;
-}
-
-table {
-    border-collapse: collapse;
-    margin: 20px auto;
-    width: 100%;
-    max-width: 600px;
+.truth-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 30px 0 10px -10px;
+  transition: all var(--transition-duration) var(--transition-easing);
 }
 
 th, td {
-    border: 1px solid #ddd;
-    padding: 10px;
-    text-align: center;
+  border: 2px solid #ddd;
+  padding: 10px;
+  text-align: center;
+  font-size: 16px;
 }
 
 th {
-    background-color: #f2f2f2;
-    font-weight: 600;
-    color: rgb(102, 93, 93);
+  background-color: #f2f2f2;
+  font-weight: 800;
+  color: rgb(102, 93, 93);
 }
 
-td {
-    background-color: #fff;
+td input {
+  width: 40px;
+  height: 30px;
+  text-align: center;
+  padding: 3px;
+  border: 2px solid #39652df8;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
 }
 
-input {
-    width: 50px;
-    text-align: center;
-    padding: 5px;
-    border: 2px solid #39652df8;
-    border-radius: 5px;
-    font-family: "Montserrat", sans-serif;
-    font-size: 16px;
+td input:focus {
+  outline: 2px solid #39652d;
+  box-shadow: 0 0 0 3px rgba(57, 101, 45, 0.3);
 }
 
-button:disabled {
-    cursor: not-allowed;
+.coefficients-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 10px;
+  margin-top: 40px;
+  transition: grid-template-columns var(--transition-duration) var(--transition-easing),
+              display var(--transition-duration) var(--transition-easing);
 }
 
-.correct {
-    background-color: #33a348;
+.coefficient-group {
+  display: flex;
+  align-items: center;
+  gap: 10px; /* Добавляем небольшой отступ между элементами */
+  transition: transform 0.3s ease;
 }
 
-.correct:hover:not(:disabled) {
-    background-color: #62a36e; /* Цвет при наведении для "Верно" */
+.coefficient-group:hover {
+  transform: translateY(-2px);
 }
 
-.error {
-    background-color: #bb3c40;
+.coefficient-group p {
+  margin: 0;
+  font-size: 16px;
+  color: rgb(102, 93, 93);
+  font-weight: 600;
 }
 
-.error:hover:not(:disabled) {
-    background-color: #ba7072; /* Цвет при наведении для "Неверно" */
+.coefficient-group input {
+  width: 100px; /* Увеличиваем ширину поля ввода для вопросов */
+  height: 30px;
+  padding: 5px;
+  border: 2px solid #39652df8;
+  border-radius: 5px;
+  font-family: "Montserrat", sans-serif;
+  font-size: 16px;
+  margin-right: 7px;
 }
 
-#questions button {
-    background-color: #39652de2;
-    max-width: 400px;
-    display: block;
-    margin: 10px auto;
-    height: 60px;
-    text-align: center;
-    color: white;
-    font-size: 18px;
-    border-radius: 15px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
+.coefficient-group .check-button {
+  background-color: #39652de2;
+  color: white;
+  padding: 8px 20px; /* Уменьшаем padding для кнопок в вопросах */
+  border: none;
+  border-radius: 5px;
+  font-size: 16px; /* Уменьшаем размер шрифта */
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-#questions button:hover {
-    background-color: #39652db3;
+.coefficient-group .check-button:hover {
+  background-color: #39652dd1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-#questions button.correct {
-    background-color: #33a348;
+.check-button {
+  background-color: #39652de2;
+  color: white;
+  padding: 10px 30px;
+  border: none;
+  border-radius: 5px;
+  font-size: 20px;
+  font-weight: 700;
+  cursor: pointer;
+  margin: 20px auto;
+  display: block;
+  transition: all 0.3s ease;
 }
 
-#questions button.correct:hover:not(:disabled) {
-    background-color: #62a36e;
+.check-button:hover {
+  background-color: #39652dd1;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-#questions button.error {
-    background-color: #bb3c40;
+.result-message {
+  padding: 15px;
+  margin: 0 auto 20px;
+  border-radius: 5px;
+  font-weight: 600;
+  width: 100%;
+  text-align: center;
+  animation: messageAppear 0.4s ease-in-out;
+} 
+
+.result-message.error {
+  background-color: #f8d7da;
+  color: #721c24;
+  border: 1px solid #f5c6cb;
 }
 
-#questions button.error:hover:not(:disabled) {
-    background-color: #ba7072;
+.result-message.success {
+  background-color: #d4edda;
+  color: #155724;
+  border: 1px solid #c3e6cb;
 }
 
-#questions input {
-    width: 150px;
-}
-
-#questions div {
-    margin: 15px 0;
-}
-
-/* Стили для модального окна */
 .modal {
-    display: none;
-    position: fixed;
-    z-index: 1000;
-    left: 0;
-    top: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.5);
-    justify-content: center;
-    align-items: center;
+  display: none;
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  justify-content: center;
+  align-items: center;
 }
 
 .modal-content {
-    background-color: #fff;
-    padding: 30px;
-    border-radius: 10px;
-    text-align: center;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-    max-width: 400px;
-    width: 90%;
+  background-color: #fff;
+  padding: 40px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+  max-width: 500px;
+  width: 90%;
+  border: 2px solid #39652d;
+  animation: modalFadeIn 0.4s ease-in-out;
 }
 
 .modal-content h2 {
-    font-size: 24px;
-    font-weight: 600;
-    color: #33a348;
-    margin: 0;
-    margin-bottom: 20px;
+  font-size: 28px;
+  font-weight: 700;
+  color: #39652d;
+  margin-bottom: 30px;
+  padding-bottom: 20px;
+  position: relative;
 }
 
-.modal-finish-btn {
-    background-color: #39652de2;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: 600;
-    cursor: pointer;
-    font-family: "Montserrat", sans-serif;
-    margin: 5px;
+.modal-content h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100px;
+  height: 3px;
+  background-color: #39652d;
 }
 
-.modal-finish-btn:hover {
-    background-color: #39652db3;
+.modal-buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 25px;
 }
 
-@media (max-width: 768px) {
-    .content {
-        min-height: 250px;
-    }
-
-    .main-text {
-        margin-top: 15px;
-    }
-
-    table {
-        max-width: 500px;
-    }
-
-    input {
-        width: 40px;
-        font-size: 14px;
-    }
-
-    .modal-content {
-        padding: 20px;
-    }
-
-    .modal-content h2 {
-        font-size: 20px;
-    }
-
-    .modal-finish-btn {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
-
-    .header-restart-btn {
-        padding: 8px 16px;
-        font-size: 14px;
-    }
+.modal-finish-btn,
+.modal-export-btn {
+  background-color: #39652d;
+  color: white;
+  padding: 12px 25px;
+  border: none;
+  border-radius: 8px;
+  font-size: 18px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s ease;
 }
 
-@media (max-width: 480px) {
-    .content {
-        min-height: 200px;
-    }
+.modal-finish-btn:hover,
+.modal-export-btn:hover {
+  background-color: #2a4e22;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
 
-    .main-text {
-        margin-top: 10px;
-    }
+.form-group {
+  margin-bottom: 20px;
+}
 
-    table {
-        max-width: 100%;
-    }
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: #333;
+}
 
-    th, td {
-        padding: 8px;
-    }
+.form-group input {
+  width: 100%;
+  padding: 12px 15px;
+  border: 2px solid #ddd;
+  border-radius: 5px;
+  font-size: 16px;
+  transition: border-color 0.3s;
+}
 
-    input {
-        width: 35px;
-        font-size: 12px;
-    }
+.form-group input:focus {
+  border-color: #39652d;
+  outline: none;
+}
 
-    .modal-content {
-        padding: 15px;
-    }
+.buttons-container {
+  margin: 25px 0 15px;
+  align-self: center;
+}
 
-    .modal-content h2 {
-        font-size: 18px;
-    }
+.truth-table-container h2,
+.coefficients-container h2,
+.questions-container h2 {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2c3e2b;
+  text-align: center;
+  margin: 25px 0;
+  padding-bottom: 8px;
+  position: relative;
+}
 
-    .modal-finish-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
+.truth-table-container h2::after,
+.coefficients-container h2::after,
+.questions-container h2::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 80px;
+  height: 2px;
+  background-color: #39652d;
+}
 
-    .header-restart-btn {
-        padding: 6px 12px;
-        font-size: 12px;
-    }
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes modalFadeIn {
+  from { opacity: 0; transform: scale(0.95); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+@keyframes messageAppear {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 1000px) {
+  .coefficients-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px 15px;
+      justify-content: center;
+  }
+
+  .coefficient-group {
+      margin: 0;
+      flex: 0 0 auto;
+  }
+}
+
+@media (max-width: 800px) {
+  .content {
+      padding: 20px;
+      margin: 10px auto;
+  }
+  
+  .truth-table {
+      margin: 15px auto;
+      width: 95%;
+  }
+  
+  th, td {
+      padding: 8px;
+      font-size: 14px;
+  }
+  
+  .coefficients-grid {
+      display: flex !important;
+      flex-wrap: wrap;
+      gap: 10px 15px;
+      justify-content: center;
+      margin-top: 20px;
+  }
+
+  .coefficient-group {
+      margin: 0;
+      flex: 0 0 auto;
+      flex-wrap: wrap; /* Разрешаем перенос элементов внутри группы */
+      justify-content: center;
+      gap: 10px;
+  }
+
+  .coefficient-group p {
+      font-size: 15px;
+      text-align: center;
+  }
+
+  .coefficient-group input {
+      width: 80px;
+      height: 30px;
+      font-size: 15px;
+  }
+
+  .coefficient-group .check-button {
+      padding: 8px 20px;
+      font-size: 16px;
+      width: 100%;
+      max-width: 200px; /* Ограничиваем ширину кнопки */
+  }
+  
+  .buttons-container {
+      margin: 20px 0;
+  }
+  
+  .check-button {
+      padding: 12px 25px;
+      font-size: 18px;
+      width: 100%;
+      max-width: 250px;
+  }
+  
+  .truth-table-container h2,
+  .coefficients-container h2,
+  .questions-container h2 {
+      font-size: 20px;
+      margin: 15px 0;
+      padding-bottom: 5px;
+  }
+  
+  .truth-table-container h2::after,
+  .coefficients-container h2::after,
+  .questions-container h2::after {
+      width: 60px;
+  }
+  
+  .modal-content {
+      padding: 30px;
+  }
+  
+  .modal-content h2 {
+      font-size: 24px;
+      margin-bottom: 20px;
+      padding-bottom: 15px;
+  }
+}
+
+@media (max-width: 400px) {
+  .content {
+      padding: 12px;
+  }
+  
+  th, td {
+      padding: 6px;
+      font-size: 13px;
+  }
+  
+  .truth-table-container h2,
+  .coefficients-container h2,
+  .questions-container h2 {
+      font-size: 18px;
+  }
+  
+  .coefficient-group p {
+      font-size: 13px;
+  }
+  
+  .coefficient-group input {
+      width: 70px;
+      height: 25px;
+      font-size: 14px;
+  }
+  
+  .coefficient-group .check-button {
+      padding: 6px 15px;
+      font-size: 14px;
+      max-width: 150px;
+  }
+  
+  .check-button {
+      padding: 8px 15px;
+      font-size: 16px;
+  }
+  
+  .modal-content {
+      width: 95%;
+      padding: 20px 10px;
+  }
+
+  .result-message {
+      padding: 5px;
+      text-align: left;
+  }
+  
+  .result-message, 
+  .result-message strong {
+      font-size: 14px;
+      line-height: 1.4;
+  }
+
+  .coefficients-grid {
+      display: flex !important;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 15px;
+  }
+  
+  .questions-container h2 {
+      font-size: 18px;
+      margin: 10px 0 5px;
+  }
 }
