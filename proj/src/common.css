@@ -107,6 +107,7 @@ main {
     color: #39652dda;
     transition: all 0.5s ease;
     margin-right: auto;
+    user-select: none;
 }
 
 .header-restart-btn {
@@ -156,6 +157,7 @@ main {
     font-weight: 800;
     font-size: 25px;
     text-align: center;
+    user-select: none;
 }
 
 /* Основной контейнер контента */

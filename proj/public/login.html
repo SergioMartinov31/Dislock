@@ -50,16 +50,22 @@
 
   <script>
     document.getElementById('login-form').addEventListener('submit', function(e) {
-      e.preventDefault();
-      const fio = document.getElementById('fio').value.trim();
-      const group = document.getElementById('group').value.trim();
-      
-      // Сохраняем данные в sessionStorage
-      sessionStorage.setItem('studentFIO', fio);
-      sessionStorage.setItem('studentGroup', group);
-      
-      // Переходим на основную страницу
-      window.location.href = "index.html";
+    e.preventDefault();
+    const fio = document.getElementById('fio').value.trim();
+    const group = document.getElementById('group').value.trim();
+    
+    // Проверка на пустые поля
+    if (!fio || !group) {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+    
+    // Сохраняем данные в sessionStorage
+    sessionStorage.setItem('studentFIO', fio);
+    sessionStorage.setItem('studentGroup', group);
+    
+    // Переходим на основную страницу
+    window.location.href = "index.html";
     });
   </script>
 </body>

@@ -81,6 +81,7 @@ th, td {
     padding: 10px;
     text-align: center;
     font-size: 16px;
+    user-select: none;
 }
 
 /* === Стили заголовков таблицы === */
@@ -108,10 +109,6 @@ th {
     transition: transform var(--transition-duration) var(--transition-easing);
 }
 
-.coefficient-group:hover {
-    transform: translateY(-2px);
-}
-
 /* === Поле ввода коэффициента === */
 .coefficient-input {
     width: 40px;
@@ -130,6 +127,7 @@ th {
     font-weight: 600;
     color: rgb(102, 93, 93);
     font-size: 16px;
+    user-select: none;
 }
 
 /* === Кнопка проверки решения === */
@@ -174,6 +172,7 @@ th {
     opacity var(--transition-duration) var(--transition-easing),
     transform var(--transition-duration) var(--transition-easing),
     background-color var(--transition-duration) var(--transition-easing);
+    user-select: none;
 }
 
 /* === Стили для успешного результата === */
@@ -281,6 +280,7 @@ th {
     margin: 25px 0;
     padding-bottom: 8px;
     position: relative;
+    user-select: none;
 }
 
 .truth-table-container h2::after,
@@ -366,7 +366,7 @@ th {
 }
 
 .coefficient-input:disabled {
-    cursor: not-allowed;
+    user-select: none;
 }
 
 /* Медиа-запросы */

@@ -22,6 +22,14 @@
   <link rel="stylesheet" href="../src/task.css">
 </head>
 <body>
+
+  <script>
+    // Проверяем, заполнены ли данные пользователя
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+        window.location.href = "login.html";
+    }
+  </script>
+
   <!-- Шапка с кнопкой перезапуска задания -->
   <header class="header">
     <div class="container">
