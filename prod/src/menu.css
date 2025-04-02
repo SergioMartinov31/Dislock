@@ -1,0 +1,208 @@
+/* Стили логотипа в меню */
+.logo {
+    margin: auto;
+}
+
+/* Основное содержимое главной страницы */
+.main {
+    display: flex;
+    justify-content: flex-start; /* Изменено для вытянутых экранов */
+    align-items: center;
+    flex-flow: column;
+    padding-top: 20px; /* Добавлено для вытянутых экранов */
+}
+
+/* Контейнер контента */
+.content {
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    text-align: center;
+    padding: 50px 25px;
+    border: 4px solid #39652df8;
+    background-color: #bdbdbd2d;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: all 0.3s ease;
+    animation: fadeIn 0.5s var(--transition-easing);
+    min-height: 10vh;
+}
+
+/* Стили основного текста */
+.main-text {
+    margin: 15px 0;
+    width: 100%;
+    max-width: 800px;
+    padding: 0;
+    text-align: left;
+    transition: 
+        font-size var(--transition-duration) var(--transition-easing),
+        margin var(--transition-duration) var(--transition-easing);
+}
+
+/* Коррекция отступов для первого и последнего элементов */
+.main-text:first-child {
+    margin-top: 0;
+}
+
+.main-text:last-child {
+    margin-bottom: 0;
+}
+
+/* Стили кнопки "Начать тестирование" */
+.main_btn_start {
+    background-color: #39652de2;
+    max-width: 400px;
+    width: 100%;
+    margin: 40px auto 0;
+    padding: 0 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    font-size: 25px;
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    text-align: center;
+    user-select: none;
+}
+
+.main_btn_start:hover {
+    background-color: #39652dd7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+}
+
+/* ===== Адаптация для больших телефонов (1080px и меньше) ===== */
+@media (max-width: 1080px) {
+    .content {
+        min-height: 20vh;
+        padding: 40px 20px;
+    }
+    
+    .main-text {
+        font-size: 25px;
+        margin: 12px 0;
+    }
+    
+    .main_btn_start {
+        font-size: 22px;
+        height: 80px;
+        max-width: 350px;
+        margin-top: 30px;
+    }
+}
+
+/* ===== Адаптация для средних телефонов (720px и меньше) ===== */
+@media (max-width: 720px) {
+    .content {
+        min-height: 20vh;
+        padding: 30px 15px;
+        border-width: 3px;
+    }
+    
+    .main-text {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    
+    .main_btn_start {
+        font-size: 20px;
+        height: 70px;
+        max-width: 300px;
+        margin-top: 25px;
+    }
+}
+
+/* ===== Адаптация main-контейнера для вытянутых экранов ===== */
+@media (max-aspect-ratio: 9/16) {
+    .main {
+        flex: 1;
+        padding-top: 5vh;
+        justify-content: flex-start;
+        min-height: auto;
+    }
+    
+    .content {
+        max-height: 70vh;
+        overflow-y: auto;
+        margin: 2vh auto;
+    }
+
+    .main-text {
+        font-size: 18px;
+        margin: 10px 0;
+    }
+    
+    .main_btn_start {
+        margin-top: 3vh;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 720px) {
+    .main {
+        padding-top: 2vh;
+    }
+    
+    .content {
+        max-height: 65vh;
+        margin: 1vh auto;
+    }
+}
+
+@media (max-aspect-ratio: 9/16) and (max-height: 400px) {
+    .content {
+        max-height: 60vh;
+    }
+}
+
+/* Адаптация футера для маленьких экранов */
+@media (max-width: 480px) {
+    .footer {
+        padding: 15px 0;
+    }
+    
+    .footer-author {
+        font-size: 20px;
+    }
+}
+
+@media (max-width: 360px) {
+    .footer {
+        padding: 12px 0;
+    }
+    
+    .footer-author {
+        font-size: 18px;
+    }
+}
+
+/* ===== Адаптация для ландшафтной ориентации ===== */
+@media (orientation: landscape) and (max-height: 500px) {
+    .main {
+        padding-top: 5px;
+    }
+    
+    .content {
+        padding: 10px;
+        margin-top: 0;
+        max-height: 100vh;
+    }
+    
+    .main-text {
+        font-size: 20px;
+        margin: 3px 0;
+    }
+    
+    .main_btn_start {
+        height: 50px;
+        font-size: 20px;
+        margin-top: 5vh;
+    }
+}

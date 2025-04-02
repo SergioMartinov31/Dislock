@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Вход - Полином Жегалкина</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/login.css">
+</head>
+<body>
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <h1 class="logo">Полином Жегалкина</h1>
+      </div>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <form id="login-form" class="login-form">
+          <h2><strong>Введите ваши данные</strong></h2>
+          
+          <div class="form-group">
+            <label for="fio">ФИО:</label>
+            <input type="text" id="fio" name="fio" required 
+                   placeholder="Григорьев Максим Георгиевич">
+          </div>
+          
+          <div class="form-group">
+            <label for="group">Учебная группа:</label>
+            <input type="text" id="group" name="group" required 
+                   placeholder="М8О-101БВ-24">
+          </div>
+          
+          <button type="submit" class="login-button">Продолжить</button>
+        </form>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
+
+  <script>
+    document.getElementById('login-form').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const fio = document.getElementById('fio').value.trim();
+    const group = document.getElementById('group').value.trim();
+    
+    // Проверка на пустые поля
+    if (!fio || !group) {
+        alert('Пожалуйста, заполните все поля!');
+        return;
+    }
+    
+    // Сохраняем данные в sessionStorage
+    sessionStorage.setItem('studentFIO', fio);
+    sessionStorage.setItem('studentGroup', group);
+    
+    // Переходим на основную страницу
+    window.location.href = "index.html";
+    });
+  </script>
+</body>
+</html>

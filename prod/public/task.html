@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Основные мета-теги -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Полином Жегалкина</title>
+  
+  <!-- Подключение шрифтов Google Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  
+  <!-- Подключение шрифта DejaVuSans для поддержки кириллицы в PDF -->
+  <script src="../src/DejaVuSans-normal.js"></script>
+  
+  <!-- Нормализация стилей -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  
+  <!-- Подключение CSS-файлов -->
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/task.css">
+</head>
+<body>
+
+  <script>
+    // Проверяем, заполнены ли данные пользователя
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+        window.location.href = "login.html";
+    }
+  </script>
+
+  <!-- Шапка с кнопкой перезапуска задания -->
+  <header class="header">
+    <div class="container">
+        <div class="header__inner">
+            <h1 class="logo">Полином Жегалкина</h1>
+            <button class="header-restart-btn" onclick="restartTask()">Начать заново</button>
+        </div>
+    </div>
+  </header>
+
+  <!-- Основное содержимое страницы -->
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <div class="task-content">
+          
+          <div class="task-wrapper">
+            <!-- Контейнер таблицы истинности -->
+            <div class="truth-table-container">
+                <h2>Таблица истинности</h2>
+                <table class="truth-table" id="truthTable">
+                  <thead>
+                    <tr>
+                      <th>X</th>
+                      <th>Y</th>
+                      <th>Z</th>
+                      <th>F</th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody"></tbody>
+                </table>
+            </div>
+
+            <!-- Контейнер для ввода коэффициентов полинома -->
+            <div class="coefficients-container">
+                <h2>Коэффициенты полинома</h2>
+                <div class="coefficients-grid" id="coefficientsInput"></div>
+
+                <!-- Кнопки проверки и экспорта -->
+                <div class="buttons-container">
+                  <button class="check-button" id="checkButton">Проверить</button>
+                  <button class="export-button" id="exportButton" style="display: none;">Экспорт ответа</button>
+                </div>
+                
+                <!-- Блок для вывода сообщений о результате -->
+                <div class="result-message" id="resultMessage"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Подвал страницы -->
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
+
+  <!-- Модальное окно, появляющееся при успешном выполнении задания -->
+  <div class="modal" id="successModal">
+    <div class="modal-content">
+        <h2>Задание успешно выполнено!</h2>
+        <div class="modal-buttons">
+            <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
+            <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
+            <button class="modal-result-btn" onclick="showResult()">Смотреть результат</button>
+        </div>
+    </div>
+  </div>
+
+  <!-- Подключение библиотек для генерации PDF -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf-autotable/3.5.28/jspdf.plugin.autotable.min.js"></script>
+  <script>
+      // Экспорт jsPDF в глобальную область видимости
+      window.jsPDF = window.jspdf.jsPDF;
+  </script>
+  
+  <!-- Основной скрипт приложения -->
+  <script src="../src/script.js"></script>
+</body>
+</html>

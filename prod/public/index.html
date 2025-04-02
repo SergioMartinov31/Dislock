@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <!-- Основные мета-теги для корректного отображения страницы -->
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Полином Жегалкина</title>
+  
+  <!-- Подключение шрифтов Google Montserrat -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  
+  <!-- Нормализация стилей для кросс-браузерной совместимости -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  
+  <!-- Подключение CSS-файлов -->
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/menu.css">
+</head>
+<body>
+
+  <script>
+    // Проверяем, заполнены ли данные пользователя
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+        window.location.href = "login.html";
+    }
+  </script>
+  
+  <!-- Шапка сайта с логотипом -->
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <h1 class="logo">Полином Жегалкина</h1>
+      </div>
+    </div>
+  </header>
+  
+  <!-- Основное содержимое страницы -->
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <!-- Описание задания -->
+        <h1 class="main-text">Задана таблица истинности.</h1>
+        <h1 class="main-text">Вам предстоит выполнить задание: <strong>найти полином Жегалкина</strong> для заданной функции, 
+        затем проверить правильность решения.</h1>
+        <h1 class="main-text">После нажатия кнопки <strong>"Начать тестирование"</strong> появится задание. 
+        После нажатия кнопки <strong>"Проверить"</strong> вы не сможете редактировать ответ.</h1>
+      </div>
+      
+      <!-- Кнопка перехода к тестированию -->
+      <a href="task.html" class="main_btn_start">Начать тестирование</a>
+    </div>
+  </main>
+
+  <!-- Подвал страницы -->
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
+</body>
+</html>
