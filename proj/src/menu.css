@@ -51,25 +51,32 @@
 
 /* Стили кнопки "Начать тестирование" */
 .main_btn_start {
+    background-color: #39652de2;
+    max-width: 400px;
     width: 100%;
-
     margin: 40px auto 0;
-    align-self: center;
-    font-weight: 700;
+    padding: 0 20px;
+    height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
     font-size: 25px;
-    transform-origin: center;
-    transition: 
-        transform var(--transition-duration) var(--transition-easing),
-        background-color var(--transition-duration) var(--transition-easing),
-        box-shadow var(--transition-duration) var(--transition-easing),
-        font-size var(--transition-duration) var(--transition-easing),
-        height var(--transition-duration) var(--transition-easing);
+    font-weight: 700;
+    border-radius: 15px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    text-align: center;
     user-select: none;
 }
 
-/* Эффект при наведении на кнопку */
 .main_btn_start:hover {
-    transform: scale(1.02);
+    background-color: #39652dd7;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
 }
 
 /* ===== Адаптация для больших телефонов (1080px и меньше) ===== */

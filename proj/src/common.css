@@ -116,30 +116,6 @@ main {
     user-select: none;
 }
 
-/* Стили основной кнопки "Начать тестирование" */
-.main_btn_start {
-    background-color: #39652de2;
-    max-width: 400px;
-    display: block;
-    margin: 0 auto;
-    height: 100px;
-    text-align: center;
-    color: white;
-    font-size: 22px;
-    border-radius: 15px;
-    font-weight: 600;
-    border: none;
-    cursor: pointer;
-    transition: all 0.3s ease;
-}
-
-/* Эффекты при наведении на кнопку */
-.main_btn_start:hover {
-    background-color: #39652dd7;
-    transform: translateY(-2px);
-    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 /* Стили подвала сайта */
 .footer {
     flex-shrink: 0;
