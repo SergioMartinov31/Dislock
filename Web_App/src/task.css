@@ -84,18 +84,18 @@ td input:focus {
 }
 
 .coefficients-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px;
+  display: flex; /* Переходим на flex вместо grid */
+  flex-direction: column; /* Все элементы в столбик */
+  gap: 20px; /* Увеличиваем расстояние между вопросами */
   margin-top: 40px;
-  transition: grid-template-columns var(--transition-duration) var(--transition-easing),
-              display var(--transition-duration) var(--transition-easing);
 }
 
 .coefficient-group {
   display: flex;
+  flex-direction: column; /* Элементы внутри группы (текст, поле, кнопка) тоже в столбик */
   align-items: center;
-  gap: 10px; /* Добавляем небольшой отступ между элементами */
+  gap: 10px;
+  max-width: 100%;
   transition: transform 0.3s ease;
 }
 
@@ -108,29 +108,33 @@ td input:focus {
   font-size: 16px;
   color: rgb(102, 93, 93);
   font-weight: 600;
+  text-align: center;
+  word-wrap: break-word;
+  max-width: 100%;
 }
 
 .coefficient-group input {
-  width: 100px; /* Увеличиваем ширину поля ввода для вопросов */
+  width: 100px;
   height: 30px;
   padding: 5px;
   border: 2px solid #39652df8;
   border-radius: 5px;
   font-family: "Montserrat", sans-serif;
   font-size: 16px;
-  margin-right: 7px;
 }
 
 .coefficient-group .check-button {
   background-color: #39652de2;
   color: white;
-  padding: 8px 20px; /* Уменьшаем padding для кнопок в вопросах */
+  padding: 8px 20px;
   border: none;
   border-radius: 5px;
-  font-size: 16px; /* Уменьшаем размер шрифта */
+  font-size: 16px;
   font-weight: 700;
   cursor: pointer;
   transition: all 0.3s ease;
+  width: 100%;
+  max-width: 200px;
 }
 
 .coefficient-group .check-button:hover {
@@ -167,7 +171,7 @@ td input:focus {
   width: 100%;
   text-align: center;
   animation: messageAppear 0.4s ease-in-out;
-} 
+}
 
 .result-message.error {
   background-color: #f8d7da;
@@ -283,9 +287,9 @@ td input:focus {
   align-self: center;
 }
 
-.truth-table-container h2,
-.coefficients-container h2,
-.questions-container h2 {
+.content .truth-table-container h2,
+.content .coefficients-container h2,
+.content .questions-container h2 {
   font-size: 22px;
   font-weight: 600;
   color: #2c3e2b;
@@ -295,9 +299,9 @@ td input:focus {
   position: relative;
 }
 
-.truth-table-container h2::after,
-.coefficients-container h2::after,
-.questions-container h2::after {
+.content .truth-table-container h2::after,
+.content .coefficients-container h2::after,
+.content .questions-container h2::after {
   content: "";
   position: absolute;
   bottom: 0;
@@ -326,14 +330,9 @@ td input:focus {
 @media (max-width: 1000px) {
   .coefficients-grid {
       display: flex;
-      flex-wrap: wrap;
-      gap: 10px 15px;
+      flex-direction: column;
+      gap: 20px;
       justify-content: center;
-  }
-
-  .coefficient-group {
-      margin: 0;
-      flex: 0 0 auto;
   }
 }
 
@@ -354,24 +353,25 @@ td input:focus {
   }
   
   .coefficients-grid {
-      display: flex !important;
-      flex-wrap: wrap;
-      gap: 10px 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
       justify-content: center;
       margin-top: 20px;
   }
 
   .coefficient-group {
       margin: 0;
-      flex: 0 0 auto;
-      flex-wrap: wrap; /* Разрешаем перенос элементов внутри группы */
-      justify-content: center;
+      flex-direction: column;
+      align-items: center;
       gap: 10px;
   }
 
   .coefficient-group p {
       font-size: 15px;
       text-align: center;
+      word-wrap: break-word;
+      max-width: 100%;
   }
 
   .coefficient-group input {
@@ -384,7 +384,7 @@ td input:focus {
       padding: 8px 20px;
       font-size: 16px;
       width: 100%;
-      max-width: 200px; /* Ограничиваем ширину кнопки */
+      max-width: 200px;
   }
   
   .buttons-container {
@@ -398,17 +398,17 @@ td input:focus {
       max-width: 250px;
   }
   
-  .truth-table-container h2,
-  .coefficients-container h2,
-  .questions-container h2 {
+  .content .truth-table-container h2,
+  .content .coefficients-container h2,
+  .content .questions-container h2 {
       font-size: 20px;
       margin: 15px 0;
       padding-bottom: 5px;
   }
   
-  .truth-table-container h2::after,
-  .coefficients-container h2::after,
-  .questions-container h2::after {
+  .content .truth-table-container h2::after,
+  .content .coefficients-container h2::after,
+  .content .questions-container h2::after {
       width: 60px;
   }
   
@@ -433,9 +433,9 @@ td input:focus {
       font-size: 13px;
   }
   
-  .truth-table-container h2,
-  .coefficients-container h2,
-  .questions-container h2 {
+  .content .truth-table-container h2,
+  .content .coefficients-container h2,
+  .content .questions-container h2 {
       font-size: 18px;
   }
   
@@ -477,13 +477,13 @@ td input:focus {
   }
 
   .coefficients-grid {
-      display: flex !important;
-      flex-wrap: wrap;
-      gap: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
       margin-top: 15px;
   }
   
-  .questions-container h2 {
+  .content .questions-container h2 {
       font-size: 18px;
       margin: 10px 0 5px;
   }

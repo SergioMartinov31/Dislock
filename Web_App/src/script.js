@@ -5,8 +5,6 @@ let postTableData = [];
 let questions = [];
 let isTaskFailed = false;
 let startTime;
-let isDevMode = false;
-const DEV_PASSWORD = "dev123"; // Пароль для входа в режим разработчика
 
 function randomFunc() {
     console.log('randomFunc called');
@@ -47,18 +45,18 @@ function setupTruthTableNavigation() {
     const inputs = document.querySelectorAll('#truthTable input');
     inputs.forEach((input, index) => {
         input.addEventListener('keydown', (e) => {
-            const row = Math.floor(index / 3); // 3 столбца в таблице истинности
+            const row = Math.floor(index / 3);
             const col = index % 3;
             let newIndex = index;
 
             if (e.key === 'ArrowUp' && row > 0) {
-                newIndex = index - 3; // Переход на строку выше
+                newIndex = index - 3;
             } else if (e.key === 'ArrowDown' && row < 3) {
-                newIndex = index + 3; // Переход на строку ниже
+                newIndex = index + 3;
             } else if (e.key === 'ArrowLeft' && col > 0) {
-                newIndex = index - 1; // Переход на столбец левее
+                newIndex = index - 1;
             } else if (e.key === 'ArrowRight' && col < 2) {
-                newIndex = index + 1; // Переход на столбец правее
+                newIndex = index + 1;
             }
 
             if (newIndex !== index) {
@@ -73,18 +71,18 @@ function setupPostTableNavigation() {
     const inputs = document.querySelectorAll('#postTable input');
     inputs.forEach((input, index) => {
         input.addEventListener('keydown', (e) => {
-            const row = Math.floor(index / 5); // 5 столбцов в таблице Поста
+            const row = Math.floor(index / 5);
             const col = index % 5;
             let newIndex = index;
 
             if (e.key === 'ArrowUp' && row > 0) {
-                newIndex = index - 5; // Переход на строку выше
+                newIndex = index - 5;
             } else if (e.key === 'ArrowDown' && row < 2) {
-                newIndex = index + 5; // Переход на строку ниже
+                newIndex = index + 5;
             } else if (e.key === 'ArrowLeft' && col > 0) {
-                newIndex = index - 1; // Переход на столбец левее
+                newIndex = index - 1;
             } else if (e.key === 'ArrowRight' && col < 4) {
-                newIndex = index + 1; // Переход на столбец правее
+                newIndex = index + 1;
             }
 
             if (newIndex !== index) {
@@ -102,9 +100,9 @@ function setupQuestionsNavigation() {
             let newIndex = index;
 
             if (e.key === 'ArrowUp' && index > 0) {
-                newIndex = index - 1; // Переход к предыдущему вопросу
+                newIndex = index - 1;
             } else if (e.key === 'ArrowDown' && index < inputs.length - 1) {
-                newIndex = index + 1; // Переход к следующему вопросу
+                newIndex = index + 1;
             }
 
             if (newIndex !== index) {
@@ -112,6 +110,30 @@ function setupQuestionsNavigation() {
                 e.preventDefault();
             }
         });
+    });
+}
+
+function restrictTruthTableInput(input) {
+    input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value.length > 1) {
+            e.target.value = value.slice(0, 1); // Оставляем только первый символ
+        }
+        if (value !== '0' && value !== '1' && value !== '') {
+            e.target.value = ''; // Очищаем поле, если введён недопустимый символ
+        }
+    });
+}
+
+function restrictPostTableInput(input) {
+    input.addEventListener('input', (e) => {
+        const value = e.target.value;
+        if (value.length > 1) {
+            e.target.value = value.slice(0, 1); // Оставляем только первый символ
+        }
+        if (value !== '+' && value !== '-' && value !== '') {
+            e.target.value = ''; // Очищаем поле, если введён недопустимый символ
+        }
     });
 }
 
@@ -131,13 +153,17 @@ function renderTruthTable() {
         tbody += '<tr>';
         tbody += `<td>${x}</td><td>${y}</td>`;
         func.forEach((_, colIdx) => {
-            tbody += `<td><input type="text" id="truth_${rowIdx}_${colIdx}"></td>`;
+            tbody += `<td><input type="text" id="truth_${rowIdx}_${colIdx}" maxlength="1"></td>`;
         });
         tbody += '</tr>';
     });
     table.innerHTML = thead + tbody;
     setupTruthTableNavigation();
-    if (isDevMode) autoFillTruthTable(); // Автозаполнение в режиме разработчика
+    // Добавляем ограничения на ввод
+    document.querySelectorAll('#truthTable input').forEach(input => {
+        restrictTruthTableInput(input);
+    });
+    if (isDevMode) autoFillTruthTable();
     console.log('Table rendered:', table.innerHTML);
 }
 
@@ -149,13 +175,17 @@ function renderPostTable() {
     func.forEach((op, rowIdx) => {
         tbody += `<tr><td>${op}</td>`;
         for (let colIdx = 0; colIdx < 5; colIdx++) {
-            tbody += `<td><input type="text" id="post_${rowIdx}_${colIdx}" placeholder="+/-"></td>`;
+            tbody += `<td><input type="text" id="post_${rowIdx}_${colIdx}" maxlength="1" placeholder="+/-"></td>`;
         }
         tbody += '</tr>';
     });
     table.innerHTML = thead + tbody;
     setupPostTableNavigation();
-    if (isDevMode) autoFillPostTable(); // Автозаполнение в режиме разработчика
+    // Добавляем ограничения на ввод
+    document.querySelectorAll('#postTable input').forEach(input => {
+        restrictPostTableInput(input);
+    });
+    if (isDevMode) autoFillPostTable();
 }
 
 function renderQuestions() {
@@ -401,70 +431,6 @@ function finishTask() {
     window.location.href = '../public/menu.html';
 }
 
-// Функции для режима разработчика
-function showDevModePrompt() {
-    if (isDevMode) {
-        alert('Вы уже в режиме разработчика!');
-        return;
-    }
-    const modal = document.getElementById('devModeModal');
-    modal.style.display = 'flex';
-}
-
-function closeDevModePrompt() {
-    const modal = document.getElementById('devModeModal');
-    modal.style.display = 'none';
-    document.getElementById('devPassword').value = '';
-}
-
-function enterDevMode() {
-    const passwordInput = document.getElementById('devPassword').value;
-    if (passwordInput === DEV_PASSWORD) {
-        isDevMode = true;
-        closeDevModePrompt();
-        alert('Режим разработчика активирован! Поля будут автоматически заполнены правильными ответами.');
-        autoFillTruthTable();
-        autoFillPostTable();
-        autoFillQuestions();
-    } else {
-        alert('Неверный пароль!');
-        document.getElementById('devPassword').value = '';
-    }
-}
-
-function autoFillTruthTable() {
-    for (let row = 0; row < 4; row++) {
-        for (let col = 0; col < 3; col++) {
-            const input = document.getElementById(`truth_${row}_${col}`);
-            if (input) {
-                input.value = truthTableData[col][row];
-            }
-        }
-    }
-}
-
-function autoFillPostTable() {
-    for (let row = 0; row < 3; row++) {
-        for (let col = 0; col < 5; col++) {
-            const input = document.getElementById(`post_${row}_${col}`);
-            if (input) {
-                const expected = col >= 3 ? postTableData[row][col][0] : postTableData[row][col];
-                input.value = expected ? '+' : '-';
-            }
-        }
-    }
-}
-
-function autoFillQuestions() {
-    questions.forEach((q, idx) => {
-        const input = document.getElementById(`q_${idx}`);
-        if (input) {
-            const pair = q.pairs[0]; // Берём первую пару (можно расширить для всех пар)
-            input.value = pair.join(' ');
-        }
-    });
-}
-
 document.addEventListener('DOMContentLoaded', () => {
     console.log('DOM fully loaded');
     startTime = new Date();
@@ -520,7 +486,7 @@ function exportToPDF() {
         // Данные пользователя
         const studentFIO = sessionStorage.getItem('studentFIO') || 'Не указано';
         const studentGroup = sessionStorage.getItem('studentGroup') || 'Не указано';
-        doc.setFontSize(16);
+        doc.setFontSize(12);
         doc.text(`ФИО: ${studentFIO}`, 20, 60);
         doc.text(`Группа: ${studentGroup}`, 20, 70);
 
@@ -528,7 +494,6 @@ function exportToPDF() {
         const timeSpent = Math.floor((new Date() - startTime) / 1000);
         const minutes = Math.floor(timeSpent / 60);
         const seconds = timeSpent % 60;
-        doc.setFontSize(18);
         doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 85);
 
         // Таблица истинности
@@ -544,7 +509,7 @@ function exportToPDF() {
             margin: { left: 20, right: 20 },
             tableWidth: 100,
             styles: { 
-                fontSize: 14,
+                fontSize: 12,
                 cellPadding: 3,
                 font: "DejaVuSans",
                 cellWidth: 'wrap'
@@ -555,10 +520,10 @@ function exportToPDF() {
                 fontStyle: 'bold'
             },
             columnStyles: {
-                0: { cellWidth: 15 },
-                1: { cellWidth: 15 },
-                2: { cellWidth: 15 },
-                3: { cellWidth: 15 }
+                0: { cellWidth: 25 },
+                1: { cellWidth: 25 },
+                2: { cellWidth: 25 },
+                3: { cellWidth: 25 }
             }
         });
 
@@ -580,7 +545,7 @@ function exportToPDF() {
             margin: { left: 20, right: 20 },
             tableWidth: 100,
             styles: { 
-                fontSize: 14,
+                fontSize: 12,
                 cellPadding: 3,
                 font: "DejaVuSans",
                 cellWidth: 'wrap'
@@ -602,9 +567,7 @@ function exportToPDF() {
 
         // Контрпримеры
         if (questions.length > 0) {
-            doc.setFontSize(18);
             doc.text("Контрпримеры:", 20, doc.lastAutoTable.finalY + 20);
-            doc.setFontSize(16);
             questions.forEach((q, i) => {
                 const text = `${i + 1}. ${q.op} (${q.type === 'M' ? 'Монотонность' : 'Самодвойственность'}): ${q.pairs.map(p => p.join('-')).join(', ')}`;
                 doc.text(text, 20, doc.lastAutoTable.finalY + 30 + i * 10, { maxWidth: 170 });

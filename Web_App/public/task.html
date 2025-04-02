@@ -28,7 +28,6 @@
         <h1 class="logo">Критерий Поста</h1>
         <div>
           <button class="header-restart-btn" onclick="restartTask()">Начать заново</button>
-          <button class="header-restart-btn" onclick="showDevModePrompt()">Режим разработчика</button>
         </div>
       </div>
     </div>
@@ -79,20 +78,6 @@
         <button class="modal-finish-btn" onclick="finishTask()">Завершить</button>
         <button class="modal-finish-btn" onclick="restartTask()">Начать заново</button>
         <button class="modal-export-btn" onclick="exportToPDF()">Экспорт в PDF</button>
-      </div>
-    </div>
-  </div>
-
-  <div id="devModeModal" class="modal" style="display: none;">
-    <div class="modal-content">
-      <h2>Вход в режим разработчика</h2>
-      <div class="form-group">
-        <label for="devPassword">Введите пароль:</label>
-        <input type="password" id="devPassword" placeholder="Пароль">
-      </div>
-      <div class="modal-buttons">
-        <button class="modal-finish-btn" onclick="enterDevMode()">Войти</button>
-        <button class="modal-finish-btn" onclick="closeDevModePrompt()">Отмена</button>
       </div>
     </div>
   </div>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Критерий Поста</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@100..900&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.1/normalize.min.css">
+  <link rel="stylesheet" href="../src/common.css">
+  <link rel="stylesheet" href="../src/menu.css">
+</head>
+<body>
+  <script>
+    // Проверяем, заполнены ли данные пользователя
+    if (!sessionStorage.getItem('studentFIO') || !sessionStorage.getItem('studentGroup')) {
+      window.location.href = "login.html";
+    }
+  </script>
+  <header class="header">
+    <div class="container">
+      <div class="header__inner">
+        <h1 class="logo">Критерий Поста</h1>
+      </div>
+    </div>
+  </header>
+  <main class="main">
+    <div class="container">
+      <div class="content">
+        <h1 class="main-text">Задана таблица истинности.</h1>
+        <h1 class="main-text">Вам предстоит выполнить задание: заполнить таблицу истинности, затем проверить, удовлетворяют ли функции следующим условиям:
+          <ul>
+            <li>Сохранение 0</li>
+            <li>Сохранение 1</li>
+            <li>Линейность</li>
+            <li>Монотонность</li>
+            <li>Самодвойственность</li>
+          </ul>
+          Если какое-либо условие не выполняется, вы должны привести контрпример.<br>
+          Задание появится после нажатия кнопки "Начать тестирование". После проверки вы не сможете редактировать ответ.
+        </h1>
+      </div>
+      <a href="task.html">
+        <button class="main_btn_start">Начать тестирование</button>
+      </a>
+    </div>
+  </main>
+  <footer class="footer">
+    <h4 class="footer-author">Дискретная математика</h4>
+  </footer>
+</body>
+</html>
