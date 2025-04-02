@@ -173,10 +173,24 @@ function initTask() {
     // Автоматически выделяем текст при фокусе на поле ввода
     userInputs.forEach(input => {
         input.addEventListener('focus', function() {
-            this.select();
+            // Скрываем курсор
+            this.style.caretColor = 'transparent';
         });
         
-        // Ограничиваем ввод только 0 и 1
+        // Ограничиваем ввод только 0 и 1 с автоматической заменой
+        input.addEventListener('keydown', function(e) {
+            if (e.key === '0' || e.key === '1') {
+                this.value = e.key; // Заменяем значение без необходимости удалять старое
+                e.preventDefault(); // Предотвращаем дублирование символа
+            } else if (e.key !== 'Backspace' && e.key !== 'Delete' && 
+                    e.key !== 'ArrowLeft' && e.key !== 'ArrowRight' &&
+                    e.key !== 'ArrowUp' && e.key !== 'ArrowDown' &&
+                    e.key !== 'Tab') {
+                e.preventDefault(); // Блокируем другие символы
+            }
+        });
+        
+        // Обработка клика - сразу выделяем текст
         input.addEventListener('input', function() {
             if (this.value !== '0' && this.value !== '1') {
                 this.value = '';

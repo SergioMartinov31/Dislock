@@ -12,7 +12,7 @@
 }
 
 .header-restart-btn:hover {
-    background-color: #39652dd1;
+    background-color: #39652dd7;
 }
 
 /* === Основная область контента === */
@@ -122,6 +122,17 @@ th {
     margin-right: 7px;
 }
 
+/* Скрываем курсор в полях ввода коэффициентов */
+.coefficient-input {
+    caret-color: transparent;
+}
+
+/* Стиль для выделенного текста */
+.coefficient-input::selection {
+    background-color: #39652d40;
+    color: inherit;
+}
+
 /* === Подпись к коэффициенту === */
 .coefficient-label {
     font-weight: 600;
@@ -142,6 +153,7 @@ th {
     cursor: pointer;
     margin: 20px auto;
     display: block;
+    user-select: none;
 }
 
 .check-button:hover {
@@ -223,6 +235,7 @@ th {
     margin-bottom: 30px;
     position: relative;
     padding-bottom: 30px;
+    user-select: none;
 }
 
 .modal-content h2::after {
@@ -243,6 +256,7 @@ th {
     flex-direction: column;
     gap: 12px;
     margin-top: 25px;
+    user-select: none;
 }
 
 .modal-finish-btn {

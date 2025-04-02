@@ -52,7 +52,7 @@
 /* Стили кнопки "Начать тестирование" */
 .main_btn_start {
     width: 100%;
-    max-width: 400px;
+
     margin: 40px auto 0;
     align-self: center;
     font-weight: 700;
@@ -64,6 +64,7 @@
         box-shadow var(--transition-duration) var(--transition-easing),
         font-size var(--transition-duration) var(--transition-easing),
         height var(--transition-duration) var(--transition-easing);
+    user-select: none;
 }
 
 /* Эффект при наведении на кнопку */

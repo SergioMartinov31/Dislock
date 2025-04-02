@@ -113,6 +113,7 @@ main {
 .header-restart-btn {
     transition: opacity 0.5s ease;
     margin-left: auto;
+    user-select: none;
 }
 
 /* Стили основной кнопки "Начать тестирование" */
@@ -134,7 +135,7 @@ main {
 
 /* Эффекты при наведении на кнопку */
 .main_btn_start:hover {
-    background-color: #39652db3;
+    background-color: #39652dd7;
     transform: translateY(-2px);
     box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
@@ -187,6 +188,30 @@ main {
     color: rgb(102, 93, 93);
     margin: 0 0 0 20px;
     line-height: 1.4;
+}
+
+/* Стиль для выделенного текста (глобальный) */
+::selection {
+    background-color: #39652d40; /* Зеленоватый оттенок с прозрачностью */
+    color: inherit;
+}
+
+/* Для Firefox */
+::-moz-selection {
+    background-color: #39652d40;
+    color: inherit;
+}
+
+/* Специальные стили для жирного текста при выделении */
+strong::selection, b::selection {
+    background-color: #39652d40;
+    color: inherit;
+}
+
+/* Для Firefox */
+strong::-moz-selection, b::-moz-selection {
+    background-color: #39652d60;
+    color: inherit;
 }
 
 /* Стили для списков в основном тексте */
