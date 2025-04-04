@@ -21,7 +21,6 @@ function randomFunc() {
     } else {
         console.error('Element with id "funcDisplay" not found');
     }
-    console.log('Generated functions:', func);
 }
 
 function boolCalc(op, x, y) {
@@ -37,7 +36,6 @@ function truthTable() {
     console.log('truthTable called');
     const inputs = [[1, 1], [1, 0], [0, 1], [0, 0]];
     truthTableData = func.map(op => inputs.map(([x, y]) => boolCalc(op, x, y)));
-    console.log('Truth Table Data:', truthTableData);
     renderTruthTable();
 }
 
@@ -163,8 +161,6 @@ function renderTruthTable() {
     document.querySelectorAll('#truthTable input').forEach(input => {
         restrictTruthTableInput(input);
     });
-    if (isDevMode) autoFillTruthTable();
-    console.log('Table rendered:', table.innerHTML);
 }
 
 function renderPostTable() {
@@ -185,7 +181,6 @@ function renderPostTable() {
     document.querySelectorAll('#postTable input').forEach(input => {
         restrictPostTableInput(input);
     });
-    if (isDevMode) autoFillPostTable();
 }
 
 function renderQuestions() {
@@ -216,8 +211,6 @@ function renderQuestions() {
         `;
     });
     setupQuestionsNavigation();
-    if (isDevMode) autoFillQuestions(); // Автозаполнение в режиме разработчика
-    console.log('Rendered questions:', questions);
 }
 
 function checkTruthTable() {
@@ -298,7 +291,6 @@ function checkPostTable() {
             const input = document.getElementById(`post_${row}_${col}`).value;
             const expected = col >= 3 ? postTableData[row][col][0] : postTableData[row][col];
             const isTrue = input === '+' && expected || input === '-' && !expected;
-            console.log(`Row ${row}, Col ${col}: Input=${input}, Expected=${expected}, isTrue=${isTrue}`);
             if (input !== '+' && input !== '-' || !isTrue) {
                 correct = false;
                 break;
@@ -335,7 +327,6 @@ function generateQuestions() {
             questions.push({ op, type: 'S', pairs: row[4][1] });
         }
     });
-    console.log('Generated Questions:', questions);
     renderQuestions();
 }
 
@@ -379,7 +370,6 @@ function checkAnswer(idx) {
         }
     }
 
-    console.log(`Question: ${q.type} for ${q.op}, Input: ${input}, Expected: ${q.pairs}, isCorrect: ${isCorrect}`);
     if (btn.classList.contains('checked')) return;
     btn.classList.add('checked');
     btn.disabled = true;
