@@ -421,7 +421,7 @@ function exportToPDF() {
     doc.setFontSize(18);
     doc.text("Полином:", 120, 100); // Сдвигаем вместе с таблицей
     doc.setFontSize(16);
-    doc.text(polynomialStr, 120, 110, { maxWidth: 75 });
+    doc.text(polynomialStr, 90, 110, { maxWidth: 100 });
 
     // Сохраняем PDF
     doc.save(`${studentGroup}_${studentFIO}_Полином_Жегалкина.pdf`);
