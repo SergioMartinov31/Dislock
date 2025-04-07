@@ -1,3 +1,5 @@
+"use strict";
+
 // Глобальные переменные для хранения данных приложения
 let truthTable = []; // Массив для хранения таблицы истинности
 let fColumn = []; // Массив значений функции F
@@ -20,13 +22,10 @@ function zhegalkinPolynomial(values) {
     let coeff = [...values];
     
     // Применение преобразования Мёбиуса
-    for (let i = 0; i < 3; i++) {
-        for (let j = 0; j < 8; j++) {
-            if (j & (1 << i)) {
+    for (let i = 0; i < 3; i++)
+        for (let j = 0; j < 8; j++)
+            if (j & (1 << i))
                 coeff[j] ^= coeff[j ^ (1 << i)];
-            }
-        }
-    }
     
     // Порядок коэффициентов в полиноме Жегалкина
     const orderIndices = [7, 6, 5, 3, 4, 2, 1, 0];
@@ -63,18 +62,14 @@ function showResult() {
 // Инициализация при загрузке страницы
 document.addEventListener('DOMContentLoaded', function() {
     // Генерация всех возможных комбинаций переменных X, Y, Z
-    for (let x = 0; x < 2; x++) {
-        for (let y = 0; y < 2; y++) {
-            for (let z = 0; z < 2; z++) {
+    for (let x = 0; x < 2; x++)
+        for (let y = 0; y < 2; y++)
+            for (let z = 0; z < 2; z++)
                 truthTable.push([x, y, z]);
-            }
-        }
-    }
-    
+
     // Инициализация страницы задания, если она существует
-    if (document.getElementById('truthTable')) {
+    if (document.getElementById('truthTable'))
         initTask();
-    }
 });
 
 // Инициализирует задание: генерирует данные и создает интерфейс
@@ -122,7 +117,7 @@ function initTask() {
         {label: "X +", col: 2},
         {label: "Y +", col: 2},
         {label: "Z +", col: 3},
-        {label: "1", col: 3}
+        {label: "", col: 3}
     ];
     
     // Создание DOM-элементов для каждого коэффициента
@@ -173,9 +168,8 @@ function initTask() {
         
         // Обработка клика - сразу выделяем текст
         input.addEventListener('input', function() {
-            if (this.value !== '0' && this.value !== '1') {
+            if (this.value !== '0' && this.value !== '1')
                 this.value = '';
-            }
         });
     });
 }
@@ -194,10 +188,14 @@ function handleKeyNavigation(event) {
     // Обработка стрелок влево/вправо
     if (event.key === 'ArrowRight') {
         nextIndex = currentIndex + 1;
-        if (nextIndex >= userInputs.length) nextIndex = 0;
+        
+        if (nextIndex >= userInputs.length) 
+            nextIndex = 0;
     } else if (event.key === 'ArrowLeft') {
         nextIndex = currentIndex - 1;
-        if (nextIndex < 0) nextIndex = userInputs.length - 1;
+        
+        if (nextIndex < 0) 
+            nextIndex = userInputs.length - 1;
     } 
     // Обработка стрелок вверх/вниз
     else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
@@ -210,15 +208,13 @@ function handleKeyNavigation(event) {
             nextIndex = event.key === 'ArrowUp' ? 0 : userInputs.length - 1;
         } else {
             // Для вертикального макета - обычное поведение (4 колонки)
-            if (event.key === 'ArrowDown') {
+            if (event.key === 'ArrowDown')
                 nextIndex = currentIndex + 4;
-            } else {
+            else
                 nextIndex = currentIndex - 4;
-            }
         }
-    } else {
+    } else 
         return; // Если нажата не стрелка, выходим
-    }
     
     // Переключаем фокус на следующий input
     userInputs[nextIndex].focus();
@@ -239,9 +235,8 @@ function checkSolution() {
         if (input.value.trim() === '') {
             hasEmptyFields = true;
             input.style.borderColor = "#ff0000";
-        } else {
+        } else
             input.style.borderColor = "#39652df8";
-        }
     });
     
     // Обработка незаполненных полей
@@ -266,9 +261,8 @@ function checkSolution() {
         // Подсветка неверных коэффициентов
         userInputs.forEach((input, i) => {
             input.disabled = true;
-            if (parseInt(input.value) !== correctCoefficients[i]) {
+            if (parseInt(input.value) !== correctCoefficients[i])
                 input.style.borderColor = "#ff0000";
-            }
         });
         
         // Вывод сообщения об ошибке
@@ -358,11 +352,9 @@ function exportToPDF() {
     doc.setTextColor(220, 220, 220);
     doc.setFontSize(16);
     const xInc = 30, yInc = 30;
-    for (let x = -pageWidth; x < pageWidth * 2; x += xInc) {
-        for (let y = -pageHeight; y < pageHeight * 2; y += yInc) {
+    for (let x = -pageWidth; x < pageWidth * 2; x += xInc)
+        for (let y = -pageHeight; y < pageHeight * 2; y += yInc)
             doc.text("VERIFIED", x, y, { angle: 45, align: "center" });
-        }
-    }
 
     // Основное содержимое
     doc.setTextColor(0, 0, 0);
