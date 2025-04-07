@@ -204,6 +204,23 @@ strong::-moz-selection, b::-moz-selection {
     to { opacity: 1; transform: translateY(0); }
   }
 
+/* Стили для копирайта */
+.copyright {
+    position: absolute;
+    right: 20px;
+    bottom: 10px;
+    color: white;
+    font-size: 14px;
+    font-weight: 500;
+    opacity: 0.9;
+    user-select: none;
+  }
+  
+/* Делаем футер относительным для позиционирования копирайта */
+.footer {
+    position: relative;
+}
+
 /* ===== Адаптация для планшетов ===== */
 @media (max-width: 992px) {
     .content {
@@ -228,6 +245,12 @@ strong::-moz-selection, b::-moz-selection {
     
     .footer-author {
         font-size: 22px;
+    }
+
+    .copyright {
+        font-size: 12px;
+        right: 15px;
+        bottom: 8px;
     }
 }
 
@@ -262,6 +285,12 @@ strong::-moz-selection, b::-moz-selection {
     .footer-author {
         font-size: 20px;
     }
+
+    .copyright {
+        font-size: 8px;
+        right: 10px;
+        bottom: 6px;
+    }
 }
 
 /* Адаптация для маленьких экранов */
@@ -292,7 +321,7 @@ strong::-moz-selection, b::-moz-selection {
     }
     
     .footer-author {
-        font-size: 18px;
+        font-size: 8px;
     }
 }
 
@@ -318,6 +347,12 @@ strong::-moz-selection, b::-moz-selection {
     .footer-author {
         font-size: 16px;
     }
+
+    .copyright {
+        font-size: 8px;
+        right: 8px;
+        bottom: 5px;
+    }
 }
 
 /* ===== Адаптация футера для вытянутых экранов ===== */
@@ -331,6 +366,12 @@ strong::-moz-selection, b::-moz-selection {
     .footer-author {
         font-size: 18px;
     }
+
+    .copyright {
+        font-size: 11px;
+        right: 10px;
+        bottom: 5px;
+    }
 }
 
 @media (max-aspect-ratio: 9/16) and (max-height: 600px) {
@@ -341,6 +382,12 @@ strong::-moz-selection, b::-moz-selection {
     .footer-author {
         font-size: 16px;
     }
+
+    .copyright {
+        font-size: 11px;
+        right: 8px;
+        bottom: 4px;
+    }
 }
 
 @media (max-aspect-ratio: 9/16) and (max-height: 400px) {
@@ -350,5 +397,11 @@ strong::-moz-selection, b::-moz-selection {
     
     .footer-author {
         font-size: 14px;
+    }
+
+    .copyright {
+        font-size: 11px;
+        right: 6px;
+        bottom: 3px;
     }
 }
