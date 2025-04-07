@@ -1,4 +1,3 @@
-/* task.css */
 .header-restart-btn {
   background-color: #39652de2;
   color: white;
@@ -84,15 +83,15 @@ td input:focus {
 }
 
 .coefficients-grid {
-  display: flex; /* Переходим на flex вместо grid */
-  flex-direction: column; /* Все элементы в столбик */
-  gap: 20px; /* Увеличиваем расстояние между вопросами */
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
   margin-top: 40px;
 }
 
 .coefficient-group {
   display: flex;
-  flex-direction: column; /* Элементы внутри группы (текст, поле, кнопка) тоже в столбик */
+  flex-direction: column;
   align-items: center;
   gap: 10px;
   max-width: 100%;

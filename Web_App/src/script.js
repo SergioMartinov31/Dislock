@@ -3,6 +3,7 @@ let func = [];
 let truthTableData = [];
 let postTableData = [];
 let questions = [];
+let additionalQuestions = [];
 let isTaskFailed = false;
 let startTime;
 
@@ -111,14 +112,32 @@ function setupQuestionsNavigation() {
     });
 }
 
+function setupAdditionalQuestionsNavigation() {
+    const inputs = document.querySelectorAll('#additionalQuestions input');
+    inputs.forEach((input, index) => {
+        input.addEventListener('keydown', (e) => {
+            let newIndex = index;
+            if (e.key === 'ArrowUp' && index > 0) {
+                newIndex = index - 1;
+            } else if (e.key === 'ArrowDown' && index < inputs.length - 1) {
+                newIndex = index + 1;
+            }
+            if (newIndex !== index) {
+                inputs[newIndex].focus();
+                e.preventDefault();
+            }
+        });
+    });
+}
+
 function restrictTruthTableInput(input) {
     input.addEventListener('input', (e) => {
         const value = e.target.value;
         if (value.length > 1) {
-            e.target.value = value.slice(0, 1); // Оставляем только первый символ
+            e.target.value = value.slice(0, 1);
         }
         if (value !== '0' && value !== '1' && value !== '') {
-            e.target.value = ''; // Очищаем поле, если введён недопустимый символ
+            e.target.value = '';
         }
     });
 }
@@ -127,10 +146,10 @@ function restrictPostTableInput(input) {
     input.addEventListener('input', (e) => {
         const value = e.target.value;
         if (value.length > 1) {
-            e.target.value = value.slice(0, 1); // Оставляем только первый символ
+            e.target.value = value.slice(0, 1);
         }
         if (value !== '+' && value !== '-' && value !== '') {
-            e.target.value = ''; // Очищаем поле, если введён недопустимый символ
+            e.target.value = '';
         }
     });
 }
@@ -143,21 +162,26 @@ function renderTruthTable() {
         return;
     }
     table.innerHTML = '';
-    const headers = ['X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)];
+    const headers = ['', 'X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)];
     let thead = '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
+    
     let tbody = '';
     const inputs = [[1, 1], [1, 0], [0, 1], [0, 0]];
+    
     inputs.forEach(([x, y], rowIdx) => {
         tbody += '<tr>';
-        tbody += `<td>${x}</td><td>${y}</td>`;
+        tbody += `<td>${rowIdx + 1}</td><td>${x}</td><td>${y}</td>`;
+        
         func.forEach((_, colIdx) => {
             tbody += `<td><input type="text" id="truth_${rowIdx}_${colIdx}" maxlength="1"></td>`;
         });
+        
         tbody += '</tr>';
     });
+    
     table.innerHTML = thead + tbody;
     setupTruthTableNavigation();
-    // Добавляем ограничения на ввод
+    
     document.querySelectorAll('#truthTable input').forEach(input => {
         restrictTruthTableInput(input);
     });
@@ -177,7 +201,6 @@ function renderPostTable() {
     });
     table.innerHTML = thead + tbody;
     setupPostTableNavigation();
-    // Добавляем ограничения на ввод
     document.querySelectorAll('#postTable input').forEach(input => {
         restrictPostTableInput(input);
     });
@@ -190,27 +213,42 @@ function renderQuestions() {
         return;
     }
     div.innerHTML = '';
-    if (questions.length === 0) {
-        div.innerHTML = '<p>Все функции удовлетворяют условиям монотонности и самодвойственности!</p>';
-        console.log('No questions to display');
-        return;
-    }
     questions.forEach((q, idx) => {
         let label;
         if (q.type === 'M') {
-            label = `Какие пары нарушают монотонность для ${q.op}?`;
+            label = `Укажите номера строк из первой таблицы, нарушающих монотонность для ${q.op}`;
         } else if (q.type === 'S') {
-            label = `Какие пары показывают, что ${q.op} не самодвойственна?`;
+            label = `Укажите номера строк из первой таблицы, доказывающих, что ${q.op} не самодвойственна`;
         }
         div.innerHTML += `
             <div class="coefficient-group">
                 <p>${label}</p>
-                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? 'например, 1 2' : ''}" oninput="resetButton(${idx})">
+                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? '1 2' : ''}" oninput="resetButton(${idx})">
                 <button class="check-button" onclick="checkAnswer(${idx})">Проверить</button>
             </div>
         `;
     });
     setupQuestionsNavigation();
+}
+
+function renderAdditionalQuestions() {
+    const div = document.getElementById('additionalQuestions');
+    if (!div) {
+        console.error('Additional questions div not found');
+        return;
+    }
+    div.innerHTML = '';
+    additionalQuestions.forEach((q, idx) => {
+        div.innerHTML += `
+            <div class="coefficient-group">
+                <p>Укажите колонку второй таблицы, доказывающую, что ${q.op} нельзя выразить через ${q.otherOps.join(' и ')}</p>
+                <input type="text" id="aq_${idx}" placeholder="T0">
+                <button class="check-button" onclick="checkAdditionalAnswer(${idx})">Проверить</button>
+            </div>
+        `;
+    });
+    document.getElementById('additionalQuestionsSection').style.display = 'block';
+    setupAdditionalQuestionsNavigation();
 }
 
 function checkTruthTable() {
@@ -238,13 +276,11 @@ function checkTruthTable() {
         btn.textContent = 'Верно';
         btn.classList.add('correct');
         postTable();
-        console.log('Post Table Data:', postTableData);
         document.getElementById('postSection').style.display = 'block';
         renderPostTable();
     } else {
         btn.textContent = 'Неверно';
         btn.classList.add('error');
-        console.log('Truth table check failed');
         isTaskFailed = true;
         disableAllInputsAndButtons();
     }
@@ -284,6 +320,28 @@ function postTable() {
     postTableData = func.map(op => [T0(op), T1(op), L(op), M(op), S(op)]);
 }
 
+function checkExpressibility(targetOp, targetIdx, otherOps) {
+    const targetPostRow = postTableData[targetIdx];
+    const otherPostRows = otherOps.map(op => postTableData[func.indexOf(op)]);
+
+    const columnNames = ['T0', 'T1', 'L', 'M', 'S'];
+    const counterExamples = [];
+
+    for (let col = 0; col < 5; col++) {
+        const targetProp = col >= 3 ? targetPostRow[col][0] : targetPostRow[col];
+        const otherProps = otherPostRows.map(row => col >= 3 ? row[col][0] : row[col]);
+
+        if (otherProps.every(prop => prop === true) && targetProp === false) {
+            counterExamples.push(columnNames[col]);
+        }
+        if (otherProps.every(prop => prop === false) && targetProp === true) {
+            counterExamples.push(columnNames[col]);
+        }
+    }
+
+    return counterExamples;
+}
+
 function checkPostTable() {
     let correct = true;
     for (let row = 0; row < 3; row++) {
@@ -305,12 +363,11 @@ function checkPostTable() {
         btn.textContent = 'Верно';
         btn.classList.add('correct');
         document.getElementById('questionsSection').style.display = 'block';
-        console.log('Showing questions section');
         generateQuestions();
+        generateAdditionalQuestions();
     } else {
         btn.textContent = 'Неверно';
         btn.classList.add('error');
-        console.log('Post table check failed');
         isTaskFailed = true;
         disableAllInputsAndButtons();
     }
@@ -330,6 +387,25 @@ function generateQuestions() {
     renderQuestions();
 }
 
+function generateAdditionalQuestions() {
+    additionalQuestions = [];
+    func.forEach((op, idx) => {
+        const otherOps = func.filter((_, i) => i !== idx);
+        const counterExamples = checkExpressibility(op, idx, otherOps);
+        if (counterExamples.length > 0) {
+            additionalQuestions.push({
+                op,
+                type: 'E',
+                columns: counterExamples,
+                otherOps
+            });
+        }
+    });
+    if (additionalQuestions.length > 0) {
+        renderAdditionalQuestions();
+    }
+}
+
 function resetButton(idx) {
     if (isTaskFailed) return;
     const btn = document.querySelector(`#q_${idx} + button`);
@@ -337,26 +413,16 @@ function resetButton(idx) {
         btn.textContent = 'Проверить';
         btn.disabled = false;
         btn.classList.remove('correct', 'error');
-        console.log(`Button reset for idx=${idx}`);
     }
 }
 
 function checkAnswer(idx) {
     if (isTaskFailed) return;
 
-    console.log(`checkAnswer called with idx=${idx}`);
     const inputElement = document.getElementById(`q_${idx}`);
     const btn = document.querySelector(`#q_${idx} + button`);
-    if (!inputElement || !btn) {
-        console.error(`Input or button not found for idx=${idx}`);
-        return;
-    }
     const input = inputElement.value.trim();
     const q = questions[idx];
-    if (!q) {
-        console.error(`Question not found for idx=${idx}`);
-        return;
-    }
     let isCorrect = false;
 
     if (q.type === 'M' || q.type === 'S') {
@@ -377,20 +443,46 @@ function checkAnswer(idx) {
         btn.textContent = 'Верно';
         btn.classList.remove('error');
         btn.classList.add('correct');
-        console.log(`Added 'correct' class to button for idx=${idx}, classList: ${btn.classList}`);
         checkAllAnswered();
     } else {
         btn.textContent = 'Неверно';
         btn.classList.remove('correct');
         btn.classList.add('error');
-        console.log(`Added 'error' class to button for idx=${idx}, classList: ${btn.classList}`);
+        isTaskFailed = true;
+        disableAllInputsAndButtons();
+    }
+}
+
+function checkAdditionalAnswer(idx) {
+    if (isTaskFailed) return;
+    
+    const input = document.getElementById(`aq_${idx}`).value.trim().toUpperCase();
+    const btn = document.querySelector(`#aq_${idx} + button`);
+    const q = additionalQuestions[idx];
+    
+    const validColumns = ['T0', 'T1', 'L', 'M', 'S'];
+    const isCorrect = validColumns.includes(input) && q.columns.includes(input);
+    
+    if (btn.classList.contains('checked')) return;
+    btn.classList.add('checked');
+    btn.disabled = true;
+    
+    if (isCorrect) {
+        btn.textContent = 'Верно';
+        btn.classList.add('correct');
+        checkAllAnswered();
+    } else {
+        btn.textContent = 'Неверно';
+        btn.classList.add('error');
         isTaskFailed = true;
         disableAllInputsAndButtons();
     }
 }
 
 function checkAllAnswered() {
-    const allCorrect = Array.from(document.querySelectorAll('#questions button')).every(btn => btn.textContent === 'Верно');
+    const allCorrect = 
+        Array.from(document.querySelectorAll('#questions button')).every(btn => btn.textContent === 'Верно') &&
+        Array.from(document.querySelectorAll('#additionalQuestions button') || []).every(btn => btn.textContent === 'Верно');
     if (allCorrect) {
         const modal = document.getElementById('successModal');
         modal.style.display = 'flex';
@@ -399,8 +491,8 @@ function checkAllAnswered() {
 }
 
 function disableAllInputsAndButtons() {
-    const inputs = document.querySelectorAll('#questions input');
-    const buttons = document.querySelectorAll('#questions button');
+    const inputs = document.querySelectorAll('#questions input, #additionalQuestions input');
+    const buttons = document.querySelectorAll('#questions button, #additionalQuestions button');
     inputs.forEach(input => {
         input.disabled = true;
     });
@@ -421,13 +513,6 @@ function finishTask() {
     window.location.href = '../public/menu.html';
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    console.log('DOM fully loaded');
-    startTime = new Date();
-    randomFunc();
-    truthTable();
-});
-
 function exportToPDF() {
     const modal = document.getElementById('successModal');
     modal.style.display = 'none';
@@ -436,7 +521,6 @@ function exportToPDF() {
         const { jsPDF } = window.jspdf;
         const doc = new jsPDF();
     
-        // Добавляем шрифт DejaVuSans для поддержки кириллицы
         doc.addFileToVFS("DejaVuSans.ttf", dejavuSans);
         doc.addFont("DejaVuSans.ttf", "DejaVuSans", "normal");
         doc.setFont("DejaVuSans");
@@ -444,14 +528,12 @@ function exportToPDF() {
         const pageWidth = doc.internal.pageSize.getWidth();
         const pageHeight = doc.internal.pageSize.getHeight();
 
-        // Стилизованный фон с рамкой
         doc.setFillColor(255, 255, 255);
         doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'F');
         doc.setDrawColor(57, 101, 45);
         doc.setLineWidth(2);
         doc.rect(10, 10, pageWidth - 20, pageHeight - 20, 'S');
 
-        // Водяные знаки
         doc.setTextColor(220, 220, 220);
         doc.setFontSize(16);
         const xInc = 30, yInc = 30;
@@ -461,39 +543,34 @@ function exportToPDF() {
             }
         }
 
-        // Основное содержимое
         doc.setTextColor(0, 0, 0);
         doc.setFontSize(25);
         doc.text("Критерий Поста", pageWidth / 2, 30, { align: "center" });
         doc.setLineWidth(0.5);
         doc.line(20, 35, pageWidth - 20, 35);
 
-        // Дата и время
         const now = new Date();
         doc.setFontSize(16);
         doc.text(`Дата и время: ${now.toLocaleDateString()} в ${now.toLocaleTimeString()}`, pageWidth / 2, 45, { align: "center" });
 
-        // Данные пользователя
         const studentFIO = sessionStorage.getItem('studentFIO') || 'Не указано';
         const studentGroup = sessionStorage.getItem('studentGroup') || 'Не указано';
         doc.setFontSize(12);
         doc.text(`ФИО: ${studentFIO}`, 20, 60);
         doc.text(`Группа: ${studentGroup}`, 20, 70);
 
-        // Время выполнения
         const timeSpent = Math.floor((new Date() - startTime) / 1000);
         const minutes = Math.floor(timeSpent / 60);
         const seconds = timeSpent % 60;
         doc.text(`Время выполнения: ${minutes} мин. ${seconds} сек.`, 20, 85);
 
-        // Таблица истинности
         if (!func.length || !truthTableData.length) throw new Error('Truth table data is missing');
         const truthHeaders = [['X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)]];
         const truthBody = [[1, 1], [1, 0], [0, 1], [0, 0]].map((row, i) => 
             [row[0], row[1], ...truthTableData.map(col => col[i] ?? 'N/A')]
         );
         doc.autoTable({
-            startY: 95,
+            startY: 90,
             head: truthHeaders,
             body: truthBody,
             margin: { left: 20, right: 20 },
@@ -517,7 +594,6 @@ function exportToPDF() {
             }
         });
 
-        // Таблица Поста
         if (!postTableData.length) throw new Error('Post table data is missing');
         const postHeaders = [['', 'T0', 'T1', 'L', 'M', 'S']];
         const postBody = func.map((op, i) => [
@@ -529,7 +605,7 @@ function exportToPDF() {
             postTableData[i]?.[4]?.[0] ? '+' : '-'
         ]);
         doc.autoTable({
-            startY: doc.lastAutoTable.finalY + 10,
+            startY: doc.lastAutoTable.finalY + 5,
             head: postHeaders,
             body: postBody,
             margin: { left: 20, right: 20 },
@@ -555,14 +631,55 @@ function exportToPDF() {
             }
         });
 
-        // Контрпримеры
-        if (questions.length > 0) {
-            doc.text("Контрпримеры:", 20, doc.lastAutoTable.finalY + 20);
-            questions.forEach((q, i) => {
-                const text = `${i + 1}. ${q.op} (${q.type === 'M' ? 'Монотонность' : 'Самодвойственность'}): ${q.pairs.map(p => p.join('-')).join(', ')}`;
-                doc.text(text, 20, doc.lastAutoTable.finalY + 30 + i * 10, { maxWidth: 170 });
+        let lastY = doc.lastAutoTable.finalY + 10;
+
+        const columnWidth = (pageWidth - 40) / 2;
+        const leftColumnX = 20;
+        const rightColumnX = 20 + columnWidth + 10;
+
+        const userQuestions = [];
+        questions.forEach((q, idx) => {
+            const inputElement = document.getElementById(`q_${idx}`);
+            const btn = document.querySelector(`#q_${idx} + button`);
+            if (inputElement && btn && btn.textContent === 'Верно') {
+                const userInput = inputElement.value.trim();
+                if (userInput) {
+                    userQuestions.push({ op: q.op, type: q.type, userInput });
+                }
+            }
+        });
+
+        const userAdditionalQuestions = [];
+        additionalQuestions.forEach((q, idx) => {
+            const inputElement = document.getElementById(`aq_${idx}`);
+            const btn = document.querySelector(`#aq_${idx} + button`);
+            if (inputElement && btn && btn.textContent === 'Верно') {
+                const userInput = inputElement.value.trim().toUpperCase();
+                if (userInput) {
+                    userAdditionalQuestions.push({ op: q.op, otherOps: q.otherOps, userInput });
+                }
+            }
+        });
+
+        if (userQuestions.length > 0) {
+            doc.text("Контрпримеры:", leftColumnX, lastY);
+            userQuestions.forEach((q, i) => {
+                const text = `${i + 1}. ${q.op} (${q.type === 'M' ? 'Монотонность' : 'Самодвойственность'}): ${q.userInput}`;
+                doc.text(text, leftColumnX, lastY + 10 + i * 10, { maxWidth: columnWidth - 10 });
             });
         }
+
+        if (userAdditionalQuestions.length > 0) {
+            doc.text("Контрпримеры выразимости:", rightColumnX, lastY);
+            userAdditionalQuestions.forEach((q, i) => {
+                const text = `${i + 1}. ${q.op} (Выразимость через ${q.otherOps.join(' и ')}): колонка ${q.userInput}`;
+                doc.text(text, rightColumnX, lastY + 10 + i * 10, { maxWidth: columnWidth - 10 });
+            });
+        }
+
+        const leftColumnHeight = userQuestions.length > 0 ? 10 + userQuestions.length * 10 : 0;
+        const rightColumnHeight = userAdditionalQuestions.length > 0 ? 10 + userAdditionalQuestions.length * 10 : 0;
+        lastY += Math.max(leftColumnHeight, rightColumnHeight);
 
         doc.save(`${studentGroup}_${studentFIO}_Критерий_Поста.pdf`);
         console.log('PDF exported successfully');
@@ -571,3 +688,10 @@ function exportToPDF() {
         alert('Ошибка при экспорте в PDF: ' + error.message);
     }
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    console.log('DOM fully loaded');
+    startTime = new Date();
+    randomFunc();
+    truthTable();
+});

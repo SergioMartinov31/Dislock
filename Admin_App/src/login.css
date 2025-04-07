@@ -57,6 +57,12 @@
   background-color: #2a4e22;
 }
 
+.content {
+  max-width: 600px; /* Уменьшаем максимальную ширину контента */
+  margin: 3vh auto;
+  padding: 20px;
+}
+
 @media (max-width: 600px) {
   .login-form {
     padding: 20px;
