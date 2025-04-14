@@ -162,7 +162,7 @@ function renderTruthTable() {
         return;
     }
     table.innerHTML = '';
-    const headers = ['', 'X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)];
+    const headers = ['№', 'X', 'Y', ...func.map(op => op === '¬' ? '¬X' : `X ${op} Y`)];
     let thead = '<tr>' + headers.map(h => `<th>${h}</th>`).join('') + '</tr>';
     
     let tbody = '';
@@ -216,9 +216,9 @@ function renderQuestions() {
     questions.forEach((q, idx) => {
         let label;
         if (q.type === 'M') {
-            label = `Укажите номера строк из первой таблицы, нарушающих монотонность для ${q.op}`;
+            label = `Укажите номера строк из таблицы значений, доказывающих, что ${q.op} не монотонна`;
         } else if (q.type === 'S') {
-            label = `Укажите номера строк из первой таблицы, доказывающих, что ${q.op} не самодвойственна`;
+            label = `Укажите номера строк из таблицы значений, доказывающих, что ${q.op} не самодвойственна`;
         }
         div.innerHTML += `
             <div class="coefficient-group">
@@ -241,7 +241,7 @@ function renderAdditionalQuestions() {
     additionalQuestions.forEach((q, idx) => {
         div.innerHTML += `
             <div class="coefficient-group">
-                <p>Укажите колонку второй таблицы, доказывающую, что ${q.op} нельзя выразить через ${q.otherOps.join(' и ')}</p>
+                <p>Укажите столбец таблицы Поста, доказывающий, что ${q.op} нельзя выразить через ${q.otherOps.join(' и ')}</p>
                 <input type="text" id="aq_${idx}" placeholder="T0">
                 <button class="check-button" onclick="checkAdditionalAnswer(${idx})">Проверить</button>
             </div>
