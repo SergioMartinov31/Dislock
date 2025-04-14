@@ -223,7 +223,7 @@ function renderQuestions() {
         div.innerHTML += `
             <div class="coefficient-group">
                 <p>${label}</p>
-                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? '1 2' : ''}" oninput="resetButton(${idx})">
+                <input type="text" id="q_${idx}" placeholder="${q.type === 'M' || q.type === 'S' ? 'через пробел' : ''}" oninput="resetButton(${idx})">
                 <button class="check-button" onclick="checkAnswer(${idx})">Проверить</button>
             </div>
         `;
@@ -635,7 +635,7 @@ function exportToPDF() {
 
         const columnWidth = (pageWidth - 40) / 2;
         const leftColumnX = 20;
-        const rightColumnX = 20 + columnWidth + 10;
+        const rightColumnX = 20 + columnWidth;
 
         const userQuestions = [];
         questions.forEach((q, idx) => {
@@ -672,8 +672,8 @@ function exportToPDF() {
         if (userAdditionalQuestions.length > 0) {
             doc.text("Контрпримеры выразимости:", rightColumnX, lastY);
             userAdditionalQuestions.forEach((q, i) => {
-                const text = `${i + 1}. ${q.op} (Выразимость через ${q.otherOps.join(' и ')}): колонка ${q.userInput}`;
-                doc.text(text, rightColumnX, lastY + 10 + i * 10, { maxWidth: columnWidth - 10 });
+                const text = `${i + 1}. ${q.op} (Выразимость через ${q.otherOps.join(' и ')}): ${q.userInput}`;
+                doc.text(text, rightColumnX, lastY + 10 + i * 10, { maxWidth: columnWidth - 5 });
             });
         }
 
